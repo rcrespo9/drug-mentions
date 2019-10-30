@@ -8,7 +8,7 @@ import Search from "./components/Search";
 const baseApiURL = "https://drug-mentions-api.herokuapp.com";
 
 const App = () => {
-  const [searchResults, setSearchResults] = useState([]);
+  const [searchResults, setSearchResults] = useState<any[] | null>(null);
   const [selectedSong, setSelectedSong] = useState(null);
   const [isLoading, setLoadingState] = useState(false);
   const [hasError, setError] = useState(false);
@@ -21,7 +21,11 @@ const App = () => {
       const response = await fetch(`${baseApiURL}/search?q=${inputVal}`);
       const results = await response.json();
 
-      setSearchResults(results);
+      if (!!results.length) {
+        setSearchResults(results);
+      } else {
+        setSearchResults(null);
+      }
       setLoadingState(false);
     } catch (error) {
       setError(true);

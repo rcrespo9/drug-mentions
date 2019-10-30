@@ -3,7 +3,16 @@ import styled from "styled-components";
 
 type SearchProps = {
   textChange(event: React.ChangeEvent<HTMLInputElement>): void;
-  results?: any[]
+  results: Results[] | null
+}
+
+type Results = {
+  result: ResultItem
+}
+
+type ResultItem = {
+  id: number,
+  full_title: string
 }
 
 const SearchInput = styled.input``;
