@@ -1,5 +1,6 @@
 import React, { useState, useCallback } from "react";
-import { debounce } from "lodash";
+import { debounce, countBy } from "lodash";
+import pluralize from "pluralize";
 
 import drugsData from "./drugs.json";
 
@@ -39,7 +40,25 @@ const App = () => {
   );
 
   const scanLyricsForDrugs = (drugs: string[], lyrics: string) => {
+    const drugsMentioned: string[] = [];
+    const sanitizeString = (str: string) =>
+      str
+        .replace(/(\r\n|\n|\r)/gm, " ") // remove line breaks
+        .replace(/[.,/#!$%^&*;:{}=\-_`~()]/g, "") // remove all punctuation
+        .replace(/\s{2,}/g, " "); // remove extra spaces
+    const scrubbedLyrics: string[] = sanitizeString(lyrics).split(' ');
 
+    drugs.forEach(drug => scrubbedLyrics.forEach(word => {
+      const formattedDrug = drug.toLowerCase();
+      const formattedWord = word.toLowerCase();
+
+      if (formattedDrug === formattedWord || pluralize(formattedDrug) === formattedWord) {
+        drugsMentioned.push(drug);
+      }
+    }))
+    
+    console.log(scrubbedLyrics);
+    console.log(countBy(drugsMentioned));
   }
 
   const fetchSong = async (songId: string | undefined) => {
@@ -50,6 +69,7 @@ const App = () => {
       const song = await response.json();
 
       setSelectedSong(song);
+      scanLyricsForDrugs(drugsData.drugs, song.lyrics);
       setLoadingState(false);
     } catch (error) {
       setError(true);
@@ -62,6 +82,7 @@ const App = () => {
     const songId: string | undefined = e.currentTarget.dataset.id;
 
     fetchSong(songId);
+    setResultsStatus(false);
   };
 
   return (
