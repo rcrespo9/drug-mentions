@@ -1,32 +1,39 @@
 import React, { useState, useCallback } from "react";
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 import { debounce } from "lodash";
 
 import drugsData from "./drugs.json";
 
 import Search from "./components/Search";
 
+const baseApiURL = "https://drug-mentions-api.herokuapp.com";
+
 const App = () => {
-  const [searchResults, setSearchResults] = useState([]);
+  const [searchResults, setSearchResults] = useState<AxiosResponse | null>(null);
   const [selectedSong, setSelectedSong] = useState(null);
+  const [isLoading, setLoadingState] = useState(false);
+  const [hasError, setError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(null);
 
   const fetchSearchResults = (inputVal: any) => {
+    setLoadingState(true);
+
     axios
-      .get("https://api.genius.com/search", {
+      .get(`${baseApiURL}/search`, {
         params: {
-          q: inputVal,
-          access_token: process.env.REACT_APP_GENIUS_API_TOKEN
+          q: inputVal
         }
       })
       .then(response => {
-        const { data: {
-          response: {
-            hits
-          }
-        } } = response
+        const { data } = response;
 
-        setSearchResults(hits);
-      });
+        setSearchResults(data);
+      })
+      .catch(error => {
+        setError(true);
+        setErrorMessage(error.message);
+      })
+      .finally(() => setLoadingState(false));
   };
 
   const debouncedSearchResults = useCallback(
