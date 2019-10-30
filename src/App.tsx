@@ -1,5 +1,4 @@
 import React, { useState, useCallback } from "react";
-import axios, { AxiosResponse } from "axios";
 import { debounce } from "lodash";
 
 import drugsData from "./drugs.json";
@@ -9,31 +8,26 @@ import Search from "./components/Search";
 const baseApiURL = "https://drug-mentions-api.herokuapp.com";
 
 const App = () => {
-  const [searchResults, setSearchResults] = useState<AxiosResponse | null>(null);
+  const [searchResults, setSearchResults] = useState([]);
   const [selectedSong, setSelectedSong] = useState(null);
   const [isLoading, setLoadingState] = useState(false);
   const [hasError, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
 
-  const fetchSearchResults = (inputVal: any) => {
+  const fetchSearchResults = async (inputVal: any) => {
     setLoadingState(true);
 
-    axios
-      .get(`${baseApiURL}/search`, {
-        params: {
-          q: inputVal
-        }
-      })
-      .then(response => {
-        const { data } = response;
+    try {
+      const response = await fetch(`${baseApiURL}/search?q=${inputVal}`);
+      const results = await response.json();
 
-        setSearchResults(data);
-      })
-      .catch(error => {
-        setError(true);
-        setErrorMessage(error.message);
-      })
-      .finally(() => setLoadingState(false));
+      setSearchResults(results);
+      setLoadingState(false);
+    } catch (error) {
+      setError(true);
+      setErrorMessage(error.message);
+      setLoadingState(false);
+    }
   };
 
   const debouncedSearchResults = useCallback(
@@ -47,6 +41,7 @@ const App = () => {
         textChange={(e: React.ChangeEvent<HTMLInputElement>) =>
           debouncedSearchResults(e.currentTarget.value)
         }
+        results={searchResults}
       />
     </div>
   );
