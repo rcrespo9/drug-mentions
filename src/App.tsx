@@ -9,7 +9,7 @@ const baseApiURL = "https://drug-mentions-api.herokuapp.com";
 
 const App = () => {
   const [searchResults, setSearchResults] = useState<any[] | null>(null);
-  const [selectedSong, setSelectedSong] = useState(null);
+  const [selectedSong, setSelectedSong] = useState<object | null>(null);
   const [isLoading, setLoadingState] = useState(false);
   const [hasError, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
@@ -40,8 +40,26 @@ const App = () => {
     []
   );
 
+  const fetchSong = async (songId: string | undefined) => {
+    setLoadingState(true);
+    
+    try {
+      const response = await fetch(`${baseApiURL}/song-lyrics/${songId}`);
+      const song = await response.json();
+
+      setSelectedSong(song);
+      setLoadingState(false);
+    } catch (error) {
+      setError(true);
+      setErrorMessage(error.message);
+      setLoadingState(false);
+    }
+  }
+
   const selectSong = (e: React.MouseEvent<HTMLLIElement>) => {
-    const songId = e.currentTarget.dataset.id;
+    const songId: string | undefined = e.currentTarget.dataset.id;
+
+    fetchSong(songId);
   };
 
   return (
