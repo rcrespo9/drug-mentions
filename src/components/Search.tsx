@@ -5,6 +5,7 @@ type SearchProps = {
   textChange(event: React.ChangeEvent<HTMLInputElement>): void
   results: Results[] | null
   onResultClick(event: React.MouseEvent<HTMLLIElement>): void
+  isResultsOpen: boolean
 }
 
 type Results = {
@@ -22,11 +23,11 @@ const ResultsListItem = styled.li`
   cursor: pointer;
 `;
 
-const Search = ({ textChange, results, onResultClick }: SearchProps) => {
+const Search = ({ textChange, results, onResultClick, isResultsOpen }: SearchProps) => {
   return (
     <>
       <SearchInput onChange={textChange} />
-      {results &&
+      {results && isResultsOpen &&
         <ResultsList>
           {results.map(resultItem => {
             const { result } = resultItem;

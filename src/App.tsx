@@ -10,23 +10,21 @@ const baseApiURL = "https://drug-mentions-api.herokuapp.com";
 const App = () => {
   const [searchResults, setSearchResults] = useState<any[] | null>(null);
   const [selectedSong, setSelectedSong] = useState<object | null>(null);
+  const [drugsAndLyrics, setDrugsAndLyrics] = useState<object | null>(null);
+  const [isResultsOpen, setResultsStatus] = useState<boolean>(false);
   const [isLoading, setLoadingState] = useState(false);
   const [hasError, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
 
   const fetchSearchResults = async (inputVal: any) => {
     setLoadingState(true);
+    !!inputVal ? setResultsStatus(true) : setResultsStatus(false);
 
     try {
       const response = await fetch(`${baseApiURL}/search?q=${inputVal}`);
       const results = await response.json();
 
-      if (!!results.length) {
-        setSearchResults(results);
-      } else {
-        setSearchResults(null);
-      }
-
+      !!results.length ? setSearchResults(results) : setSearchResults(null);
       setLoadingState(false);
     } catch (error) {
       setError(true);
@@ -39,6 +37,10 @@ const App = () => {
     debounce(fetchSearchResults, 500),
     []
   );
+
+  const scanLyricsForDrugs = (drugs: string[], lyrics: string) => {
+
+  }
 
   const fetchSong = async (songId: string | undefined) => {
     setLoadingState(true);
@@ -70,6 +72,7 @@ const App = () => {
         }
         results={searchResults}
         onResultClick={selectSong}
+        isResultsOpen={isResultsOpen}
       />
     </div>
   );
