@@ -2,8 +2,9 @@ import React from "react";
 import styled from "styled-components";
 
 type SearchProps = {
-  textChange(event: React.ChangeEvent<HTMLInputElement>): void;
+  textChange(event: React.ChangeEvent<HTMLInputElement>): void
   results: Results[] | null
+  onResultClick(event: React.MouseEvent<HTMLLIElement>): void
 }
 
 type Results = {
@@ -11,16 +12,17 @@ type Results = {
 }
 
 type ResultItem = {
-  id: number,
+  id: number
   full_title: string
 }
 
 const SearchInput = styled.input``;
 const ResultsList = styled.ul``;
-const ResultsListItem = styled.li``;
+const ResultsListItem = styled.li`
+  cursor: pointer;
+`;
 
-const Search = ({ textChange, results }: SearchProps) => {
-
+const Search = ({ textChange, results, onResultClick }: SearchProps) => {
   return (
     <>
       <SearchInput onChange={textChange} />
@@ -29,7 +31,7 @@ const Search = ({ textChange, results }: SearchProps) => {
           {results.map(resultItem => {
             const { result } = resultItem;
 
-            return <ResultsListItem key={result.id}>{result.full_title}</ResultsListItem>
+            return <ResultsListItem data-id={result.id} onClick={onResultClick} key={result.id}>{result.full_title}</ResultsListItem>
           })}
         </ResultsList>
       }

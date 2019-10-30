@@ -26,6 +26,7 @@ const App = () => {
       } else {
         setSearchResults(null);
       }
+
       setLoadingState(false);
     } catch (error) {
       setError(true);
@@ -39,6 +40,10 @@ const App = () => {
     []
   );
 
+  const selectSong = (e: React.MouseEvent<HTMLLIElement>) => {
+    const songId = e.currentTarget.dataset.id;
+  };
+
   return (
     <div className="App">
       <Search
@@ -46,6 +51,7 @@ const App = () => {
           debouncedSearchResults(e.currentTarget.value)
         }
         results={searchResults}
+        onResultClick={selectSong}
       />
     </div>
   );
