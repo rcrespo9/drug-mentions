@@ -45,19 +45,22 @@ const App = () => {
         .replace(/(\r\n|\n|\r)/gm, " ") // remove line breaks
         .replace(/[.,/#!$%^&*;:{}=\-_`~()]/g, "") // remove all punctuation
         .replace(/\s{2,}/g, " "); // remove extra spaces
-    const splitLyrics: string[] = sanitizeString(lyrics).split(' ');
+    const splitLyrics: string[] = lyrics.split(' ');
     const drugsMentioned: string[] = [];
-    let highlightedLyrics: string;
+    let highlightedLyrics: string = lyrics;
 
     drugs.forEach(drug => splitLyrics.forEach(lyricWord => {
       const regex: RegExp = new RegExp(`^${drug}s?$`, "ig");
+      const formattedLyricWord = sanitizeString(lyricWord);
 
-      if (regex.test(lyricWord)) {
+      if (regex.test(formattedLyricWord)) {
         drugsMentioned.push(drug);
+        highlightedLyrics.replace(regex, `<span class="highlighted">${lyricWord}</span>`);
       }
     }))
     
     console.log(countBy(drugsMentioned));
+    console.log(highlightedLyrics);
   }
 
   const fetchSong = async (songId: string | undefined) => {
