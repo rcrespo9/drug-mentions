@@ -40,24 +40,23 @@ const App = () => {
   );
 
   const scanLyricsForDrugs = (drugs: string[], lyrics: string) => {
-    const drugsMentioned: string[] = [];
     const sanitizeString = (str: string) =>
       str
         .replace(/(\r\n|\n|\r)/gm, " ") // remove line breaks
         .replace(/[.,/#!$%^&*;:{}=\-_`~()]/g, "") // remove all punctuation
         .replace(/\s{2,}/g, " "); // remove extra spaces
-    const scrubbedLyrics: string[] = sanitizeString(lyrics).split(' ');
+    const splitLyrics: string[] = sanitizeString(lyrics).split(' ');
+    const drugsMentioned: string[] = [];
+    let highlightedLyrics: string;
 
-    drugs.forEach(drug => scrubbedLyrics.forEach(word => {
-      const formattedDrug = drug.toLowerCase();
-      const formattedWord = word.toLowerCase();
+    drugs.forEach(drug => splitLyrics.forEach(lyricWord => {
+      const regex: RegExp = new RegExp(`^${drug}s?$`, "ig");
 
-      if (formattedDrug === formattedWord || pluralize(formattedDrug) === formattedWord) {
+      if (regex.test(lyricWord)) {
         drugsMentioned.push(drug);
       }
     }))
     
-    console.log(scrubbedLyrics);
     console.log(countBy(drugsMentioned));
   }
 
