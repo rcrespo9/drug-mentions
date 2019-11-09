@@ -8,10 +8,15 @@ import Search from "./components/Search";
 
 const baseApiURL = "https://drug-mentions-api.herokuapp.com";
 
+type DrugsLyrics = {
+  drugsMentionedTally: object,
+  highlightedLyrics: string
+};
+
 const App = () => {
   const [searchResults, setSearchResults] = useState<any[] | null>(null);
   const [selectedSong, setSelectedSong] = useState<object | null>(null);
-  const [drugsAndLyrics, setDrugsAndLyrics] = useState<object | null>(null);
+  const [drugsTallyAndLyrics, setDrugsTallyAndLyrics] = useState<DrugsLyrics | null>(null);
   const [isResultsOpen, setResultsStatus] = useState<boolean>(false);
   const [isLoading, setLoadingState] = useState(false);
   const [hasError, setError] = useState(false);
@@ -45,22 +50,24 @@ const App = () => {
         .replace(/(\r\n|\n|\r)/gm, " ") // remove line breaks
         .replace(/[.,/#!$%^&*;:{}=\-_`~()]/g, "") // remove all punctuation
         .replace(/\s{2,}/g, " "); // remove extra spaces
-    const splitLyrics: string[] = lyrics.split(' ');
-    const drugsMentioned: string[] = [];
-    let highlightedLyrics: string = lyrics;
+    const sanitizedLyrics: string[] = sanitizeString(lyrics).split(' ');
+    const drugsMentionedArr: string[] = [];
+    let drugsMentionedTally: object;
+    let highlightedLyrics: string;
 
-    drugs.forEach(drug => splitLyrics.forEach(lyricWord => {
-      const regex: RegExp = new RegExp(`^${drug}s?$`, "ig");
-      const formattedLyricWord = sanitizeString(lyricWord);
+    drugs.forEach(drug => sanitizedLyrics.forEach(lyricWord => {
+      const formattedDrugWord = drug.toLowerCase();
+      const formattedLyricWord = lyricWord.toLowerCase();
 
-      if (regex.test(formattedLyricWord)) {
-        drugsMentioned.push(drug);
-        highlightedLyrics.replace(regex, `<span class="highlighted">${lyricWord}</span>`);
+      if (formattedDrugWord === formattedLyricWord || pluralize(formattedDrugWord) === formattedLyricWord) {
+        drugsMentionedArr.push(drug);
       }
     }))
-    
-    console.log(countBy(drugsMentioned));
-    console.log(highlightedLyrics);
+
+    drugsMentionedTally = countBy(drugsMentionedArr);
+    highlightedLyrics = lyrics.replace(new RegExp(`\\s${drugsMentionedArr.join('s?|')}\\s`, 'ig'), (word) => `<span class="highlighted">${word}</span>`);
+
+    setDrugsTallyAndLyrics({ drugsMentionedTally, highlightedLyrics });
   }
 
   const fetchSong = async (songId: string | undefined) => {
