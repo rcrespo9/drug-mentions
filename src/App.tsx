@@ -66,12 +66,12 @@ const App = () => {
 
     drugs.forEach(drug =>
       sanitizedLyrics.forEach(lyricWord => {
-        const formattedDrugWord = drug.toLowerCase();
-        const formattedLyricWord = lyricWord.toLowerCase();
+        const lowerCaseDrugWord = drug.toLowerCase();
+        const lowerCaseLyricWord = lyricWord.toLowerCase();
 
         if (
-          formattedDrugWord === formattedLyricWord ||
-          pluralize(formattedDrugWord) === formattedLyricWord
+          lowerCaseDrugWord === lowerCaseLyricWord ||
+          pluralize(lowerCaseDrugWord) === lowerCaseLyricWord
         ) {
           drugsMentionedArr.push(drug);
         }
