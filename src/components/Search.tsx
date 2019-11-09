@@ -6,16 +6,16 @@ type SearchProps = {
   results: Results[] | null;
   onResultClick(event: React.MouseEvent<HTMLLIElement>): void;
   isResultsOpen: boolean;
-}
+};
 
 type Results = {
-  result: ResultItem
-}
+  result: ResultItem;
+};
 
 type ResultItem = {
-  id: number
-  full_title: string
-}
+  id: number;
+  full_title: string;
+};
 
 const SearchInput = styled.input``;
 const ResultsList = styled.ul``;
@@ -23,19 +23,32 @@ const ResultsListItem = styled.li`
   cursor: pointer;
 `;
 
-const Search = ({ textChange, results, onResultClick, isResultsOpen }: SearchProps) => {
+const Search = ({
+  textChange,
+  results,
+  onResultClick,
+  isResultsOpen
+}: SearchProps) => {
   return (
     <>
       <SearchInput onChange={textChange} />
-      {results && isResultsOpen &&
+      {results && isResultsOpen && (
         <ResultsList>
           {results.map(resultItem => {
             const { result } = resultItem;
 
-            return <ResultsListItem data-id={result.id} onClick={onResultClick} key={result.id}>{result.full_title}</ResultsListItem>
+            return (
+              <ResultsListItem
+                data-id={result.id}
+                onClick={onResultClick}
+                key={result.id}
+              >
+                {result.full_title}
+              </ResultsListItem>
+            );
           })}
         </ResultsList>
-      }
+      )}
     </>
   );
 };

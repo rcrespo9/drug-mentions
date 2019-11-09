@@ -10,19 +10,22 @@ import Lyrics from "./components/Lyrics";
 const baseApiURL = "https://drug-mentions-api.herokuapp.com";
 
 type DrugsLyrics = {
-  drugsMentionedTally: object,
-  highlightedLyrics: string
+  drugsMentionedTally: object;
+  highlightedLyrics: string;
 };
 
 type SelectedSong = {
-  title: string,
-  lyrics: string
+  title: string;
+  lyrics: string;
 };
 
 const App = () => {
   const [searchResults, setSearchResults] = useState<any[] | null>(null);
   const [selectedSong, setSelectedSong] = useState<SelectedSong | null>(null);
-  const [drugsTallyAndLyrics, setDrugsTallyAndLyrics] = useState<DrugsLyrics | null>(null);
+  const [
+    drugsTallyAndLyrics,
+    setDrugsTallyAndLyrics
+  ] = useState<DrugsLyrics | null>(null);
   const [isResultsOpen, setResultsStatus] = useState(false);
   const [isLoading, setLoadingState] = useState(false);
   const [hasError, setError] = useState(false);
@@ -56,25 +59,33 @@ const App = () => {
         .replace(/(\r\n|\n|\r)/gm, " ") // remove line breaks
         .replace(/[.,/#!$%^&*;:{}=\-_`~()]/g, "") // remove all punctuation
         .replace(/\s{2,}/g, " "); // remove extra spaces
-    const sanitizedLyrics: string[] = sanitizeString(lyrics).split(' ');
+    const sanitizedLyrics: string[] = sanitizeString(lyrics).split(" ");
     const drugsMentionedArr: string[] = [];
     let drugsMentionedTally: object;
     let highlightedLyrics: string;
 
-    drugs.forEach(drug => sanitizedLyrics.forEach(lyricWord => {
-      const formattedDrugWord = drug.toLowerCase();
-      const formattedLyricWord = lyricWord.toLowerCase();
+    drugs.forEach(drug =>
+      sanitizedLyrics.forEach(lyricWord => {
+        const formattedDrugWord = drug.toLowerCase();
+        const formattedLyricWord = lyricWord.toLowerCase();
 
-      if (formattedDrugWord === formattedLyricWord || pluralize(formattedDrugWord) === formattedLyricWord) {
-        drugsMentionedArr.push(drug);
-      }
-    }))
+        if (
+          formattedDrugWord === formattedLyricWord ||
+          pluralize(formattedDrugWord) === formattedLyricWord
+        ) {
+          drugsMentionedArr.push(drug);
+        }
+      })
+    );
 
     drugsMentionedTally = countBy(drugsMentionedArr);
-    highlightedLyrics = lyrics.replace(new RegExp(`\\s${drugsMentionedArr.join('s?|')}\\s`, 'ig'), (word) => `<span class="highlighted">${word}</span>`);
+    highlightedLyrics = lyrics.replace(
+      new RegExp(`\\s${drugsMentionedArr.join("s?|")}\\s`, "ig"),
+      word => `<span class="highlighted">${word}</span>`
+    );
 
     setDrugsTallyAndLyrics({ drugsMentionedTally, highlightedLyrics });
-  }
+  };
 
   const fetchSong = async (songId: string | undefined) => {
     setLoadingState(true);
@@ -91,7 +102,7 @@ const App = () => {
       setErrorMessage(error.message);
       setLoadingState(false);
     }
-  }
+  };
 
   const selectSong = (e: React.MouseEvent<HTMLLIElement>) => {
     const songId: string | undefined = e.currentTarget.dataset.id;
@@ -111,9 +122,12 @@ const App = () => {
         isResultsOpen={isResultsOpen}
       />
 
-      {selectedSong && drugsTallyAndLyrics &&
-        <Lyrics songDetails={selectedSong.title} lyrics={drugsTallyAndLyrics.highlightedLyrics} />
-      }
+      {selectedSong && drugsTallyAndLyrics && (
+        <Lyrics
+          songDetails={selectedSong.title}
+          lyrics={drugsTallyAndLyrics.highlightedLyrics}
+        />
+      )}
     </div>
   );
 };

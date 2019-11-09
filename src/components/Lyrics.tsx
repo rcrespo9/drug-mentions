@@ -4,7 +4,7 @@ import styled from "styled-components";
 type LyricsProps = {
   songDetails: string;
   lyrics: string;
-}
+};
 
 const SongDetails = styled.h3``;
 const LyricsSheet = styled.div`
@@ -19,9 +19,9 @@ const Lyrics = ({ songDetails, lyrics }: LyricsProps) => {
   return (
     <>
       <SongDetails>{songDetails}</SongDetails>
-      <LyricsSheet dangerouslySetInnerHTML={{ __html:lyrics }} />
+      <LyricsSheet dangerouslySetInnerHTML={{ __html: lyrics }} />
     </>
-  )
+  );
 };
 
 export default Lyrics;
