@@ -11,7 +11,7 @@ const LyricsSheet = styled.div`
   white-space: pre-line;
 
   > .highlighted {
-    background-color: yellow;
+    background-color: red;
   }
 `;
 

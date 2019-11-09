@@ -61,9 +61,11 @@ const App = () => {
         .replace(/\s{2,}/g, " "); // remove extra spaces
     const sanitizedLyrics: string[] = sanitizeString(lyrics).split(" ");
     const drugsMentionedArr: string[] = [];
+    let drugsMentionArrNoDups: string[] = [];
     let drugsMentionedTally: object;
     let highlightedLyrics: string;
 
+    const t0 = performance.now();
     drugs.forEach(drug =>
       sanitizedLyrics.forEach(lyricWord => {
         const formattedDrugWord = drug.toLowerCase();
@@ -77,12 +79,15 @@ const App = () => {
         }
       })
     );
+    const t1 = performance.now();
 
     drugsMentionedTally = countBy(drugsMentionedArr);
+    drugsMentionArrNoDups = Array.from(new Set(drugsMentionedArr));
     highlightedLyrics = lyrics.replace(
-      new RegExp(`\\s${drugsMentionedArr.join("s?|")}\\s`, "ig"),
-      word => `<span class="highlighted">${word}</span>`
+      new RegExp(`\\b${drugsMentionArrNoDups.join("s?|")}\\b`, "ig"),
+      word => `<mark class="highlighted">${word}</mark>`
     );
+    console.log(`Scanning lyrics took ${t1 - t0} milliseconds`);
 
     setDrugsTallyAndLyrics({ drugsMentionedTally, highlightedLyrics });
   };
