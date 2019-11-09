@@ -2,10 +2,10 @@ import React from "react";
 import styled from "styled-components";
 
 type SearchProps = {
-  textChange(event: React.ChangeEvent<HTMLInputElement>): void
-  results: Results[] | null
-  onResultClick(event: React.MouseEvent<HTMLLIElement>): void
-  isResultsOpen: boolean
+  textChange(event: React.ChangeEvent<HTMLInputElement>): void;
+  results: Results[] | null;
+  onResultClick(event: React.MouseEvent<HTMLLIElement>): void;
+  isResultsOpen: boolean;
 }
 
 type Results = {

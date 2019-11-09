@@ -5,6 +5,7 @@ import pluralize from "pluralize";
 import drugsData from "./drugs.json";
 
 import Search from "./components/Search";
+import Lyrics from "./components/Lyrics";
 
 const baseApiURL = "https://drug-mentions-api.herokuapp.com";
 
@@ -13,11 +14,16 @@ type DrugsLyrics = {
   highlightedLyrics: string
 };
 
+type SelectedSong = {
+  title: string,
+  lyrics: string
+};
+
 const App = () => {
   const [searchResults, setSearchResults] = useState<any[] | null>(null);
-  const [selectedSong, setSelectedSong] = useState<object | null>(null);
+  const [selectedSong, setSelectedSong] = useState<SelectedSong | null>(null);
   const [drugsTallyAndLyrics, setDrugsTallyAndLyrics] = useState<DrugsLyrics | null>(null);
-  const [isResultsOpen, setResultsStatus] = useState<boolean>(false);
+  const [isResultsOpen, setResultsStatus] = useState(false);
   const [isLoading, setLoadingState] = useState(false);
   const [hasError, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
@@ -72,7 +78,7 @@ const App = () => {
 
   const fetchSong = async (songId: string | undefined) => {
     setLoadingState(true);
-    
+
     try {
       const response = await fetch(`${baseApiURL}/song-lyrics/${songId}`);
       const song = await response.json();
@@ -104,6 +110,10 @@ const App = () => {
         onResultClick={selectSong}
         isResultsOpen={isResultsOpen}
       />
+
+      {selectedSong && drugsTallyAndLyrics &&
+        <Lyrics songDetails={selectedSong.title} lyrics={drugsTallyAndLyrics.highlightedLyrics} />
+      }
     </div>
   );
 };
