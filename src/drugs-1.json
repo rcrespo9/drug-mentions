@@ -529,7 +529,7 @@
     },
     {
       "drugType": "Codeine",
-      "streetNames": ["", "Captain Cody", "Cody", "Little C", "Schoolboy"]
+      "streetNames": ["Captain Cody", "Cody", "Little C", "Schoolboy"]
     },
     {
       "drugType": "Codeine with Promethazine",

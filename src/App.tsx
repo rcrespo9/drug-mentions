@@ -23,10 +23,7 @@ interface DrugReference {
   drugName: string;
   referenceCount: number; 
   isStreetName: boolean;
-}
-
-interface StreetNameReference extends DrugReference {
-  drugTypes: string[];
+  drugTypes?: string[];
 }
 
 const App = () => {
@@ -63,46 +60,84 @@ const App = () => {
     []
   );
 
-  const scanLyricsForDrugs = (drugs: string[], lyrics: string) => {
+  const scanLyricsForDrugs = (drugs: any[], lyrics: string) => {
     const sanitizeString = (str: string) =>
       str
         .replace(/(\r\n|\n|\r)/gm, " ") // remove line breaks
         .replace(/[.,/#!$%^&*;:{}=\-_`~()]/g, "") // remove all punctuation
         .replace(/\s{2,}/g, " "); // remove extra spaces
     const sanitizedLyrics: string[] = sanitizeString(lyrics).split(" ");
-    const drugsMentionedArr: string[] = [];
+    const drugReferencesArr: DrugReference[] = [];
     let drugsMentionedTally: object;
     let highlightedLyrics: string;
+    const createDrugReference = ({ drugName, referenceCount, isStreetName, drugTypes }: DrugReference) => ({ drugName, referenceCount, isStreetName, drugTypes });
+    const foundDrug = (drugName: string) => drugReferencesArr.find((drugMentioned: DrugReference) => drugMentioned.drugName === drugName);
 
     drugs.forEach(drug =>
       sanitizedLyrics.forEach(lyricWord => {
-        const lowerCaseDrugWord = drug.toLowerCase();
+        const lowerCaseDrugWord = drug.drugType.toLowerCase();
         const lowerCaseLyricWord = lyricWord.toLowerCase();
 
         if (
           lowerCaseDrugWord === lowerCaseLyricWord ||
           pluralize(lowerCaseDrugWord) === lowerCaseLyricWord
         ) {
-          drugsMentionedArr.push(drug);
+          if (foundDrug(drug.drugType)) {
+            foundDrug(drug.drugType)!.referenceCount += 1;
+          } else {
+            drugReferencesArr.push(
+              createDrugReference({
+                drugName: drug.drugType,
+                referenceCount: 1,
+                isStreetName: false
+              })
+            );
+          }
         }
+
+        drug.streetNames.forEach((streetName:string) => {
+          const lowerCaseStreetName = streetName.toLowerCase();
+
+          if (
+            lowerCaseStreetName === lowerCaseLyricWord ||
+            pluralize(lowerCaseStreetName) === lowerCaseLyricWord
+          ) {
+            if (foundDrug(streetName)) {
+              foundDrug(streetName)!.referenceCount += 1;
+              if (!foundDrug(streetName)!.drugTypes!.includes(drug.drugType)) {
+                foundDrug(streetName)!.drugTypes!.push(drug.drugType);
+              }
+            } else {
+              drugReferencesArr.push(
+                createDrugReference({
+                  drugName: streetName,
+                  referenceCount: 1,
+                  isStreetName: true,
+                  drugTypes: [drug.drugType]
+                })
+              );
+            }
+          }
+        })
       })
     );
 
-    const drugsMentionedRegexArr = Array.from(new Set(drugsMentionedArr)).map(
-      drug => `\\b${drug}s?\\b`
-    );
-    const highlightRegex = new RegExp(
-      `${drugsMentionedRegexArr.join("|")}`,
-      "ig"
-    );
+    // const drugsMentionedRegexArr = Array.from(new Set(drugsReferencesArr)).map(
+    //   drug => `\\b${drug}s?\\b`
+    // );
+    // const highlightRegex = new RegExp(
+    //   `${drugsMentionedRegexArr.join("|")}`,
+    //   "ig"
+    // );
 
-    drugsMentionedTally = countBy(drugsMentionedArr);
-    highlightedLyrics = lyrics.replace(
-      highlightRegex,
-      word => `<mark class="highlighted">${word}</mark>`
-    );
+    // drugsMentionedTally = countBy(drugsReferencesArr);
+    // highlightedLyrics = lyrics.replace(
+    //   highlightRegex,
+    //   word => `<mark class="highlighted">${word}</mark>`
+    // );
 
-    setDrugsTallyAndLyrics({ drugsMentionedTally, highlightedLyrics });
+    // setDrugsTallyAndLyrics({ drugsMentionedTally, highlightedLyrics });
+    console.log(drugReferencesArr);
   };
 
   const fetchSong = async (songId: string | undefined) => {
