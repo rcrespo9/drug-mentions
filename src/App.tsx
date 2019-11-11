@@ -7,6 +7,7 @@ import drugsData from "./data/drugs.json";
 
 import Search from "./components/Search";
 import Lyrics from "./components/Lyrics";
+import Loading from "./components/Loading";
 
 const baseApiURL = "https://drug-mentions-api.herokuapp.com";
 
@@ -34,12 +35,13 @@ const App = () => {
     null
   );
   const [isResultsOpen, setResultsStatus] = useState(false);
-  const [isLoading, setLoadingState] = useState(false);
+  const [isSearchLoading, setSearchLoadingState] = useState(false);
+  const [isLyricsLoading, setLyricsLoadingState] = useState(false);
   const [hasError, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
 
   const fetchSearchResults = async (inputVal: any) => {
-    setLoadingState(true);
+    setSearchLoadingState(true);
     !!inputVal ? setResultsStatus(true) : setResultsStatus(false);
 
     try {
@@ -47,11 +49,11 @@ const App = () => {
       const results = await response.json();
 
       !!results.length ? setSearchResults(results) : setSearchResults(null);
-      setLoadingState(false);
+      setSearchLoadingState(false);
     } catch (error) {
       setError(true);
       setErrorMessage(error.message);
-      setLoadingState(false);
+      setSearchLoadingState(false);
     }
   };
 
@@ -135,7 +137,7 @@ const App = () => {
   };
 
   const fetchSong = async (songId: string | undefined) => {
-    setLoadingState(true);
+    setLyricsLoadingState(true);
 
     try {
       const response = await fetch(`${baseApiURL}/song-lyrics/${songId}`);
@@ -143,11 +145,11 @@ const App = () => {
 
       setSelectedSong(song);
       scanLyricsForDrugs(drugsData.drugs, song.lyrics);
-      setLoadingState(false);
+      setLyricsLoadingState(false);
     } catch (error) {
       setError(true);
       setErrorMessage(error.message);
-      setLoadingState(false);
+      setLyricsLoadingState(false);
     }
   };
 
@@ -167,9 +169,12 @@ const App = () => {
         results={searchResults}
         onResultClick={selectSong}
         isResultsOpen={isResultsOpen}
+        isLoading={isSearchLoading}
       />
 
-      {selectedSong && drugsAndLyrics && (
+      {isLyricsLoading ? (
+        <Loading />
+      ) : selectedSong && drugsAndLyrics && (
         <Lyrics
           songDetails={selectedSong.title}
           lyrics={drugsAndLyrics.highlightedLyrics}
