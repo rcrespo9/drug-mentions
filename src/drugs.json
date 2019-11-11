@@ -3,6 +3,30 @@
   "source": "https://www.addictioncenter.com/drugs/drug-street-names/",
   "drugs": [
     {
+      "drugType": "Alcohol",
+      "streetNames": [
+        "Booze",
+        "Brew",
+        "Chug",
+        "Cold One",
+        "Gargle",
+        "Goof",
+        "Giggle Juice",
+        "Hard Stuff",
+        "Hooch",
+        "Jack",
+        "Juice",
+        "Kool Aid",
+        "Mouthwash",
+        "Poison",
+        "Refreshment",
+        "Sauce",
+        "Shine",
+        "Swish",
+        "Vino"
+      ]
+    },
+    {
       "drugType": "Ativan",
       "streetNames": [
         "lorazepam",
@@ -216,7 +240,7 @@
       ]
     },
     {
-      "drugType": "Salvia divinorum",
+      "drugType": "Salvia",
       "streetNames": [
         "Diviner’s Sage",
         "Magic Mint",
@@ -271,7 +295,6 @@
         "Powder",
         "Rail",
         "Rock",
-        "She",
         "Snow",
         "Stardust",
         "Stash",
@@ -417,7 +440,7 @@
       ]
     },
     {
-      "drugType": "MDMA (Ecstasy/Molly)",
+      "drugType": "MDMA",
       "streetNames": [
         "Adam",
         "Beans",
@@ -426,6 +449,7 @@
         "Dancing Shoes",
         "Disco Biscuits",
         "E",
+        "Ecstasy",
         "E-Bomb",
         "Egg Rolls",
         "Eve",
@@ -433,6 +457,7 @@
         "Lover’s Speed",
         "Malcolm",
         "Malcolm X",
+        "Molly",
         "Peace",
         "Scooby Snacks",
         "Smartees",
@@ -662,11 +687,11 @@
       "streetNames": ["Ultram", "Chill Pills", "Trammies", "Ultras"]
     },
     {
-      "drugType": "Dimenhydrinate (Dramamine)",
+      "drugType": "Dramamine",
       "streetNames": ["Dime", "Dime Tabs", "Substance D"]
     },
     {
-      "drugType": "DXM (dextromethorphan)",
+      "drugType": "DXM",
       "streetNames": [
         "Dex",
         "Dextro",
@@ -681,11 +706,39 @@
       ]
     },
     {
-      "drugType": "Pseudoephedrine (Sudafed)",
+      "drugType": "Sudafed",
       "streetNames": ["Chalk", "Crank", "Meth", "Speed"]
     },
     {
-      "drugType": "Ambien, Lunesta, Sonata",
+      "drugType": "Ambien",
+      "streetNames": [
+        "Date Rape Drug",
+        "Forget-Me Pill",
+        "Mexican Valium",
+        "R2",
+        "Roche",
+        "Roofies",
+        "Roofinol",
+        "Rope",
+        "Rophies"
+      ]
+    },
+    {
+      "drugType": "Lunesta",
+      "streetNames": [
+        "Date Rape Drug",
+        "Forget-Me Pill",
+        "Mexican Valium",
+        "R2",
+        "Roche",
+        "Roofies",
+        "Roofinol",
+        "Rope",
+        "Rophies"
+      ]
+    },
+    {
+      "drugType": "Sonata",
       "streetNames": [
         "Date Rape Drug",
         "Forget-Me Pill",
