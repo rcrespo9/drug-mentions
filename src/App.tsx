@@ -62,6 +62,25 @@ const App = () => {
     []
   );
 
+  const highlightLyrics = (drugNames: string[], lyrics: string): string => {
+    let drugNamesRegexes: string[];
+    let highlightRegex: RegExp;
+    let highlightedLyrics: string;
+
+    drugNamesRegexes = Array.from(new Set(drugNames)).map(
+      drug => `\\b${drug}s?\\b`
+    );
+
+    highlightRegex = new RegExp(`${drugNamesRegexes.join("|")}`, "ig");
+
+    highlightedLyrics = lyrics.replace(
+      highlightRegex,
+      word => `<mark class="highlighted">${word}</mark>`
+    );
+
+    return highlightedLyrics;
+  };
+
   const scanLyricsForDrugs = (drugs: any[], lyrics: string) => {
     const drugReferences: DrugReference[] = [];
     const sanitizedLyrics: string[] = sanitizeString(lyrics).split(" ");
@@ -78,11 +97,7 @@ const App = () => {
       drugReferences.find(
         (drugMentioned: DrugReference) => drugMentioned.drugName === drugName
       );
-
     let drugNames: string[];
-    let drugNamesRegexes: string[];
-    let highlightedLyrics: string;
-    let highlightRegex: RegExp;
 
     drugs.forEach(drug =>
       sanitizedLyrics.forEach(lyricWord => {
@@ -122,18 +137,10 @@ const App = () => {
 
     drugNames = drugReferences.map(drugReference => drugReference.drugName);
 
-    drugNamesRegexes = Array.from(new Set(drugNames)).map(
-      drug => `\\b${drug}s?\\b`
-    );
-
-    highlightRegex = new RegExp(`${drugNamesRegexes.join("|")}`, "ig");
-
-    highlightedLyrics = lyrics.replace(
-      highlightRegex,
-      word => `<mark class="highlighted">${word}</mark>`
-    );
-
-    setDrugsAndLyrics({ drugReferences, highlightedLyrics });
+    setDrugsAndLyrics({
+      drugReferences,
+      highlightedLyrics: highlightLyrics(drugNames, lyrics)
+    });
   };
 
   const fetchSong = async (songId: string | undefined) => {
@@ -174,11 +181,14 @@ const App = () => {
 
       {isLyricsLoading ? (
         <Loading />
-      ) : selectedSong && drugsAndLyrics && (
-        <Lyrics
-          songDetails={selectedSong.title}
-          lyrics={drugsAndLyrics.highlightedLyrics}
-        />
+      ) : (
+        selectedSong &&
+        drugsAndLyrics && (
+          <Lyrics
+            songDetails={selectedSong.title}
+            lyrics={drugsAndLyrics.highlightedLyrics}
+          />
+        )
       )}
     </div>
   );
