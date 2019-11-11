@@ -2,7 +2,7 @@ import React, { useState, useCallback } from "react";
 import { debounce, countBy } from "lodash";
 import pluralize from "pluralize";
 
-import drugsData from "./drugs.json";
+import drugsData from "./drugs-1.json";
 
 import Search from "./components/Search";
 import Lyrics from "./components/Lyrics";
@@ -18,6 +18,16 @@ type SelectedSong = {
   title: string;
   lyrics: string;
 };
+
+interface DrugReference {
+  drugName: string;
+  referenceCount: number; 
+  isStreetName: boolean;
+}
+
+interface StreetNameReference extends DrugReference {
+  drugTypes: string[];
+}
 
 const App = () => {
   const [searchResults, setSearchResults] = useState<any[] | null>(null);

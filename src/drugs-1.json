@@ -3,7 +3,7 @@
   "source": "https://www.addictioncenter.com/drugs/drug-street-names/",
   "drugs": [
     {
-      "drugType": "Ativan®",
+      "drugType": "Ativan",
       "streetNames": [
         "lorazepam",
         "Candy",
@@ -13,7 +13,7 @@
       ]
     },
     {
-      "drugType": "Halcion®",
+      "drugType": "Halcion",
       "streetNames": [
         "triazolam",
         "Candy",
@@ -23,11 +23,11 @@
       ]
     },
     {
-      "drugType": "Klonopin®",
+      "drugType": "Klonopin",
       "streetNames": ["clonazepam", "K", "K-Pin", "Pin", "Super Valium"]
     },
     {
-      "drugType": "Librium®",
+      "drugType": "Librium",
       "streetNames": [
         "chlordiazepoxide",
         "Candy",
@@ -37,7 +37,7 @@
       ]
     },
     {
-      "drugType": "Rohypnol®",
+      "drugType": "Rohypnol",
       "streetNames": [
         "flunitrazepam",
         "Circles",
@@ -45,18 +45,18 @@
         "Forget-Me Pill",
         "La Rocha",
         "Lunch Money",
-        " Mexican Valium",
+        "Mexican Valium",
         "Mind Eraser",
         "Roofies",
         "Wolfies"
       ]
     },
     {
-      "drugType": "Valium®",
+      "drugType": "Valium",
       "streetNames": ["diazepam", "Eggs", "Jellies", "Moggies", "Vallies"]
     },
     {
-      "drugType": "Xanax®",
+      "drugType": "Xanax",
       "streetNames": [
         "alprazolam",
         "Bars",
@@ -91,7 +91,7 @@
         "Georgia Home Boy",
         "Gina",
         "Goop",
-        " Grievous Bodily Harm",
+        "Grievous Bodily Harm",
         "Liquid E",
         "Liquid X",
         "Scoop"
@@ -130,18 +130,18 @@
         "Biak-biak",
         "Herbal Speedball",
         "Ithang",
-        " Kahyam",
+        "Kahyam",
         "Ketum",
         "Thom"
       ]
     },
     {
-      "drugType": "LSD (D-lysergic acid diethylamide)",
+      "drugType": "LSD",
       "streetNames": [
         "Acid",
         "Blotter",
         "Dots",
-        " Electric Kool Aid",
+        "Electric Kool Aid",
         "Lucy in the Sky with Diamonds",
         "Purple Haze",
         "Sugar Cubes",
@@ -179,7 +179,7 @@
       ]
     },
     {
-      "drugType": "PCP (phencyclidine)",
+      "drugType": "PCP",
       "streetNames": [
         "Angel",
         "Angel Dust",
@@ -516,8 +516,8 @@
     {
       "drugType": "Buprenorphine",
       "streetNames": [
-        "Suboxone®",
-        "Subutex®",
+        "Suboxone",
+        "Subutex",
         "Buse",
         "Oranges",
         "Sobos",
@@ -534,7 +534,7 @@
     {
       "drugType": "Codeine with Promethazine",
       "streetNames": [
-        "Phenergan®-Codeine Syrup",
+        "Phenergan-Codeine Syrup",
         "Act",
         "Lean",
         "Purple Drank",
@@ -545,8 +545,8 @@
     {
       "drugType": "Fentanyl",
       "streetNames": [
-        "Actiq®",
-        "Sublimaze®",
+        "Actiq",
+        "Sublimaze",
         "Apache",
         "China Girl",
         "China White",
@@ -562,9 +562,9 @@
     {
       "drugType": "Hydrocodone",
       "streetNames": [
-        "Lortab®",
-        "Norco®",
-        "Vicodin®",
+        "Lortab",
+        "Norco",
+        "Vicodin",
         "Bananas",
         "Dro",
         "Fluff",
@@ -579,8 +579,8 @@
     {
       "drugType": "Hydromorphone",
       "streetNames": [
-        "Dilaudid®",
-        "Exalgo®",
+        "Dilaudid",
+        "Exalgo",
         "D",
         "Dillies",
         "Footballs",
@@ -590,13 +590,13 @@
     },
     {
       "drugType": "Meperidine",
-      "streetNames": ["Demerol®", "Demmies", "Pain Killer"]
+      "streetNames": ["Demerol", "Demmies", "Pain Killer"]
     },
     {
       "drugType": "Methadone",
       "streetNames": [
-        "Dolophine®",
-        "Methadose®",
+        "Dolophine",
+        "Methadose",
         "Amidone",
         "Dollies",
         "Dolls",
@@ -609,8 +609,8 @@
     {
       "drugType": "Morphine",
       "streetNames": [
-        "Duramorph®",
-        "MS Contin®",
+        "Duramorph",
+        "MS Contin",
         "God’s Drug",
         "M",
         "Miss Emma",
@@ -622,7 +622,7 @@
     {
       "drugType": "Oxycodone",
       "streetNames": [
-        "OxyContin®",
+        "OxyContin",
         "30s",
         "Hillbilly Heroin",
         "O.C.",
@@ -635,7 +635,7 @@
     {
       "drugType": "Oxymorphone",
       "streetNames": [
-        "Opana®",
+        "Opana",
         "Biscuits",
         "Blue Heaven",
         "Mrs. O",
@@ -647,8 +647,8 @@
     {
       "drugType": "Propoxyphene",
       "streetNames": [
-        "Darvocet®",
-        "Darvon®",
+        "Darvocet",
+        "Darvon",
         "Footballs",
         "N’s",
         "Pink Footballs",
@@ -659,10 +659,10 @@
     },
     {
       "drugType": "Tramadol",
-      "streetNames": ["Ultram®", "Chill Pills", "Trammies", "Ultras"]
+      "streetNames": ["Ultram", "Chill Pills", "Trammies", "Ultras"]
     },
     {
-      "drugType": "Dimenhydrinate (Dramamine®)",
+      "drugType": "Dimenhydrinate (Dramamine)",
       "streetNames": ["Dime", "Dime Tabs", "Substance D"]
     },
     {
@@ -681,11 +681,11 @@
       ]
     },
     {
-      "drugType": "Pseudoephedrine (Sudafed®)",
+      "drugType": "Pseudoephedrine (Sudafed)",
       "streetNames": ["Chalk", "Crank", "Meth", "Speed"]
     },
     {
-      "drugType": "Ambien®, Lunesta®, Sonata®",
+      "drugType": "Ambien, Lunesta, Sonata",
       "streetNames": [
         "Date Rape Drug",
         "Forget-Me Pill",
@@ -699,7 +699,7 @@
       ]
     },
     {
-      "drugType": "Amytal®",
+      "drugType": "Amytal",
       "streetNames": [
         "Barbs",
         "Red Birds",
@@ -711,8 +711,8 @@
     {
       "drugType": "Amphetamine",
       "streetNames": [
-        "Adderall®",
-        "Dexedrine®",
+        "Adderall",
+        "Dexedrine",
         "Addies",
         "Bennies",
         "Black Beauties",
@@ -727,9 +727,9 @@
     {
       "drugType": "Antidepressants",
       "streetNames": [
-        "Paxil®",
-        "Prozac®",
-        "Zoloft®",
+        "Paxil",
+        "Prozac",
+        "Zoloft",
         "Bottled Smiles",
         "Happy Pill",
         "Miracle Drug",
@@ -740,7 +740,7 @@
       "drugType": "Diet Pills",
       "streetNames": [
         "phentermine",
-        "Adipex®",
+        "Adipex",
         "Crank",
         "Fastin",
         "Fen-Phen",
@@ -749,7 +749,7 @@
     },
     {
       "drugType": "Methylphenidate",
-      "streetNames": ["Concerta®", "JIF", "MPH", "Pineapple", "Skippy"]
+      "streetNames": ["Concerta", "JIF", "MPH", "Pineapple", "Skippy"]
     },
     {
       "drugType": "Steroids",
