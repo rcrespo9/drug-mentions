@@ -1,23 +1,13 @@
 import React, { useState, useCallback } from "react";
-import { debounce, countBy } from "lodash";
+import { debounce } from "lodash";
 import pluralize from "pluralize";
 
-import drugsData from "./drugs-1.json";
+import drugsData from "./drugs.json";
 
 import Search from "./components/Search";
 import Lyrics from "./components/Lyrics";
 
 const baseApiURL = "https://drug-mentions-api.herokuapp.com";
-
-type DrugsLyrics = {
-  drugsMentionedTally: object;
-  highlightedLyrics: string;
-};
-
-type SelectedSong = {
-  title: string;
-  lyrics: string;
-};
 
 interface DrugReference {
   drugName: string;
@@ -26,13 +16,23 @@ interface DrugReference {
   drugTypes?: string[];
 }
 
+type DrugsAndLyrics = {
+  drugReferences: DrugReference[];
+  highlightedLyrics: string;
+};
+
+type SelectedSong = {
+  title: string;
+  lyrics: string;
+};
+
 const App = () => {
   const [searchResults, setSearchResults] = useState<any[] | null>(null);
   const [selectedSong, setSelectedSong] = useState<SelectedSong | null>(null);
   const [
-    drugsTallyAndLyrics,
-    setDrugsTallyAndLyrics
-  ] = useState<DrugsLyrics | null>(null);
+    drugsAndLyrics,
+    setDrugsAndLyrics
+  ] = useState<DrugsAndLyrics | null>(null);
   const [isResultsOpen, setResultsStatus] = useState(false);
   const [isLoading, setLoadingState] = useState(false);
   const [hasError, setError] = useState(false);
@@ -67,77 +67,73 @@ const App = () => {
         .replace(/[.,/#!$%^&*;:{}=\-_`~()]/g, "") // remove all punctuation
         .replace(/\s{2,}/g, " "); // remove extra spaces
     const sanitizedLyrics: string[] = sanitizeString(lyrics).split(" ");
-    const drugReferencesArr: DrugReference[] = [];
-    let drugsMentionedTally: object;
+    const drugReferences: DrugReference[] = [];
+    const isDrugReferenced = (drugName:string, lyricWord:string): boolean => {
+      const lowerCaseDrugWord = drugName.toLowerCase();
+      const lowerCaseLyricWord = lyricWord.toLowerCase();
+
+      return lowerCaseDrugWord === lowerCaseLyricWord || pluralize(lowerCaseDrugWord) === lowerCaseLyricWord;
+    }
+    const foundDrug = (drugName: string) => drugReferences.find((drugMentioned: DrugReference) => drugMentioned.drugName === drugName);
+    let drugNamesArr: string[];
+    let drugNamesRegexArr: string[];
     let highlightedLyrics: string;
-    const createDrugReference = ({ drugName, referenceCount, isStreetName, drugTypes }: DrugReference) => ({ drugName, referenceCount, isStreetName, drugTypes });
-    const foundDrug = (drugName: string) => drugReferencesArr.find((drugMentioned: DrugReference) => drugMentioned.drugName === drugName);
+    let highlightRegex: RegExp;
 
     drugs.forEach(drug =>
       sanitizedLyrics.forEach(lyricWord => {
-        const lowerCaseDrugWord = drug.drugType.toLowerCase();
-        const lowerCaseLyricWord = lyricWord.toLowerCase();
-
-        if (
-          lowerCaseDrugWord === lowerCaseLyricWord ||
-          pluralize(lowerCaseDrugWord) === lowerCaseLyricWord
-        ) {
+        if (isDrugReferenced(drug.drugType, lyricWord)) {
           if (foundDrug(drug.drugType)) {
             foundDrug(drug.drugType)!.referenceCount += 1;
           } else {
-            drugReferencesArr.push(
-              createDrugReference({
+            drugReferences.push(
+              {
                 drugName: drug.drugType,
                 referenceCount: 1,
                 isStreetName: false
-              })
+              }
             );
           }
         }
 
         drug.streetNames.forEach((streetName:string) => {
-          const lowerCaseStreetName = streetName.toLowerCase();
-
-          if (
-            lowerCaseStreetName === lowerCaseLyricWord ||
-            pluralize(lowerCaseStreetName) === lowerCaseLyricWord
-          ) {
+          if (isDrugReferenced(streetName, lyricWord)) {
             if (foundDrug(streetName)) {
+              let { drugTypes } = foundDrug(streetName)!;
+              
               foundDrug(streetName)!.referenceCount += 1;
-              if (!foundDrug(streetName)!.drugTypes!.includes(drug.drugType)) {
-                foundDrug(streetName)!.drugTypes!.push(drug.drugType);
-              }
+              
+              if (!drugTypes!.includes(drug.drugType)) drugTypes!.push(drug.drugType);
             } else {
-              drugReferencesArr.push(
-                createDrugReference({
-                  drugName: streetName,
-                  referenceCount: 1,
-                  isStreetName: true,
-                  drugTypes: [drug.drugType]
-                })
-              );
+              drugReferences.push({
+                drugName: streetName,
+                referenceCount: 1,
+                isStreetName: true,
+                drugTypes: [drug.drugType]
+              });
             }
           }
         })
       })
     );
 
-    // const drugsMentionedRegexArr = Array.from(new Set(drugsReferencesArr)).map(
-    //   drug => `\\b${drug}s?\\b`
-    // );
-    // const highlightRegex = new RegExp(
-    //   `${drugsMentionedRegexArr.join("|")}`,
-    //   "ig"
-    // );
+    drugNamesArr = drugReferences.map(drugReference => drugReference.drugName);
 
-    // drugsMentionedTally = countBy(drugsReferencesArr);
-    // highlightedLyrics = lyrics.replace(
-    //   highlightRegex,
-    //   word => `<mark class="highlighted">${word}</mark>`
-    // );
+    drugNamesRegexArr = Array.from(new Set(drugNamesArr)).map(
+      drug => `\\b${drug}s?\\b`
+    );
 
-    // setDrugsTallyAndLyrics({ drugsMentionedTally, highlightedLyrics });
-    console.log(drugReferencesArr);
+    highlightRegex = new RegExp(
+      `${drugNamesRegexArr.join("|")}`,
+      "ig"
+    );
+
+    highlightedLyrics = lyrics.replace(
+      highlightRegex,
+      word => `<mark class="highlighted">${word}</mark>`
+    );
+
+    setDrugsAndLyrics({ drugReferences, highlightedLyrics });
   };
 
   const fetchSong = async (songId: string | undefined) => {
@@ -175,10 +171,10 @@ const App = () => {
         isResultsOpen={isResultsOpen}
       />
 
-      {selectedSong && drugsTallyAndLyrics && (
+      {selectedSong && drugsAndLyrics && (
         <Lyrics
           songDetails={selectedSong.title}
-          lyrics={drugsTallyAndLyrics.highlightedLyrics}
+          lyrics={drugsAndLyrics.highlightedLyrics}
         />
       )}
     </div>
