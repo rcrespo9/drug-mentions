@@ -131,8 +131,6 @@ const App = () => {
       word => `<mark class="highlighted">${word}</mark>`
     );
 
-    console.log(drugReferences);
-
     setDrugsAndLyrics({ drugReferences, highlightedLyrics });
   };
 
