@@ -7,7 +7,7 @@ type LyricsProps = {
 };
 
 const SongDetails = styled.h3``;
-const LyricsSheet = styled.div`
+const LyricsSheet = styled.p`
   white-space: pre-line;
 
   > .highlighted {

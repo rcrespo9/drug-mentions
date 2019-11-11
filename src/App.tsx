@@ -137,6 +137,8 @@ const App = () => {
 
     drugNames = drugReferences.map(drugReference => drugReference.drugName);
 
+    console.log(drugReferences);
+
     setDrugsAndLyrics({
       drugReferences,
       highlightedLyrics: highlightLyrics(drugNames, lyrics)
