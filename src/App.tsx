@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from "react";
 import { debounce } from "lodash";
 import pluralize from "pluralize";
-import sanitizeString from "./utils/sanitizeString"
+import sanitizeString from "./utils/sanitizeString";
 
 import drugsData from "./data/drugs.json";
 
@@ -12,7 +12,7 @@ const baseApiURL = "https://drug-mentions-api.herokuapp.com";
 
 interface DrugReference {
   drugName: string;
-  referenceCount: number; 
+  referenceCount: number;
   isStreetName: boolean;
   drugTypes?: string[];
 }
@@ -30,10 +30,9 @@ type SelectedSong = {
 const App = () => {
   const [searchResults, setSearchResults] = useState<any[] | null>(null);
   const [selectedSong, setSelectedSong] = useState<SelectedSong | null>(null);
-  const [
-    drugsAndLyrics,
-    setDrugsAndLyrics
-  ] = useState<DrugsAndLyrics | null>(null);
+  const [drugsAndLyrics, setDrugsAndLyrics] = useState<DrugsAndLyrics | null>(
+    null
+  );
   const [isResultsOpen, setResultsStatus] = useState(false);
   const [isLoading, setLoadingState] = useState(false);
   const [hasError, setError] = useState(false);
@@ -62,17 +61,24 @@ const App = () => {
   );
 
   const scanLyricsForDrugs = (drugs: any[], lyrics: string) => {
-    const sanitizedLyrics: string[] = sanitizeString(lyrics).split(" ");
     const drugReferences: DrugReference[] = [];
-    const isDrugReferenced = (drugName:string, lyricWord:string): boolean => {
+    const sanitizedLyrics: string[] = sanitizeString(lyrics).split(" ");
+    const isDrugReferenced = (drugName: string, lyricWord: string): boolean => {
       const lowerCaseDrugWord = drugName.toLowerCase();
       const lowerCaseLyricWord = lyricWord.toLowerCase();
 
-      return lowerCaseDrugWord === lowerCaseLyricWord || pluralize(lowerCaseDrugWord) === lowerCaseLyricWord;
-    }
-    const foundDrug = (drugName: string) => drugReferences.find((drugMentioned: DrugReference) => drugMentioned.drugName === drugName);
-    let drugNamesArr: string[];
-    let drugNamesRegexArr: string[];
+      return (
+        lowerCaseDrugWord === lowerCaseLyricWord ||
+        pluralize(lowerCaseDrugWord) === lowerCaseLyricWord
+      );
+    };
+    const foundDrug = (drugName: string): DrugReference | undefined =>
+      drugReferences.find(
+        (drugMentioned: DrugReference) => drugMentioned.drugName === drugName
+      );
+
+    let drugNames: string[];
+    let drugNamesRegexes: string[];
     let highlightedLyrics: string;
     let highlightRegex: RegExp;
 
@@ -82,24 +88,23 @@ const App = () => {
           if (foundDrug(drug.drugType)) {
             foundDrug(drug.drugType)!.referenceCount += 1;
           } else {
-            drugReferences.push(
-              {
-                drugName: drug.drugType,
-                referenceCount: 1,
-                isStreetName: false
-              }
-            );
+            drugReferences.push({
+              drugName: drug.drugType,
+              referenceCount: 1,
+              isStreetName: false
+            });
           }
         }
 
-        drug.streetNames.forEach((streetName:string) => {
+        drug.streetNames.forEach((streetName: string) => {
           if (isDrugReferenced(streetName, lyricWord)) {
             if (foundDrug(streetName)) {
               let { drugTypes } = foundDrug(streetName)!;
-              
+
               foundDrug(streetName)!.referenceCount += 1;
-              
-              if (!drugTypes!.includes(drug.drugType)) drugTypes!.push(drug.drugType);
+
+              if (!drugTypes!.includes(drug.drugType))
+                drugTypes!.push(drug.drugType);
             } else {
               drugReferences.push({
                 drugName: streetName,
@@ -109,25 +114,24 @@ const App = () => {
               });
             }
           }
-        })
+        });
       })
     );
 
-    drugNamesArr = drugReferences.map(drugReference => drugReference.drugName);
+    drugNames = drugReferences.map(drugReference => drugReference.drugName);
 
-    drugNamesRegexArr = Array.from(new Set(drugNamesArr)).map(
+    drugNamesRegexes = Array.from(new Set(drugNames)).map(
       drug => `\\b${drug}s?\\b`
     );
 
-    highlightRegex = new RegExp(
-      `${drugNamesRegexArr.join("|")}`,
-      "ig"
-    );
+    highlightRegex = new RegExp(`${drugNamesRegexes.join("|")}`, "ig");
 
     highlightedLyrics = lyrics.replace(
       highlightRegex,
       word => `<mark class="highlighted">${word}</mark>`
     );
+
+    console.log(drugReferences);
 
     setDrugsAndLyrics({ drugReferences, highlightedLyrics });
   };
