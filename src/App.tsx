@@ -1,8 +1,9 @@
 import React, { useState, useCallback } from "react";
 import { debounce } from "lodash";
 import pluralize from "pluralize";
+import sanitizeString from "./utils/sanitizeString"
 
-import drugsData from "./drugs.json";
+import drugsData from "./data/drugs.json";
 
 import Search from "./components/Search";
 import Lyrics from "./components/Lyrics";
@@ -61,11 +62,6 @@ const App = () => {
   );
 
   const scanLyricsForDrugs = (drugs: any[], lyrics: string) => {
-    const sanitizeString = (str: string) =>
-      str
-        .replace(/(\r\n|\n|\r)/gm, " ") // remove line breaks
-        .replace(/[.,/#!$%^&*;:{}=\-_`~()]/g, "") // remove all punctuation
-        .replace(/\s{2,}/g, " "); // remove extra spaces
     const sanitizedLyrics: string[] = sanitizeString(lyrics).split(" ");
     const drugReferences: DrugReference[] = [];
     const isDrugReferenced = (drugName:string, lyricWord:string): boolean => {
