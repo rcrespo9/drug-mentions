@@ -1,11 +1,13 @@
 import React, { useState, useCallback } from "react";
 import { debounce } from "lodash";
 import pluralize from "pluralize";
+import styled from 'styled-components';
 import sanitizeString from "./utils/sanitizeString";
 
 import drugsData from "./data/drugs.json";
 
 import Header from "./components/Header";
+import Footer from "./components/Footer";
 import Search from "./components/Search";
 import Lyrics from "./components/Lyrics";
 import Loading from "./components/Loading";
@@ -28,6 +30,9 @@ type SelectedSong = {
   title: string;
   lyrics: string;
 };
+
+const SiteWrapper = styled.div``;
+const MainContent = styled.main``;
 
 const App = () => {
   const [searchResults, setSearchResults] = useState<any[] | null>(null);
@@ -171,33 +176,34 @@ const App = () => {
   };
 
   return (
-    <div className="App">
-      <Header
-        logo="Drug Mentions"
-        blurb="A cool blurb"
-      />
-      <Search
-        textChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-          debouncedSearchResults(e.currentTarget.value)
-        }
-        results={searchResults}
-        onResultClick={selectSong}
-        isResultsOpen={isResultsOpen}
-        isLoading={isSearchLoading}
-      />
-
-      {isLyricsLoading ? (
-        <Loading />
-      ) : (
-        selectedSong &&
-        drugsAndLyrics && (
-          <Lyrics
-            songDetails={selectedSong.title}
-            lyrics={drugsAndLyrics.highlightedLyrics}
+    <SiteWrapper>
+        <Header logo="Drug Mentions" blurb="A cool blurb" />
+        <MainContent>
+          <Search
+            textChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              debouncedSearchResults(e.currentTarget.value)
+            }
+            results={searchResults}
+            onResultClick={selectSong}
+            isResultsOpen={isResultsOpen}
+            isLoading={isSearchLoading}
           />
-        )
-      )}
-    </div>
+          {isLyricsLoading ? (
+            <Loading />
+          ) : (
+            selectedSong &&
+            drugsAndLyrics && (
+              <Lyrics
+                songDetails={selectedSong.title}
+                lyrics={drugsAndLyrics.highlightedLyrics}
+              />
+            )
+          )}
+        </MainContent>
+        <Footer
+          attribution="Built using the Genius API by Rudy Crespo"
+        />
+      </SiteWrapper>
   );
 };
 
