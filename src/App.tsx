@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from "react";
 import { debounce } from "lodash";
 import pluralize from "pluralize";
-import styled from 'styled-components';
+import styled from "styled-components";
 import sanitizeString from "./utils/sanitizeString";
 
 import drugsData from "./data/drugs.json";
@@ -177,33 +177,31 @@ const App = () => {
 
   return (
     <SiteWrapper>
-        <Header logo="Drug Mentions" blurb="A cool blurb" />
-        <MainContent>
-          <Search
-            textChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              debouncedSearchResults(e.currentTarget.value)
-            }
-            results={searchResults}
-            onResultClick={selectSong}
-            isResultsOpen={isResultsOpen}
-            isLoading={isSearchLoading}
-          />
-          {isLyricsLoading ? (
-            <Loading />
-          ) : (
-            selectedSong &&
-            drugsAndLyrics && (
-              <Lyrics
-                songDetails={selectedSong.title}
-                lyrics={drugsAndLyrics.highlightedLyrics}
-              />
-            )
-          )}
-        </MainContent>
-        <Footer
-          attribution="Built using the Genius API by Rudy Crespo"
+      <Header logo="Drug Mentions" blurb="A cool blurb" />
+      <MainContent>
+        <Search
+          textChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            debouncedSearchResults(e.currentTarget.value)
+          }
+          results={searchResults}
+          onResultClick={selectSong}
+          isResultsOpen={isResultsOpen}
+          isLoading={isSearchLoading}
         />
-      </SiteWrapper>
+        {isLyricsLoading ? (
+          <Loading />
+        ) : (
+          selectedSong &&
+          drugsAndLyrics && (
+            <Lyrics
+              songDetails={selectedSong.title}
+              lyrics={drugsAndLyrics.highlightedLyrics}
+            />
+          )
+        )}
+      </MainContent>
+      <Footer attribution="Built using the Genius API by Rudy Crespo" />
+    </SiteWrapper>
   );
 };
 
