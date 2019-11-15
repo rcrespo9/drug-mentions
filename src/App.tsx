@@ -5,6 +5,7 @@ import sanitizeString from "./utils/sanitizeString";
 
 import drugsData from "./data/drugs.json";
 
+import Header from "./components/Header";
 import Search from "./components/Search";
 import Lyrics from "./components/Lyrics";
 import Loading from "./components/Loading";
@@ -171,6 +172,10 @@ const App = () => {
 
   return (
     <div className="App">
+      <Header
+        logo="Drug Mentions"
+        blurb="A cool blurb"
+      />
       <Search
         textChange={(e: React.ChangeEvent<HTMLInputElement>) =>
           debouncedSearchResults(e.currentTarget.value)
