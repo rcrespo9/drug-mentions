@@ -29,9 +29,9 @@ const SearchInput = styled.input`
   display: block;
   width: 100%;
   appearance: none;
+  border: none;
+  background-color: transparent;
   padding: ${modularScale(-2)};
-  border: ${props => props.theme.globalBorder};
-  background-color: ${props => props.theme.black};
   color: ${props => props.theme.white};
   font-size: ${modularScale(1)};
 `;
@@ -49,7 +49,7 @@ const Search = ({
 }: SearchProps) => {
   return (
     <SearchContainer>
-      <Block as="div" boxShadowColor="red" hasBoxProps={false}>
+      <Block as="div" boxShadowColor="red">
         <SearchInput
           onChange={textChange}
           placeholder="Search for a song or an artist..."

@@ -6,41 +6,51 @@ type BlockProps = {
   children?: any;
   boxShadowColor: string;
   as?: any;
-  hasBoxProps?: boolean;
 };
 
 const StyledBlock = styled.article<BlockProps>`
   position: relative;
-  z-index: 1;
-  border: ${props => (props.hasBoxProps ? props.theme.globalBorder : "")};
-  padding: ${props => (props.hasBoxProps ? props.theme.globalPadding : "")};
 
+  &:before,
   &:after {
     content: "";
     position: absolute;
+    width: 100%;
+    height: 100%;
+    border: 2px solid ${props => props.theme.white};
+  }
+
+  &:before {
+    top: 0;
+    left: 0;
+    z-index: 1;
+    background-color: ${props => props.theme.black};
+  }
+
+  &:after {
     top: ${modularScale(-2)};
     left: ${modularScale(-2)};
     z-index: -1;
-    width: 100%;
-    height: 100%;
-    border: ${props => props.theme.globalBorder};
     background-color: ${props => props.boxShadowColor};
   }
+`;
+
+const InnerBlock = styled.div`
+  position: relative;
+  z-index: 2;
 `;
 
 const Block = ({
   children,
   as,
   boxShadowColor,
-  hasBoxProps
 }: BlockProps) => {
   return (
     <StyledBlock
       as={as}
       boxShadowColor={boxShadowColor}
-      hasBoxProps={hasBoxProps}
     >
-      {children}
+      <InnerBlock>{children}</InnerBlock>
     </StyledBlock>
   );
 };
