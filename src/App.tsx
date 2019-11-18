@@ -39,6 +39,7 @@ type SelectedSong = {
 const SiteWrapper = styled.div`
   max-width: ${modularScale(15)};
   margin: 0 auto;
+  padding: 0 ${modularScale(0)};
 `;
 const MainContent = styled.main``;
 
@@ -210,7 +211,7 @@ const App = () => {
             )
           )}
         </MainContent>
-        <Footer attribution="Built using the Genius API by Rudy Crespo" />
+        {/* <Footer attribution="Built using the Genius API by Rudy Crespo" /> */}
       </SiteWrapper>
     </ThemeProvider>
   );

@@ -1,6 +1,8 @@
 import React from "react";
 import styled from "styled-components";
+import { modularScale } from "polished";
 
+import Block from "./Block";
 import Loading from "./Loading";
 
 type SearchProps = {
@@ -23,7 +25,16 @@ type ResultItem = {
 const SearchContainer = styled.div`
   position: relative;
 `;
-const SearchInput = styled.input``;
+const SearchInput = styled.input`
+  display: block;
+  width: 100%;
+  appearance: none;
+  padding: ${modularScale(-2)};
+  border: ${props => props.theme.globalBorder};
+  background-color: ${props => props.theme.black};
+  color: ${props => props.theme.white};
+  font-size: ${modularScale(1)};
+`;
 const ResultsList = styled.ul``;
 const ResultsListItem = styled.li`
   cursor: pointer;
@@ -38,10 +49,12 @@ const Search = ({
 }: SearchProps) => {
   return (
     <SearchContainer>
-      <SearchInput
-        onChange={textChange}
-        placeholder="Search for a song or an artist..."
-      />
+      <Block as="div" boxShadowColor="red" hasBoxProps={false}>
+        <SearchInput
+          onChange={textChange}
+          placeholder="Search for a song or an artist..."
+        />
+      </Block>
       {isLoading ? (
         <Loading />
       ) : (
