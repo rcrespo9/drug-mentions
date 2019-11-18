@@ -20,8 +20,10 @@ type ResultItem = {
   full_title: string;
 };
 
-const SearchInput = styled.input`
+const SearchContainer = styled.div`
+  position: relative;
 `;
+const SearchInput = styled.input``;
 const ResultsList = styled.ul``;
 const ResultsListItem = styled.li`
   cursor: pointer;
@@ -35,7 +37,7 @@ const Search = ({
   isLoading
 }: SearchProps) => {
   return (
-    <>
+    <SearchContainer>
       <SearchInput
         onChange={textChange}
         placeholder="Search for a song or an artist..."
@@ -62,7 +64,7 @@ const Search = ({
           </ResultsList>
         )
       )}
-    </>
+    </SearchContainer>
   );
 };
 
