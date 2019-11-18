@@ -1,12 +1,14 @@
 import React from "react";
 import styled from "styled-components";
 
+import Block from "./Block";
+
 type LyricsProps = {
   songDetails: string;
   lyrics: string;
 };
 
-const SongDetails = styled.h3``;
+const SongDetails = styled.h2``;
 const LyricsSheet = styled.p`
   white-space: pre-line;
 
@@ -17,10 +19,10 @@ const LyricsSheet = styled.p`
 
 const Lyrics = ({ songDetails, lyrics }: LyricsProps) => {
   return (
-    <>
+    <Block as="article" boxShadowColor="blue" hasPadding={true}>
       <SongDetails>{songDetails}</SongDetails>
       <LyricsSheet dangerouslySetInnerHTML={{ __html: lyrics }} />
-    </>
+    </Block>
   );
 };
 

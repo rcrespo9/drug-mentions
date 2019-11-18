@@ -24,6 +24,7 @@ type ResultItem = {
 
 const SearchContainer = styled.div`
   position: relative;
+  margin-bottom: ${modularScale(3)};
 `;
 const SearchInput = styled.input`
   display: block;
@@ -49,7 +50,7 @@ const Search = ({
 }: SearchProps) => {
   return (
     <SearchContainer>
-      <Block as="div" boxShadowColor="red">
+      <Block boxShadowColor="red">
         <SearchInput
           onChange={textChange}
           placeholder="Search for a song or an artist..."

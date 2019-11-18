@@ -1,4 +1,4 @@
-import React, { HTMLAttributes } from "react";
+import React from "react";
 import styled from "styled-components";
 import { modularScale } from "polished";
 
@@ -6,9 +6,14 @@ type BlockProps = {
   children?: any;
   boxShadowColor: string;
   as?: any;
+  hasPadding?: boolean;
 };
 
-const StyledBlock = styled.article<BlockProps>`
+type InnerBlockProps = {
+  hasPadding?: boolean;
+}
+
+const StyledBlock = styled.div<BlockProps>`
   position: relative;
 
   &:before,
@@ -35,22 +40,16 @@ const StyledBlock = styled.article<BlockProps>`
   }
 `;
 
-const InnerBlock = styled.div`
+const InnerBlock = styled.div<InnerBlockProps>`
   position: relative;
   z-index: 2;
+  padding: ${props => props.hasPadding ? modularScale(2) : ''}
 `;
 
-const Block = ({
-  children,
-  as,
-  boxShadowColor,
-}: BlockProps) => {
+const Block = ({ children, as, boxShadowColor, hasPadding }: BlockProps) => {
   return (
-    <StyledBlock
-      as={as}
-      boxShadowColor={boxShadowColor}
-    >
-      <InnerBlock>{children}</InnerBlock>
+    <StyledBlock as={as} boxShadowColor={boxShadowColor}>
+      <InnerBlock hasPadding={hasPadding}>{children}</InnerBlock>
     </StyledBlock>
   );
 };
