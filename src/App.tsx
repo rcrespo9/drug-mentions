@@ -2,6 +2,7 @@ import React, { useState, useCallback } from "react";
 import { debounce } from "lodash";
 import pluralize from "pluralize";
 import styled, { ThemeProvider } from "styled-components";
+import { modularScale } from "polished";
 
 import GlobalStyles from "./theme/globalStyles";
 import variables from "./theme/variables";
@@ -35,7 +36,10 @@ type SelectedSong = {
   lyrics: string;
 };
 
-const SiteWrapper = styled.div``;
+const SiteWrapper = styled.div`
+  max-width: ${modularScale(15)};
+  margin: 0 auto;
+`;
 const MainContent = styled.main``;
 
 const App = () => {

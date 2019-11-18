@@ -20,7 +20,8 @@ type ResultItem = {
   full_title: string;
 };
 
-const SearchInput = styled.input``;
+const SearchInput = styled.input`
+`;
 const ResultsList = styled.ul``;
 const ResultsListItem = styled.li`
   cursor: pointer;
@@ -35,11 +36,15 @@ const Search = ({
 }: SearchProps) => {
   return (
     <>
-      <SearchInput onChange={textChange} />
+      <SearchInput
+        onChange={textChange}
+        placeholder="Search for a song or an artist..."
+      />
       {isLoading ? (
         <Loading />
       ) : (
-        results && isResultsOpen && (
+        results &&
+        isResultsOpen && (
           <ResultsList>
             {results.map(resultItem => {
               const { result } = resultItem;
