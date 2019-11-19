@@ -15,22 +15,13 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Search from "./components/Search";
 import Lyrics from "./components/Lyrics";
+import DrugMentions from "./components/DrugMentions";
 import Loading from "./components/Loading";
-import curriedAdjustHue from "polished/lib/color/adjustHue";
+
+import DrugReference from "./types_interfaces/DrugReference";
+import DrugReferences from "./types_interfaces/DrugReferences";
 
 const baseApiURL = "https://drug-mentions-api.herokuapp.com";
-
-interface DrugReference {
-  drugName: string;
-  referenceCount: number;
-  isStreetName: boolean;
-  drugTypes?: string[];
-}
-
-type DrugReferences = {
-  totalReferences: number;
-  references: DrugReference[];
-};
 
 type SelectedSong = {
   title: string;
@@ -43,6 +34,11 @@ const SiteWrapper = styled.div`
   padding: ${modularScale(4)} ${modularScale(0)} 0;
 `;
 const MainContent = styled.main``;
+const SplitPane = styled.div`
+  display: grid;
+  grid-template-columns: ${100 / 3}% 1fr;
+  grid-column-gap: ${modularScale(3)};
+`;
 
 const App = () => {
   const [searchResults, setSearchResults] = useState<any[] | null>(null);
@@ -213,11 +209,19 @@ const App = () => {
             <Loading />
           ) : (
             selectedSong &&
-            highlightedLyrics && (
-              <Lyrics
-                songDetails={selectedSong.title}
-                lyrics={highlightedLyrics}
-              />
+            highlightedLyrics &&
+            drugReferences && (
+              <SplitPane>
+                <DrugMentions 
+                  totalReferences={drugReferences.totalReferences} 
+                  references={drugReferences.references}
+                />
+
+                <Lyrics
+                  songDetails={selectedSong.title}
+                  lyrics={highlightedLyrics}
+                />
+              </SplitPane>
             )
           )}
         </MainContent>

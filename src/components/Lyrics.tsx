@@ -1,8 +1,8 @@
 import React from "react";
 import styled from "styled-components";
+import { modularScale } from "polished";
 
 import Block from "./Block";
-import { modularScale } from "polished";
 
 type LyricsProps = {
   songDetails: string;
@@ -10,7 +10,7 @@ type LyricsProps = {
 };
 
 const LyricsSheet = styled.p`
-  font-size: ${modularScale(0)};
+  font-size: ${modularScale(1)};
   white-space: pre-line;
 
   > .highlighted {

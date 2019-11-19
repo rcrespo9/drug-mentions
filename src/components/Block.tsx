@@ -44,7 +44,7 @@ const StyledBlock = styled.div<BlockProps>`
 const InnerBlock = styled.div<InnerBlockProps>`
   position: relative;
   z-index: 2;
-  padding: ${props => props.hasPadding ? modularScale(3) : ''}
+  padding: ${props => (props.hasPadding ? modularScale(3) : "")};
 `;
 
 const Header = styled.h2`
