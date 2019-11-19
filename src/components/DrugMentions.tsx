@@ -6,14 +6,20 @@ import DrugReferences from "../types_interfaces/DrugReferences";
 
 import Block from "./Block";
 
+const DrugMentionsContainer = styled.div`
+  align-self: flex-start;
+`;
+
 const DrugMentions = ({ totalReferences, references }: DrugReferences) => {
   return (
-    <Block
-      as="aside"
-      header={`${totalReferences} possible drug references found`}
-      boxShadowColor="purple"
-      hasPadding={true}
-    />
+    <DrugMentionsContainer>
+      <Block
+        as="aside"
+        header={`${totalReferences} possible drug references found`}
+        boxShadowColor="purple"
+        hasPadding={true}
+      />
+    </DrugMentionsContainer>
   );
 };
 

@@ -37,7 +37,7 @@ const MainContent = styled.main``;
 const SplitPane = styled.div`
   display: grid;
   grid-template-columns: ${100 / 3}% 1fr;
-  grid-column-gap: ${modularScale(3)};
+  grid-gap: ${modularScale(3)};
 `;
 
 const App = () => {
