@@ -8,10 +8,11 @@ type HeaderProps = {
 };
 
 const StyledHeader = styled.header`
-  margin-bottom: ${modularScale(3)};
+  margin-bottom: ${modularScale(5)};
   text-align: center;
 `;
 const Logo = styled.h1`
+  margin-bottom: ${modularScale(-7)};
   text-transform: uppercase;
   font-size: ${modularScale(5)};
   font-weight: 900;

@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { modularScale } from "polished";
 
 type BlockProps = {
+  header?: string;
   children?: any;
   boxShadowColor: string;
   as?: any;
@@ -22,7 +23,7 @@ const StyledBlock = styled.div<BlockProps>`
     position: absolute;
     width: 100%;
     height: 100%;
-    border: 2px solid ${props => props.theme.white};
+    border: ${props => props.theme.globalBorder};
   }
 
   &:before {
@@ -43,13 +44,23 @@ const StyledBlock = styled.div<BlockProps>`
 const InnerBlock = styled.div<InnerBlockProps>`
   position: relative;
   z-index: 2;
-  padding: ${props => props.hasPadding ? modularScale(2) : ''}
+  padding: ${props => props.hasPadding ? modularScale(3) : ''}
 `;
 
-const Block = ({ children, as, boxShadowColor, hasPadding }: BlockProps) => {
+const Header = styled.h2`
+  margin-bottom: ${modularScale(1)};
+  font-size: ${modularScale(2)};
+`;
+
+const Block = ({ children, header, as, boxShadowColor, hasPadding }: BlockProps) => {
   return (
     <StyledBlock as={as} boxShadowColor={boxShadowColor}>
-      <InnerBlock hasPadding={hasPadding}>{children}</InnerBlock>
+      <InnerBlock hasPadding={hasPadding}>
+        {header &&
+          <Header>{header}</Header>
+        }
+        {children}
+      </InnerBlock>
     </StyledBlock>
   );
 };

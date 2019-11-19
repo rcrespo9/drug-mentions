@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from "react";
-import { debounce } from "lodash";
+import { debounce, trim } from "lodash";
 import pluralize from "pluralize";
 import styled, { ThemeProvider } from "styled-components";
 import { modularScale } from "polished";
@@ -39,7 +39,7 @@ type SelectedSong = {
 const SiteWrapper = styled.div`
   max-width: ${modularScale(15)};
   margin: 0 auto;
-  padding: 0 ${modularScale(0)};
+  padding: ${modularScale(4)} ${modularScale(0)} 0;
 `;
 const MainContent = styled.main``;
 
@@ -156,7 +156,7 @@ const App = () => {
 
     setDrugsAndLyrics({
       drugReferences,
-      highlightedLyrics: highlightLyrics(drugNames, lyrics)
+      highlightedLyrics: highlightLyrics(drugNames, trim(lyrics))
     });
   };
 

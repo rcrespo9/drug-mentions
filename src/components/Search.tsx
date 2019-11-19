@@ -24,7 +24,8 @@ type ResultItem = {
 
 const SearchContainer = styled.div`
   position: relative;
-  margin-bottom: ${modularScale(3)};
+  max-width: ${modularScale(14)};
+  margin: 0 auto ${modularScale(5)};
 `;
 const SearchInput = styled.input`
   display: block;
@@ -32,7 +33,7 @@ const SearchInput = styled.input`
   appearance: none;
   border: none;
   background-color: transparent;
-  padding: ${modularScale(-2)};
+  padding: ${modularScale(-1)};
   color: ${props => props.theme.white};
   font-size: ${modularScale(1)};
 `;
