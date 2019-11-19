@@ -16,6 +16,7 @@ import Footer from "./components/Footer";
 import Search from "./components/Search";
 import Lyrics from "./components/Lyrics";
 import Loading from "./components/Loading";
+import curriedAdjustHue from "polished/lib/color/adjustHue";
 
 const baseApiURL = "https://drug-mentions-api.herokuapp.com";
 
@@ -26,9 +27,9 @@ interface DrugReference {
   drugTypes?: string[];
 }
 
-type DrugsAndLyrics = {
-  drugReferences: DrugReference[];
-  highlightedLyrics: string;
+type DrugReferences = {
+  totalReferences: number;
+  references: DrugReference[];
 };
 
 type SelectedSong = {
@@ -46,7 +47,10 @@ const MainContent = styled.main``;
 const App = () => {
   const [searchResults, setSearchResults] = useState<any[] | null>(null);
   const [selectedSong, setSelectedSong] = useState<SelectedSong | null>(null);
-  const [drugsAndLyrics, setDrugsAndLyrics] = useState<DrugsAndLyrics | null>(
+  const [drugReferences, setDrugReferences] = useState<DrugReferences | null>(
+    null
+  );
+  const [highlightedLyrics, setHighlightedLyrics] = useState<string | null>(
     null
   );
   const [isResultsOpen, setResultsStatus] = useState(false);
@@ -113,6 +117,7 @@ const App = () => {
         (drugMentioned: DrugReference) => drugMentioned.drugName === drugName
       );
     let drugNames: string[];
+    let totalDrugReferences: number;
 
     drugs.forEach(drug =>
       sanitizedLyrics.forEach(lyricWord => {
@@ -151,12 +156,14 @@ const App = () => {
     );
 
     drugNames = drugReferences.map(drugReference => drugReference.drugName);
+    totalDrugReferences = drugReferences.reduce(
+      (acc, reference) => acc + reference.referenceCount, 0
+    );
 
-    console.log(drugReferences);
-
-    setDrugsAndLyrics({
-      drugReferences,
-      highlightedLyrics: highlightLyrics(drugNames, trim(lyrics))
+    setHighlightedLyrics(highlightLyrics(drugNames, trim(lyrics)));
+    setDrugReferences({
+      totalReferences: totalDrugReferences,
+      references: drugReferences
     });
   };
 
@@ -188,7 +195,10 @@ const App = () => {
     <ThemeProvider theme={variables}>
       <SiteWrapper>
         <GlobalStyles />
-        <Header logo="Drug Mentions" blurb="Scan music lyrics for possible drug references." />
+        <Header
+          logo="Drug Mentions"
+          blurb="Scan music lyrics for possible drug references."
+        />
         <MainContent>
           <Search
             textChange={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -203,10 +213,10 @@ const App = () => {
             <Loading />
           ) : (
             selectedSong &&
-            drugsAndLyrics && (
+            highlightedLyrics && (
               <Lyrics
                 songDetails={selectedSong.title}
-                lyrics={drugsAndLyrics.highlightedLyrics}
+                lyrics={highlightedLyrics}
               />
             )
           )}
