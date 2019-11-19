@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from "react";
-import { debounce, trim } from "lodash";
+import { debounce} from "lodash";
 import pluralize from "pluralize";
 import styled, { ThemeProvider } from "styled-components";
 import { modularScale } from "polished";
@@ -156,7 +156,7 @@ const App = () => {
       (acc, reference) => acc + reference.referenceCount, 0
     );
 
-    setHighlightedLyrics(highlightLyrics(drugNames, trim(lyrics)));
+    setHighlightedLyrics(highlightLyrics(drugNames, lyrics.trim()));
     setDrugReferences({
       totalReferences: totalDrugReferences,
       references: drugReferences
