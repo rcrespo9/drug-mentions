@@ -4,6 +4,10 @@ import { modularScale } from "polished";
 
 import DrugReference from "../types_interfaces/DrugReference";
 
+type InfoProps = {
+  isInfoOpen: boolean;
+}
+
 const ListItem = styled.li`
   display: flex;
   align-items: center;
@@ -28,16 +32,54 @@ const Badge = styled.span`
   text-align: center;
 `;
 
+const InfoItems = styled.span`
+  display: flex;
+  align-items: center;
+`;
+
+const InfoBtn = styled.button<InfoProps>`
+  appearance: none;
+  margin-left: ${modularScale(-4)};
+  padding: 0;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  width: ${modularScale(1)};
+  height: ${modularScale(1)};
+
+  &:after {
+    content: "";
+    display: inline-block;
+    width: 0;
+    height: 0;
+    border-left: ${modularScale(-3)} solid transparent;
+    border-right: ${modularScale(-3)} solid transparent;
+    border-top: calc(${modularScale(-3)} * 1.25) solid ${props => props.theme.white};
+    transform: ${props => (props.isInfoOpen ? "rotate(180deg)" : "")};
+  }
+`;
+
 const DrugMentionsItem = ({
   drugName,
   referenceCount,
+  isStreetName,
   drugTypes
 }: DrugReference) => {
   const [isInfoOpen, setInfoStatus] = useState<boolean>(false);
 
+  const toggleInfoStatus = () => {
+    setInfoStatus(!isInfoOpen);
+  }
+
   return (
     <ListItem>
-      {drugName} <Badge>{referenceCount}</Badge>
+      {drugName}
+      <InfoItems>
+        <Badge>{referenceCount}</Badge>
+        {isStreetName && (
+          <InfoBtn isInfoOpen={isInfoOpen} onClick={toggleInfoStatus} />
+        )}
+      </InfoItems>
     </ListItem>
   );
 };
