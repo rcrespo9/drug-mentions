@@ -39,7 +39,7 @@ const InfoItems = styled.span`
 
 const InfoBtn = styled.button<InfoProps>`
   appearance: none;
-  margin-left: ${modularScale(-4)};
+  margin-left: ${modularScale(-6)};
   padding: 0;
   border: none;
   background-color: transparent;
