@@ -4,18 +4,21 @@ import { modularScale } from "polished";
 
 import DrugReference from "../types_interfaces/DrugReference";
 
-type InfoProps = {
-  isInfoOpen: boolean;
-}
+type DrugInfoProps = {
+  isDrugInfoOpen: boolean;
+};
 
 const ListItem = styled.li`
+  list-style: none;
+  font-size: ${modularScale(0)};
+`;
+
+const ListItemContent = styled.span`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  list-style: none;
   padding: ${modularScale(-2)};
   border: ${props => props.theme.globalBorder};
-  font-size: ${modularScale(0)};
 `;
 
 const Badge = styled.span`
@@ -28,16 +31,16 @@ const Badge = styled.span`
   background-color: ${props => props.theme.white};
   color: ${props => props.theme.black};
   font-size: ${modularScale(-1)};
-  font-weight: 700;
+  font-weight: ${props => props.theme.fontWeights.bold};
   text-align: center;
 `;
 
-const InfoItems = styled.span`
+const DrugInfoItems = styled.span`
   display: flex;
   align-items: center;
 `;
 
-const InfoBtn = styled.button<InfoProps>`
+const DrugInfoBtn = styled.button<DrugInfoProps>`
   appearance: none;
   margin-left: ${modularScale(-6)};
   padding: 0;
@@ -54,8 +57,24 @@ const InfoBtn = styled.button<InfoProps>`
     height: 0;
     border-left: ${modularScale(-3)} solid transparent;
     border-right: ${modularScale(-3)} solid transparent;
-    border-top: calc(${modularScale(-3)} * 1.25) solid ${props => props.theme.white};
-    transform: ${props => (props.isInfoOpen ? "rotate(180deg)" : "")};
+    border-top: calc(${modularScale(-3)} * 1.25) solid
+      ${props => props.theme.white};
+    transform: ${props => (props.isDrugInfoOpen ? "rotate(180deg)" : "")};
+  }
+`;
+
+const DrugInfo = styled.span<DrugInfoProps>`
+  display: ${props => (props.isDrugInfoOpen ? "block" : "none")};
+  padding: ${modularScale(-2)};
+  border: ${props => props.theme.globalBorder};
+  border-top: none;
+
+  ul {
+    margin-top: ${modularScale(-5)};
+  }
+
+  strong {
+    font-weight: ${props => props.theme.fontWeights.bold};
   }
 `;
 
@@ -65,21 +84,44 @@ const DrugMentionsItem = ({
   isStreetName,
   drugTypes
 }: DrugReference) => {
-  const [isInfoOpen, setInfoStatus] = useState<boolean>(false);
+  const [isDrugInfoOpen, setInfoStatus] = useState<boolean>(false);
 
   const toggleInfoStatus = () => {
-    setInfoStatus(!isInfoOpen);
-  }
+    setInfoStatus(!isDrugInfoOpen);
+  };
 
   return (
     <ListItem>
-      {drugName}
-      <InfoItems>
-        <Badge>{referenceCount}</Badge>
-        {isStreetName && (
-          <InfoBtn isInfoOpen={isInfoOpen} onClick={toggleInfoStatus} />
-        )}
-      </InfoItems>
+      <ListItemContent>
+        {drugName}
+        <DrugInfoItems>
+          <Badge>{referenceCount}</Badge>
+          {isStreetName && (
+            <DrugInfoBtn
+              isDrugInfoOpen={isDrugInfoOpen}
+              onClick={toggleInfoStatus}
+            />
+          )}
+        </DrugInfoItems>
+      </ListItemContent>
+      {isStreetName && drugTypes && (
+        <DrugInfo isDrugInfoOpen={isDrugInfoOpen}>
+          {drugTypes.length > 1 ? (
+            <>
+              <span>Known as a street name for the following drugs:</span>
+              <ul>
+                {drugTypes.map((drugType, idx) => (
+                  <li key={idx}>{drugType}</li>
+                ))}
+              </ul>
+            </>
+          ) : (
+            <span>
+              Known as a street name for <strong>{drugTypes[0]}</strong>
+            </span>
+          )}
+        </DrugInfo>
+      )}
     </ListItem>
   );
 };

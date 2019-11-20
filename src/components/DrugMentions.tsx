@@ -34,6 +34,7 @@ const DrugMentions = ({ totalReferences, references }: DrugReferences) => {
               drugName={reference.drugName}
               referenceCount={reference.referenceCount}
               isStreetName={reference.isStreetName}
+              drugTypes={reference.drugTypes}
               key={idx}
             />
           ))}
