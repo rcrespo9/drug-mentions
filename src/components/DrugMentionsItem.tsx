@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { modularScale, hideVisually } from "polished";
 
 import DrugReference from "../types_interfaces/DrugReference";
@@ -9,25 +9,32 @@ type DrugInfoProps = {
   isDrugInfoOpen: boolean;
 };
 
+const sharedFlexStyles = css`
+  display: flex;
+  align-items: center;
+`;
+
+const listItemPadding = css`
+  padding: ${modularScale(-2)};
+`;
+
 const ListItem = styled.li`
   list-style: none;
   font-size: ${modularScale(0)};
 `;
 
 const ListItemContent = styled.span`
-  display: flex;
-  align-items: center;
+  ${sharedFlexStyles};
+  ${listItemPadding};
   justify-content: space-between;
-  padding: ${modularScale(-2)};
   border: ${props => props.theme.globalBorder};
 `;
 
 const Badge = styled.span.attrs(props => ({
-  'aria-hidden': "true"
+  "aria-hidden": "true"
 }))`
-  display: flex;
+  ${sharedFlexStyles};
   justify-content: center;
-  align-items: center;
   width: ${modularScale(2)};
   height: ${modularScale(2)};
   border-radius: 50%;
@@ -39,8 +46,7 @@ const Badge = styled.span.attrs(props => ({
 `;
 
 const DrugInfoItems = styled.span`
-  display: flex;
-  align-items: center;
+  ${sharedFlexStyles}
 `;
 
 const DrugInfoBtn = styled.button.attrs<DrugInfoProps>(props => ({
@@ -75,8 +81,8 @@ const DrugInfo = styled.span.attrs<DrugInfoProps>(props => ({
   "aria-expanded": props.isDrugInfoOpen,
   "aria-labelledby": `${props.drugName.toLowerCase()}Button`
 }))<DrugInfoProps>`
+  ${listItemPadding};
   display: ${props => (props.isDrugInfoOpen ? "block" : "none")};
-  padding: ${modularScale(-2)};
   border: ${props => props.theme.globalBorder};
   border-top: none;
 
@@ -109,7 +115,9 @@ const DrugMentionsItem = ({
     <ListItem>
       <ListItemContent>
         <SrOnlyText>{referenceCount}</SrOnlyText> {drugName}{" "}
-        <SrOnlyText>{referenceCount > 1 ? "references" : "reference"}</SrOnlyText>
+        <SrOnlyText>
+          {referenceCount > 1 ? "references" : "reference"}
+        </SrOnlyText>
         <DrugInfoItems>
           <Badge>{referenceCount}</Badge>
           {isStreetName && (
