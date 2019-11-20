@@ -13,6 +13,8 @@ const DrugMentionsContainer = styled.div`
 
 const DrugMentionsList = styled.ul`
   display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: ${modularScale(1)};
   margin: 0;
   padding: 0;
 `;
@@ -27,11 +29,12 @@ const DrugMentions = ({ totalReferences, references }: DrugReferences) => {
         hasPadding={true}
       >
         <DrugMentionsList>
-          {references.map(reference => (
+          {references.map((reference, idx) => (
             <DrugMentionsItem
               drugName={reference.drugName}
               referenceCount={reference.referenceCount}
               isStreetName={reference.isStreetName}
+              key={idx}
             />
           ))}
         </DrugMentionsList>
