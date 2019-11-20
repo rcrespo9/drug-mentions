@@ -14,7 +14,9 @@ const LyricsSheet = styled.p`
   white-space: pre-line;
 
   > .highlighted {
-    background-color: red;
+    padding: 0 ${modularScale(-6)};
+    background-color: ${props => props.theme.white};
+    color: ${props => props.theme.black};
   }
 `;
 
