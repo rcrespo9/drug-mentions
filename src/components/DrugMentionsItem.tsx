@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { modularScale } from "polished";
+import { modularScale, hideVisually } from "polished";
 
 import DrugReference from "../types_interfaces/DrugReference";
 
 type DrugInfoProps = {
+  drugName: string;
   isDrugInfoOpen: boolean;
 };
 
@@ -21,7 +22,9 @@ const ListItemContent = styled.span`
   border: ${props => props.theme.globalBorder};
 `;
 
-const Badge = styled.span`
+const Badge = styled.span.attrs(props => ({
+  'aria-hidden': "true"
+}))`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -40,7 +43,11 @@ const DrugInfoItems = styled.span`
   align-items: center;
 `;
 
-const DrugInfoBtn = styled.button<DrugInfoProps>`
+const DrugInfoBtn = styled.button.attrs<DrugInfoProps>(props => ({
+  id: `${props.drugName.toLowerCase()}Button`,
+  "aria-expanded": props.isDrugInfoOpen,
+  "aria-controls": `${props.drugName.toLowerCase()}Info`
+}))<DrugInfoProps>`
   appearance: none;
   margin-left: ${modularScale(-6)};
   padding: 0;
@@ -63,7 +70,11 @@ const DrugInfoBtn = styled.button<DrugInfoProps>`
   }
 `;
 
-const DrugInfo = styled.span<DrugInfoProps>`
+const DrugInfo = styled.span.attrs<DrugInfoProps>(props => ({
+  id: `${props.drugName.toLowerCase()}Info`,
+  "aria-expanded": props.isDrugInfoOpen,
+  "aria-labelledby": `${props.drugName.toLowerCase()}Button`
+}))<DrugInfoProps>`
   display: ${props => (props.isDrugInfoOpen ? "block" : "none")};
   padding: ${modularScale(-2)};
   border: ${props => props.theme.globalBorder};
@@ -76,6 +87,10 @@ const DrugInfo = styled.span<DrugInfoProps>`
   strong {
     font-weight: ${props => props.theme.fontWeights.bold};
   }
+`;
+
+const SrOnlyText = styled.span`
+  ${hideVisually()};
 `;
 
 const DrugMentionsItem = ({
@@ -93,19 +108,23 @@ const DrugMentionsItem = ({
   return (
     <ListItem>
       <ListItemContent>
-        {drugName}
+        <SrOnlyText>{referenceCount}</SrOnlyText> {drugName}{" "}
+        <SrOnlyText>{referenceCount > 1 ? "references" : "reference"}</SrOnlyText>
         <DrugInfoItems>
           <Badge>{referenceCount}</Badge>
           {isStreetName && (
             <DrugInfoBtn
+              drugName={drugName}
               isDrugInfoOpen={isDrugInfoOpen}
               onClick={toggleInfoStatus}
-            />
+            >
+              <SrOnlyText>Learn more about {drugName}</SrOnlyText>
+            </DrugInfoBtn>
           )}
         </DrugInfoItems>
       </ListItemContent>
       {isStreetName && drugTypes && (
-        <DrugInfo isDrugInfoOpen={isDrugInfoOpen}>
+        <DrugInfo drugName={drugName} isDrugInfoOpen={isDrugInfoOpen}>
           {drugTypes.length > 1 ? (
             <>
               <span>Known as a street name for the following drugs:</span>
