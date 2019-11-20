@@ -16,6 +16,10 @@ export default createGlobalStyle`
     box-sizing: inherit;
   }
 
+  ${'' /* * :focus {
+    outline-color: red;
+  } */}
+
   html {
     box-sizing: border-box;
     line-height: ${stripUnit(modularScale(1))};
