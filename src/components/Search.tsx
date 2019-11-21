@@ -98,7 +98,7 @@ const Search = ({
   isLoading
 }: SearchProps) => {
   return (
-    <SearchContainer>
+    <SearchContainer aria-busy={isLoading}>
       <Block boxShadowColor="red">
         <SearchInput
           onChange={textChange}

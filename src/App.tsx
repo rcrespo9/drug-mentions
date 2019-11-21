@@ -213,7 +213,7 @@ const App = () => {
             selectedSong &&
             highlightedLyrics &&
             drugReferences && (
-              <SplitPane>
+              <SplitPane aria-busy={isLyricsLoading}>
                 <DrugMentions
                   totalReferences={drugReferences.totalReferences}
                   references={drugReferences.references}
