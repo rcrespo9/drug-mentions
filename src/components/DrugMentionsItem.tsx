@@ -18,7 +18,9 @@ const listItemPadding = css`
   padding: ${modularScale(-2)};
 `;
 
-const ListItem = styled.li`
+const ListItem = styled.li<DrugInfoProps>`
+  ${props =>
+    props.isDrugInfoOpen ? "grid-column-start: 1; grid-column-end: 3;" : ""}
   list-style: none;
   font-size: ${modularScale(0)};
 `;
@@ -112,7 +114,7 @@ const DrugMentionsItem = ({
   };
 
   return (
-    <ListItem>
+    <ListItem drugName={drugName} isDrugInfoOpen={isDrugInfoOpen}>
       <ListItemContent>
         <SrOnlyText>{referenceCount}</SrOnlyText> {drugName}{" "}
         <SrOnlyText>
@@ -144,7 +146,7 @@ const DrugMentionsItem = ({
             </>
           ) : (
             <span>
-              Known as a street name for <strong>{drugTypes[0]}</strong>
+              Known as a street name for <strong>{drugTypes[0]}</strong>.
             </span>
           )}
         </DrugInfo>
