@@ -107,7 +107,7 @@ const Search = ({
         <SVGIconContainer>
           {isLoading ? (
             <Spinner>
-              <use xlinkHref="#icon-reload"></use>
+              <use xlinkHref="#icon-spinner"></use>
             </Spinner>
           ) : (
             <SVGIcon>
