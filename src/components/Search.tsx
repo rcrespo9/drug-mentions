@@ -1,5 +1,5 @@
 import React from "react";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import { modularScale, lighten } from "polished";
 
 import Block from "./Block";
@@ -33,9 +33,36 @@ const SearchInput = styled.input`
   appearance: none;
   border: none;
   background-color: transparent;
-  padding: ${modularScale(-1)};
+  padding: ${modularScale(-1)} ${modularScale(3)} ${modularScale(-1)}
+    ${modularScale(-1)};
   color: ${props => props.theme.white};
   font-size: ${modularScale(1)};
+`;
+const SVGIconContainer = styled.div`
+  position: absolute;
+  top: 50%;
+  right: ${modularScale(0)};
+  margin-top: calc(-${modularScale(1)} / 2);
+`;
+const SVGIcon = styled.svg`
+  display: inline-block;
+  width: ${modularScale(1)};
+  height: ${modularScale(1)};
+  stroke-width: 0;
+  stroke: currentColor;
+  fill: currentColor;
+`;
+const spinnerRotate = keyframes`
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+`;
+const Spinner = styled(SVGIcon)`
+  animation: ${spinnerRotate} 1s linear infinite;
 `;
 const ResultsList = styled.ul`
   position: absolute;
@@ -77,28 +104,34 @@ const Search = ({
           onChange={textChange}
           placeholder="Search for a song or an artist..."
         />
+        <SVGIconContainer>
+          {isLoading ? (
+            <Spinner>
+              <use xlinkHref="#icon-reload"></use>
+            </Spinner>
+          ) : (
+            <SVGIcon>
+              <use xlinkHref="#icon-search"></use>
+            </SVGIcon>
+          )}
+        </SVGIconContainer>
       </Block>
-      {isLoading ? (
-        <Loading />
-      ) : (
-        results &&
-        isResultsOpen && (
-          <ResultsList>
-            {results.map(resultItem => {
-              const { result } = resultItem;
+      {results && isResultsOpen && (
+        <ResultsList>
+          {results.map(resultItem => {
+            const { result } = resultItem;
 
-              return (
-                <ResultsListItem
-                  data-id={result.id}
-                  onClick={onResultClick}
-                  key={result.id}
-                >
-                  {result.full_title}
-                </ResultsListItem>
-              );
-            })}
-          </ResultsList>
-        )
+            return (
+              <ResultsListItem
+                data-id={result.id}
+                onClick={onResultClick}
+                key={result.id}
+              >
+                {result.full_title}
+              </ResultsListItem>
+            );
+          })}
+        </ResultsList>
       )}
     </SearchContainer>
   );

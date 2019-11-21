@@ -11,6 +11,7 @@ import sanitizeString from "./utils/sanitizeString";
 
 import drugsData from "./data/drugs.json";
 
+import SVGIconography from "./components/SVGIconography";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Search from "./components/Search";
@@ -191,6 +192,7 @@ const App = () => {
     <ThemeProvider theme={variables}>
       <SiteWrapper>
         <GlobalStyles />
+        <SVGIconography />
         <Header
           logo="Drug Mentions"
           blurb="Scan music lyrics for possible drug references."
@@ -212,8 +214,8 @@ const App = () => {
             highlightedLyrics &&
             drugReferences && (
               <SplitPane>
-                <DrugMentions 
-                  totalReferences={drugReferences.totalReferences} 
+                <DrugMentions
+                  totalReferences={drugReferences.totalReferences}
                   references={drugReferences.references}
                 />
 
