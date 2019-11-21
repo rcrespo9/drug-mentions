@@ -104,7 +104,7 @@ const Search = ({
           onChange={textChange}
           placeholder="Search for a song or an artist..."
         />
-        <SVGIconContainer>
+        <SVGIconContainer aria-hidden="true">
           {isLoading ? (
             <Spinner>
               <use xlinkHref="#icon-spinner"></use>
