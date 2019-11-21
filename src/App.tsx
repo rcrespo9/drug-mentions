@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useRef, useEffect } from "react";
 import { debounce} from "lodash";
 import pluralize from "pluralize";
 import styled, { ThemeProvider } from "styled-components";
@@ -55,6 +55,30 @@ const App = () => {
   const [isLyricsLoading, setLyricsLoadingState] = useState(false);
   const [hasError, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
+  const searchRef = React.useRef<HTMLDivElement>(null);
+
+  const openSearchResults = () => {
+    if (searchRef.current) {
+      if (searchRef.current.contains(document.activeElement)) {
+        console.log(document.activeElement);
+        setResultsStatus(true);
+      } else {
+        setResultsStatus(false);
+      }
+    }
+  }
+
+  const closeSearchResults = () => {
+    setResultsStatus(false);
+  }
+
+  useEffect(() => {      
+    document.addEventListener("focusin", openSearchResults);
+
+    return () => {
+      document.removeEventListener("focusin", openSearchResults);
+    };
+  });
 
   const fetchSearchResults = async (inputVal: any) => {
     setSearchLoadingState(true);
@@ -185,7 +209,7 @@ const App = () => {
     const songId: string | undefined = e.currentTarget.dataset.id;
 
     fetchSong(songId);
-    setResultsStatus(false);
+    // setResultsStatus(false);
   };
 
   return (
@@ -206,6 +230,7 @@ const App = () => {
             onResultClick={selectSong}
             isResultsOpen={isResultsOpen}
             isLoading={isSearchLoading}
+            ref={searchRef}
           />
           {isLyricsLoading ? (
             <Loading />

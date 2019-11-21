@@ -1,4 +1,4 @@
-import React from "react";
+import React, {forwardRef} from "react";
 import styled, { keyframes } from "styled-components";
 import { modularScale, lighten } from "polished";
 
@@ -90,15 +90,17 @@ const ResultsListItem = styled.li`
   }
 `;
 
-const Search = ({
-  textChange,
-  results,
-  onResultClick,
-  isResultsOpen,
-  isLoading
-}: SearchProps) => {
+const Search = forwardRef((props: SearchProps, ref: React.Ref<HTMLDivElement>) => {
+  const {
+    textChange,
+    results,
+    onResultClick,
+    isResultsOpen,
+    isLoading
+  } = props;
+
   return (
-    <SearchContainer aria-busy={isLoading}>
+    <SearchContainer aria-busy={isLoading} tabIndex={0} ref={ref}>
       <Block boxShadowColor="red">
         <SearchInput
           onChange={textChange}
@@ -135,6 +137,6 @@ const Search = ({
       )}
     </SearchContainer>
   );
-};
+});
 
 export default Search;
