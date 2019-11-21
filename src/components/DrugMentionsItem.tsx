@@ -26,6 +26,9 @@ const ListItem = styled.li<DrugInfoProps>`
 `;
 
 const ListItemText = styled.span`
+  max-width: ${modularScale(8)};
+  overflow: hidden;
+  text-overflow: ellipsis;
   padding-right: ${modularScale(-2)};
 `;
 
