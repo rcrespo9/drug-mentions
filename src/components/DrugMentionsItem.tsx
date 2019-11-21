@@ -25,6 +25,10 @@ const ListItem = styled.li<DrugInfoProps>`
   font-size: ${modularScale(0)};
 `;
 
+const ListItemText = styled.span`
+  padding-right: ${modularScale(-2)};
+`;
+
 const ListItemContent = styled.span`
   ${sharedFlexStyles};
   ${listItemPadding};
@@ -116,7 +120,8 @@ const DrugMentionsItem = ({
   return (
     <ListItem isDrugInfoOpen={isDrugInfoOpen}>
       <ListItemContent>
-        <SrOnlyText>{referenceCount}</SrOnlyText> {drugName}{" "}
+        <SrOnlyText>{referenceCount}</SrOnlyText>{" "}
+        <ListItemText>{drugName}</ListItemText>{" "}
         <SrOnlyText>
           {referenceCount > 1 ? "references" : "reference"}
         </SrOnlyText>

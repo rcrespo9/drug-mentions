@@ -13,7 +13,7 @@ const DrugMentionsContainer = styled.div`
 
 const DrugMentionsList = styled.ul`
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(${modularScale(7)}, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(${modularScale(8)}, auto));
   grid-gap: ${modularScale(1)};
   margin: 0;
   padding: 0;

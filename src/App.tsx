@@ -36,7 +36,7 @@ const SiteWrapper = styled.div`
 const MainContent = styled.main``;
 const SplitPane = styled.div`
   display: grid;
-  grid-template-columns: ${100 / 3}% 1fr;
+  grid-template-columns: ${(5 / 12) * 100}% 1fr;
   grid-gap: ${modularScale(3)};
 `;
 

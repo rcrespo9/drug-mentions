@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { modularScale } from "polished";
+import { modularScale, lighten } from "polished";
 
 import Block from "./Block";
 import Loading from "./Loading";
@@ -37,9 +37,30 @@ const SearchInput = styled.input`
   color: ${props => props.theme.white};
   font-size: ${modularScale(1)};
 `;
-const ResultsList = styled.ul``;
+const ResultsList = styled.ul`
+  position: absolute;
+  left: 0;
+  z-index: 3;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  border: ${props => props.theme.globalBorder};
+  border-top: none;
+  background-color: ${props => props.theme.black};
+`;
 const ResultsListItem = styled.li`
+  list-style: none;
+  padding: ${modularScale(0)};
+  font-size: ${modularScale(0)};
   cursor: pointer;
+
+  &:not(:last-child) {
+    border-bottom: ${props => props.theme.globalBorder};
+  }
+
+  &:hover {
+    background-color: ${props => lighten(0.5, props.theme.black)};
+  }
 `;
 
 const Search = ({
