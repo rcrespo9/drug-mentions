@@ -5,7 +5,7 @@ import { modularScale, hideVisually } from "polished";
 import DrugReference from "../types_interfaces/DrugReference";
 
 type DrugInfoProps = {
-  drugName: string;
+  drugName?: string;
   isDrugInfoOpen: boolean;
 };
 
@@ -52,9 +52,9 @@ const DrugInfoItems = styled.span`
 `;
 
 const DrugInfoBtn = styled.button.attrs<DrugInfoProps>(props => ({
-  id: `${props.drugName.toLowerCase()}Button`,
+  id: `${props.drugName!.toLowerCase()}Button`,
   "aria-expanded": props.isDrugInfoOpen,
-  "aria-controls": `${props.drugName.toLowerCase()}Info`
+  "aria-controls": `${props.drugName!.toLowerCase()}Info`
 }))<DrugInfoProps>`
   appearance: none;
   margin-left: ${modularScale(-6)};
@@ -79,9 +79,9 @@ const DrugInfoBtn = styled.button.attrs<DrugInfoProps>(props => ({
 `;
 
 const DrugInfo = styled.span.attrs<DrugInfoProps>(props => ({
-  id: `${props.drugName.toLowerCase()}Info`,
+  id: `${props.drugName!.toLowerCase()}Info`,
   "aria-expanded": props.isDrugInfoOpen,
-  "aria-labelledby": `${props.drugName.toLowerCase()}Button`
+  "aria-labelledby": `${props.drugName!.toLowerCase()}Button`
 }))<DrugInfoProps>`
   ${listItemPadding};
   display: ${props => (props.isDrugInfoOpen ? "block" : "none")};
@@ -114,7 +114,7 @@ const DrugMentionsItem = ({
   };
 
   return (
-    <ListItem drugName={drugName} isDrugInfoOpen={isDrugInfoOpen}>
+    <ListItem isDrugInfoOpen={isDrugInfoOpen}>
       <ListItemContent>
         <SrOnlyText>{referenceCount}</SrOnlyText> {drugName}{" "}
         <SrOnlyText>
