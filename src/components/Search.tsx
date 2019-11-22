@@ -7,6 +7,8 @@ import Loading from "./Loading";
 
 type SearchProps = {
   textChange(event: React.ChangeEvent<HTMLInputElement>): void;
+  onInputFocus(): void;
+  onInputBlur(): void;
   results: Results[] | null;
   onResultClick(event: React.MouseEvent<HTMLLIElement>): void;
   isResultsOpen: boolean;
@@ -90,9 +92,11 @@ const ResultsListItem = styled.li`
   }
 `;
 
-const Search = forwardRef((props: SearchProps, ref: React.Ref<HTMLDivElement>) => {
+const Search = forwardRef((props: SearchProps, ref: React.Ref<HTMLInputElement>) => {
   const {
     textChange,
+    onInputFocus,
+    onInputBlur,
     results,
     onResultClick,
     isResultsOpen,
@@ -100,11 +104,14 @@ const Search = forwardRef((props: SearchProps, ref: React.Ref<HTMLDivElement>) =
   } = props;
 
   return (
-    <SearchContainer aria-busy={isLoading} tabIndex={0} ref={ref}>
+    <SearchContainer aria-busy={isLoading}>
       <Block boxShadowColor="red">
         <SearchInput
           onChange={textChange}
+          onFocus={onInputFocus}
+          onBlur={onInputBlur}
           placeholder="Search for a song or an artist..."
+          ref={ref}
         />
         <SVGIconContainer aria-hidden="true">
           {isLoading ? (
@@ -126,7 +133,7 @@ const Search = forwardRef((props: SearchProps, ref: React.Ref<HTMLDivElement>) =
             return (
               <ResultsListItem
                 data-id={result.id}
-                onClick={onResultClick}
+                onMouseDown={onResultClick}
                 key={result.id}
               >
                 {result.full_title}

@@ -55,30 +55,7 @@ const App = () => {
   const [isLyricsLoading, setLyricsLoadingState] = useState(false);
   const [hasError, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
-  const searchRef = React.useRef<HTMLDivElement>(null);
-
-  const openSearchResults = () => {
-    if (searchRef.current) {
-      if (searchRef.current.contains(document.activeElement)) {
-        console.log(document.activeElement);
-        setResultsStatus(true);
-      } else {
-        setResultsStatus(false);
-      }
-    }
-  }
-
-  const closeSearchResults = () => {
-    setResultsStatus(false);
-  }
-
-  useEffect(() => {      
-    document.addEventListener("focusin", openSearchResults);
-
-    return () => {
-      document.removeEventListener("focusin", openSearchResults);
-    };
-  });
+  const searchRef = React.useRef<HTMLInputElement>(null);
 
   const fetchSearchResults = async (inputVal: any) => {
     setSearchLoadingState(true);
@@ -101,6 +78,14 @@ const App = () => {
     debounce(fetchSearchResults, 500),
     []
   );
+
+  const openSearchResults = () => {
+    setResultsStatus(true);
+  }
+
+  const closeSearchResults = () => {
+    setResultsStatus(false);
+  }
 
   const highlightLyrics = (drugNames: string[], lyrics: string): string => {
     let drugNamesRegexes: string[];
@@ -209,7 +194,6 @@ const App = () => {
     const songId: string | undefined = e.currentTarget.dataset.id;
 
     fetchSong(songId);
-    // setResultsStatus(false);
   };
 
   return (
@@ -226,6 +210,8 @@ const App = () => {
             textChange={(e: React.ChangeEvent<HTMLInputElement>) =>
               debouncedSearchResults(e.currentTarget.value)
             }
+            onInputFocus={openSearchResults}
+            onInputBlur={closeSearchResults}
             results={searchResults}
             onResultClick={selectSong}
             isResultsOpen={isResultsOpen}
