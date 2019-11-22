@@ -9,12 +9,14 @@ type PlaceholderProps = {
 const glowAnim = keyframes`
   0% { opacity: .1; }
   50% { opacity: .2; }
-  100% { opacity: .3; }
+  100% { opacity: .1; }
 `;
 const StyledPlaceholder = styled.div<PlaceholderProps>`
-  height: ${props => props.isHeader ? modularScale(2) : modularScale(1) };
+  max-width: ${props => (props.isHeader ? modularScale(10) : "")};
+  height: ${props => (props.isHeader ? modularScale(3) : modularScale(2))};
+  margin-bottom: ${props => (props.isHeader ? modularScale(0) : "")};
   background-color: ${props => props.theme.gray};
-  animation: ${glowAnim} 1s linear;
+  animation: ${glowAnim} 0.5s linear infinite;
 `;
 
 const Placeholder = ({ isHeader }: PlaceholderProps) => {

@@ -17,7 +17,8 @@ import Footer from "./components/Footer";
 import Search from "./components/Search";
 import Lyrics from "./components/Lyrics";
 import DrugMentions from "./components/DrugMentions";
-import Loading from "./components/Loading";
+import LoadingLyrics from "./components/LoadingLyrics";
+import LoadingDrugMentions from "./components/LoadingDrugMentions";
 
 import DrugReference from "./types_interfaces/DrugReference";
 import DrugReferences from "./types_interfaces/DrugReferences";
@@ -217,7 +218,10 @@ const App = () => {
             isLoading={isSearchLoading}
           />
           {isLyricsLoading ? (
-            <Loading />
+            <SplitPane>
+              <LoadingDrugMentions />
+              <LoadingLyrics />
+            </SplitPane>
           ) : (
             selectedSong &&
             highlightedLyrics &&
