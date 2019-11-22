@@ -7,14 +7,6 @@ import Placeholder from "./Placeholder";
 
 const Verse = styled.div`
   margin-top: ${modularScale(4)};
-  
-  div {
-    margin-bottom: ${modularScale(-1)};
-  }
-`;
-
-const VerseLabel = styled.div`
-  max-width: ${modularScale(8)};
 `;
 
 const LoadingLyrics = () => {
@@ -22,17 +14,22 @@ const LoadingLyrics = () => {
 
   return (
     <Block hasPadding={true} boxShadowColor={themeContext.starCommandBlue}>
-      <Placeholder isHeader={true} />
+      <Placeholder
+        isHeader={true}
+        marginBottom={modularScale(0)}
+      />
+      <Placeholder isHeader={true} width={modularScale(11)} />
 
       {[...Array(4)].map((el, idx) => {
         return (
           <Verse>
-            <VerseLabel>
-              <Placeholder />
-            </VerseLabel>
+            <Placeholder
+              width={modularScale(8)}
+              marginBottom={modularScale(-1)}
+            />
             {[...Array(8)].map((el, idx) => (
               <>
-                <Placeholder />
+                <Placeholder marginBottom={modularScale(-1)} />
               </>
             ))}
           </Verse>

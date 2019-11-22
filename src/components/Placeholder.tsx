@@ -4,7 +4,11 @@ import { modularScale } from "polished";
 
 type PlaceholderProps = {
   isHeader?: boolean;
-}
+  width?: string;
+  height?: string;
+  marginTop?: string;
+  marginBottom?: string;
+};
 
 const glowAnim = keyframes`
   0% { opacity: .1; }
@@ -12,15 +16,30 @@ const glowAnim = keyframes`
   100% { opacity: .1; }
 `;
 const StyledPlaceholder = styled.div<PlaceholderProps>`
-  max-width: ${props => (props.isHeader ? modularScale(10) : "")};
-  height: ${props => (props.isHeader ? modularScale(3) : modularScale(2))};
-  margin-bottom: ${props => (props.isHeader ? modularScale(0) : "")};
+  max-width: ${props => (props.width ? props.width : "")};
+  height: ${props => (props.isHeader ? modularScale(3) : props.height ? props.height : modularScale(2))};
+  margin-top: ${props => (props.marginTop ? props.marginTop : "")};
+  margin-bottom: ${props => (props.marginBottom ? props.marginBottom : "")};
   background-color: ${props => props.theme.gray};
   animation: ${glowAnim} 0.5s linear infinite;
 `;
 
-const Placeholder = ({ isHeader }: PlaceholderProps) => {
-  return <StyledPlaceholder isHeader={isHeader} />;
+const Placeholder = ({
+  isHeader,
+  width,
+  height,
+  marginTop,
+  marginBottom
+}: PlaceholderProps) => {
+  return (
+    <StyledPlaceholder
+      isHeader={isHeader}
+      width={width}
+      height={height}
+      marginTop={marginTop}
+      marginBottom={marginBottom}
+    />
+  );
 };
 
 export default Placeholder;
