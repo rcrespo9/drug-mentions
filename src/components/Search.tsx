@@ -3,7 +3,6 @@ import styled, { keyframes, ThemeContext } from "styled-components";
 import { modularScale, rgba } from "polished";
 
 import Block from "./Block";
-import Loading from "./Loading";
 
 type SearchProps = {
   textChange(event: React.ChangeEvent<HTMLInputElement>): void;
