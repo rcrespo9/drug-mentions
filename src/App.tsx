@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useRef, useEffect } from "react";
+import React, { useState, useCallback } from "react";
 import { debounce} from "lodash";
 import pluralize from "pluralize";
 import styled, { ThemeProvider } from "styled-components";
@@ -55,7 +55,6 @@ const App = () => {
   const [isLyricsLoading, setLyricsLoadingState] = useState(false);
   const [hasError, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
-  const searchRef = React.useRef<HTMLInputElement>(null);
 
   const fetchSearchResults = async (inputVal: any) => {
     setSearchLoadingState(true);
@@ -216,7 +215,6 @@ const App = () => {
             onResultClick={selectSong}
             isResultsOpen={isResultsOpen}
             isLoading={isSearchLoading}
-            ref={searchRef}
           />
           {isLyricsLoading ? (
             <Loading />

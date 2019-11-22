@@ -1,4 +1,4 @@
-import React, {forwardRef} from "react";
+import React from "react";
 import styled, { keyframes } from "styled-components";
 import { modularScale, lighten } from "polished";
 
@@ -92,17 +92,15 @@ const ResultsListItem = styled.li`
   }
 `;
 
-const Search = forwardRef((props: SearchProps, ref: React.Ref<HTMLInputElement>) => {
-  const {
-    textChange,
-    onInputFocus,
-    onInputBlur,
-    results,
-    onResultClick,
-    isResultsOpen,
-    isLoading
-  } = props;
-
+const Search = ({
+  textChange,
+  onInputFocus,
+  onInputBlur,
+  results,
+  onResultClick,
+  isResultsOpen,
+  isLoading
+}: SearchProps) => {
   return (
     <SearchContainer aria-busy={isLoading}>
       <Block boxShadowColor="red">
@@ -111,7 +109,6 @@ const Search = forwardRef((props: SearchProps, ref: React.Ref<HTMLInputElement>)
           onFocus={onInputFocus}
           onBlur={onInputBlur}
           placeholder="Search for a song or an artist..."
-          ref={ref}
         />
         <SVGIconContainer aria-hidden="true">
           {isLoading ? (
@@ -144,6 +141,6 @@ const Search = forwardRef((props: SearchProps, ref: React.Ref<HTMLInputElement>)
       )}
     </SearchContainer>
   );
-});
+}
 
 export default Search;
