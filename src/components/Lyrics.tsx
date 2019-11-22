@@ -1,5 +1,5 @@
-import React from "react";
-import styled from "styled-components";
+import React, { useContext } from "react";
+import styled, { ThemeContext } from "styled-components";
 import { modularScale } from "polished";
 
 import Block from "./Block";
@@ -21,11 +21,13 @@ const LyricsSheet = styled.p`
 `;
 
 const Lyrics = ({ songDetails, lyrics }: LyricsProps) => {
+  const themeContext = useContext(ThemeContext);
+
   return (
     <Block
       as="article"
       header={songDetails}
-      boxShadowColor="#0E79B2"
+      boxShadowColor={themeContext.starCommandBlue}
       hasPadding={true}
     >
       <LyricsSheet dangerouslySetInnerHTML={{ __html: lyrics }} />

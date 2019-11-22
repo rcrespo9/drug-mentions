@@ -1,5 +1,5 @@
-import React from "react";
-import styled from "styled-components";
+import React, { useContext } from "react";
+import styled, { ThemeContext } from "styled-components";
 import { modularScale } from "polished";
 
 import DrugReferences from "../types_interfaces/DrugReferences";
@@ -20,12 +20,14 @@ const DrugMentionsList = styled.ul`
 `;
 
 const DrugMentions = ({ totalReferences, references }: DrugReferences) => {
+  const themeContext = useContext(ThemeContext);
+
   return (
     <DrugMentionsContainer>
       <Block
         as="aside"
         header={`${totalReferences} possible drug references found`}
-        boxShadowColor="#F39237"
+        boxShadowColor={themeContext.deepSaffron}
         hasPadding={true}
       >
         <DrugMentionsList>

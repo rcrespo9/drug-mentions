@@ -1,5 +1,5 @@
-import React from "react";
-import styled, { keyframes } from "styled-components";
+import React, { useContext } from "react";
+import styled, { keyframes, ThemeContext } from "styled-components";
 import { modularScale, rgba } from "polished";
 
 import Block from "./Block";
@@ -105,9 +105,11 @@ const Search = ({
   isResultsOpen,
   isLoading
 }: SearchProps) => {
+  const themeContext = useContext(ThemeContext);
+
   return (
     <SearchContainer aria-busy={isLoading}>
-      <Block boxShadowColor="#BF1363">
+      <Block boxShadowColor={themeContext.roseRed}>
         <SearchInput
           onChange={textChange}
           onFocus={onInputFocus}
