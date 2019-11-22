@@ -25,7 +25,7 @@ const DrugMentions = ({ totalReferences, references }: DrugReferences) => {
       <Block
         as="aside"
         header={`${totalReferences} possible drug references found`}
-        boxShadowColor="purple"
+        boxShadowColor="#F39237"
         hasPadding={true}
       >
         <DrugMentionsList>

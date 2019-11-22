@@ -1,6 +1,6 @@
 import React from "react";
 import styled, { keyframes } from "styled-components";
-import { modularScale, lighten } from "polished";
+import { modularScale, rgba } from "polished";
 
 import Block from "./Block";
 import Loading from "./Loading";
@@ -39,6 +39,10 @@ const SearchInput = styled.input`
     ${modularScale(-1)};
   color: ${props => props.theme.white};
   font-size: ${modularScale(1)};
+
+  ::placeholder {
+    color: ${props => rgba(props.theme.white, .4)};
+  }
 `;
 const SVGIconContainer = styled.div`
   position: absolute;
@@ -88,7 +92,7 @@ const ResultsListItem = styled.li`
   }
 
   &:hover {
-    background-color: ${props => lighten(0.5, props.theme.black)};
+    background-color: ${props => rgba(props.theme.white, 0.05)};
   }
 `;
 
@@ -103,7 +107,7 @@ const Search = ({
 }: SearchProps) => {
   return (
     <SearchContainer aria-busy={isLoading}>
-      <Block boxShadowColor="red">
+      <Block boxShadowColor="#BF1363">
         <SearchInput
           onChange={textChange}
           onFocus={onInputFocus}

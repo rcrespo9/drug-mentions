@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { modularScale } from "polished";
 
 import Block from "./Block";
+import highlightStyles from "../theme/highlightStyles";
 
 type LyricsProps = {
   songDetails: string;
@@ -15,14 +16,18 @@ const LyricsSheet = styled.p`
 
   > .highlighted {
     padding: 0 ${modularScale(-6)};
-    background-color: ${props => props.theme.white};
-    color: ${props => props.theme.black};
+    ${highlightStyles};
   }
 `;
 
 const Lyrics = ({ songDetails, lyrics }: LyricsProps) => {
   return (
-    <Block as="article" header={songDetails} boxShadowColor="blue" hasPadding={true}>
+    <Block
+      as="article"
+      header={songDetails}
+      boxShadowColor="#0E79B2"
+      hasPadding={true}
+    >
       <LyricsSheet dangerouslySetInnerHTML={{ __html: lyrics }} />
     </Block>
   );

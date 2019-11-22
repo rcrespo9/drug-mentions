@@ -1,4 +1,4 @@
-import { createGlobalStyle } from "styled-components";
+import { css, createGlobalStyle } from "styled-components";
 import {
   stripUnit,
   normalize,
@@ -6,6 +6,7 @@ import {
   fluidRange,
   darken
 } from "polished";
+import highlightStyles from "./highlightStyles";
 
 export default createGlobalStyle`
   ${normalize()}
@@ -16,9 +17,17 @@ export default createGlobalStyle`
     box-sizing: inherit;
   }
 
-  ${'' /* * :focus {
-    outline-color: red;
-  } */}
+  * :focus {
+    outline-color: ${props => props.theme.roseRed};
+  }
+
+  ::selection {
+    ${highlightStyles};
+  }
+
+  ::-moz-selection {
+    ${highlightStyles};
+  }
 
   html {
     box-sizing: border-box;
@@ -49,7 +58,8 @@ export default createGlobalStyle`
   h1,
   h2,
   h3 {
-    font-family: ${props => `nimbus-sans-extended, ${props.theme.fallbackFonts}`};
+    font-family: ${props =>
+      `nimbus-sans-extended, ${props.theme.fallbackFonts}`};
     font-weight: 700;
   }
 
