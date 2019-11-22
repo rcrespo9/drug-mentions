@@ -15,7 +15,7 @@ const Logo = styled.h1`
   margin-bottom: ${modularScale(-7)};
   text-transform: uppercase;
   font-size: ${modularScale(5)};
-  font-weight: 900;
+  font-weight: ${props => props.theme.fontWeights.black};
 
   a {
     text-decoration: none;
