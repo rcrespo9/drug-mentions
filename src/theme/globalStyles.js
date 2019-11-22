@@ -18,7 +18,7 @@ export default createGlobalStyle`
   }
 
   * :focus {
-    outline-color: ${props => props.theme.roseRed};
+    outline-color: ${props => props.theme.starCommandBlue};
   }
 
   ::selection {
