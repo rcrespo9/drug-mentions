@@ -25,8 +25,8 @@ const LoadingDrugMentions = () => {
         />
 
         <DrugMentionsList>
-          {[...Array(8)].map(() => (
-            <Placeholder height={modularScale(3)} />
+          {[...Array(8)].map((el, idx) => (
+            <Placeholder height={modularScale(3)} key={idx} />
           ))}
         </DrugMentionsList>
       </Block>

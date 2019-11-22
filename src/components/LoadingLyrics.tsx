@@ -14,23 +14,18 @@ const LoadingLyrics = () => {
 
   return (
     <Block hasPadding={true} boxShadowColor={themeContext.starCommandBlue}>
-      <Placeholder
-        isHeader={true}
-        marginBottom={modularScale(0)}
-      />
+      <Placeholder isHeader={true} marginBottom={modularScale(0)} />
       <Placeholder isHeader={true} width={modularScale(11)} />
 
-      {[...Array(4)].map((el, idx) => {
+      {[...Array(4)].map((verse, idx) => {
         return (
-          <Verse>
+          <Verse key={idx}>
             <Placeholder
               width={modularScale(8)}
               marginBottom={modularScale(-1)}
             />
-            {[...Array(8)].map((el, idx) => (
-              <>
-                <Placeholder marginBottom={modularScale(-1)} />
-              </>
+            {[...Array(8)].map((line, idx) => (
+              <Placeholder marginBottom={modularScale(-1)} key={idx} />
             ))}
           </Verse>
         );
