@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import styled, { ThemeContext } from "styled-components";
+import { ThemeContext } from "styled-components";
 import { modularScale } from "polished";
 
 import Block from "./Block";
@@ -25,7 +25,7 @@ const LoadingDrugMentions = () => {
         />
 
         <DrugMentionsList>
-          {[...Array(8)].map((el, idx) => (
+          {[...Array(8)].map(() => (
             <Placeholder height={modularScale(3)} />
           ))}
         </DrugMentionsList>

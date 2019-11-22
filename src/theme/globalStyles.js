@@ -1,10 +1,9 @@
-import { css, createGlobalStyle } from "styled-components";
+import { createGlobalStyle } from "styled-components";
 import {
   stripUnit,
   normalize,
   modularScale,
   fluidRange,
-  darken
 } from "polished";
 import highlightStyles from "./highlightStyles";
 

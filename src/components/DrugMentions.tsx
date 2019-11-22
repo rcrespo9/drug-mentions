@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import styled, { ThemeContext } from "styled-components";
+import { ThemeContext } from "styled-components";
 
 import DrugReferences from "../types_interfaces/DrugReferences";
 

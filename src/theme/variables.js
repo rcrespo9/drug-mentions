@@ -1,5 +1,3 @@
-import { modularScale } from "polished";
-
 const variables = {
   white: "#FBFEF9",
   black: "#191923",

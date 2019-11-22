@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from "react";
-import { debounce} from "lodash";
+import { debounce } from "lodash";
 import pluralize from "pluralize";
 import styled, { ThemeProvider } from "styled-components";
 import { modularScale } from "polished";
@@ -54,8 +54,6 @@ const App = () => {
   const [isResultsOpen, setResultsStatus] = useState(false);
   const [isSearchLoading, setSearchLoadingState] = useState(false);
   const [isLyricsLoading, setLyricsLoadingState] = useState(false);
-  const [hasError, setError] = useState(false);
-  const [errorMessage, setErrorMessage] = useState(null);
 
   const fetchSearchResults = async (inputVal: any) => {
     setSearchLoadingState(true);
@@ -68,9 +66,8 @@ const App = () => {
       !!results.length ? setSearchResults(results) : setSearchResults(null);
       setSearchLoadingState(false);
     } catch (error) {
-      setError(true);
-      setErrorMessage(error.message);
       setSearchLoadingState(false);
+      throw new Error(error);
     }
   };
 
@@ -81,11 +78,11 @@ const App = () => {
 
   const openSearchResults = () => {
     setResultsStatus(true);
-  }
+  };
 
   const closeSearchResults = () => {
     setResultsStatus(false);
-  }
+  };
 
   const highlightLyrics = (drugNames: string[], lyrics: string): string => {
     let drugNamesRegexes: string[];
@@ -163,7 +160,8 @@ const App = () => {
 
     drugNames = drugReferences.map(drugReference => drugReference.drugName);
     totalDrugReferences = drugReferences.reduce(
-      (acc, reference) => acc + reference.referenceCount, 0
+      (acc, reference) => acc + reference.referenceCount,
+      0
     );
 
     setHighlightedLyrics(highlightLyrics(drugNames, lyrics.trim()));
@@ -184,9 +182,8 @@ const App = () => {
       scanLyricsForDrugs(drugsData.drugs, song.lyrics);
       setLyricsLoadingState(false);
     } catch (error) {
-      setError(true);
-      setErrorMessage(error.message);
       setLyricsLoadingState(false);
+      throw new Error(error);
     }
   };
 
