@@ -1,6 +1,5 @@
 import React, { useState, useCallback } from "react";
 import { debounce } from "lodash";
-import pluralize from "pluralize";
 import styled, { ThemeProvider } from "styled-components";
 import { modularScale } from "polished";
 
