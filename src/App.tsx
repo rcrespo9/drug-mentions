@@ -105,64 +105,64 @@ const App = () => {
 
   const scanLyricsForDrugs = (drugs: any[], lyrics: string) => {
     const drugReferences: DrugReference[] = [];
-    const sanitizedLyrics: string[] = sanitizeString(lyrics).split(" ");
-    const isDrugReferenced = (drugName: string, lyricWord: string): boolean => {
-      const lowerCaseDrugWord = drugName.toLowerCase();
-      const lowerCaseLyricWord = lyricWord.toLowerCase();
+    const sanitizedLyrics = sanitizeString(lyrics);
+    const drugRefMatches = (
+      drugName: string,
+      lyrics: string
+    ): RegExpMatchArray | null => {
+      const regex: RegExp = new RegExp(`\\b${drugName}s?\\b`, "ig");
 
-      return (
-        lowerCaseDrugWord === lowerCaseLyricWord ||
-        pluralize(lowerCaseDrugWord) === lowerCaseLyricWord
-      );
+      return lyrics.match(regex);
     };
-    const foundDrug = (drugName: string): DrugReference | undefined =>
+    const drugInRefArray = (drugName: string): DrugReference | undefined =>
       drugReferences.find(
         (drugMentioned: DrugReference) => drugMentioned.drugName === drugName
       );
     let drugNames: string[];
     let totalDrugReferences: number;
 
-    drugs.forEach(drug =>
-      sanitizedLyrics.forEach(lyricWord => {
-        if (isDrugReferenced(drug.drugType, lyricWord)) {
-          if (foundDrug(drug.drugType)) {
-            foundDrug(drug.drugType)!.referenceCount += 1;
+    drugs.forEach(drug => {
+      const drugTypesMentioned = drugRefMatches(drug.drugType, sanitizedLyrics);
+
+      if (drugTypesMentioned) {
+        drugReferences.push({
+          drugName: drug.drugType,
+          referenceCount: drugTypesMentioned.length,
+          isStreetName: false
+        });
+      }
+
+      drug.streetNames.forEach((streetName: string) => {
+        const streetNamesMentioned = drugRefMatches(streetName, sanitizedLyrics);
+
+        if (streetNamesMentioned) {
+          if (drugInRefArray(streetName)) {
+            let { drugTypes } = drugInRefArray(streetName)!;
+
+            if (!drugTypes!.includes(drug.drugType))
+              drugTypes!.push(drug.drugType);
           } else {
             drugReferences.push({
-              drugName: drug.drugType,
-              referenceCount: 1,
-              isStreetName: false
+              drugName: streetName,
+              referenceCount: streetNamesMentioned.length,
+              isStreetName: true,
+              drugTypes: [drug.drugType]
             });
           }
         }
-
-        drug.streetNames.forEach((streetName: string) => {
-          if (isDrugReferenced(streetName, lyricWord)) {
-            if (foundDrug(streetName)) {
-              let { drugTypes } = foundDrug(streetName)!;
-
-              foundDrug(streetName)!.referenceCount += 1;
-
-              if (!drugTypes!.includes(drug.drugType))
-                drugTypes!.push(drug.drugType);
-            } else {
-              drugReferences.push({
-                drugName: streetName,
-                referenceCount: 1,
-                isStreetName: true,
-                drugTypes: [drug.drugType]
-              });
-            }
-          }
-        });
-      })
-    );
+      });
+    });
 
     drugNames = drugReferences.map(drugReference => drugReference.drugName);
     totalDrugReferences = drugReferences.reduce(
       (acc, reference) => acc + reference.referenceCount,
       0
     );
+
+    // console.log({
+    //   totalReferences: totalDrugReferences,
+    //   references: drugReferences
+    // })
 
     setHighlightedLyrics(highlightLyrics(drugNames, lyrics.trim()));
     setDrugReferences({
