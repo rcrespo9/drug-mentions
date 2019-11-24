@@ -83,7 +83,7 @@ const App = () => {
     setResultsStatus(false);
   };
 
-  const drugRegex = (drugName: string) => `\\b${drugName}s?\\b`;
+  const drugRegex = (drugName: string) => `(^|\\s)(${drugName}s?)(?=\\s|$)`;
 
   const highlightLyrics = (drugNames: string[], lyrics: string): string => {
     let drugNamesRegexes: string[];
@@ -98,7 +98,7 @@ const App = () => {
 
     highlightedLyrics = lyrics.replace(
       highlightRegex,
-      word => `<mark class="highlighted">${word}</mark>`
+      word => `<mark class="highlighted">${word.trim()}</mark>`
     );
 
     return highlightedLyrics;
@@ -111,7 +111,7 @@ const App = () => {
       drugName: string,
       lyrics: string
     ): RegExpMatchArray | null => {
-      const regex: RegExp = new RegExp(drugRegex(drugName), "igm");
+      const regex: RegExp = new RegExp(drugRegex(drugName), "ig");
 
       return lyrics.match(regex);
     };
