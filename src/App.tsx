@@ -83,13 +83,15 @@ const App = () => {
     setResultsStatus(false);
   };
 
+  const drugRegex = (drugName: string) => `\\b${drugName}s?\\b`;
+
   const highlightLyrics = (drugNames: string[], lyrics: string): string => {
     let drugNamesRegexes: string[];
     let highlightRegex: RegExp;
     let highlightedLyrics: string;
 
     drugNamesRegexes = Array.from(new Set(drugNames)).map(
-      drug => `\\b${drug}s?\\b`
+      drug => drugRegex(drug)
     );
 
     highlightRegex = new RegExp(`${drugNamesRegexes.join("|")}`, "ig");
@@ -104,12 +106,12 @@ const App = () => {
 
   const scanLyricsForDrugs = (drugs: any[], lyrics: string) => {
     const drugReferences: DrugReference[] = [];
-    const sanitizedLyrics = sanitizeString(lyrics);
+    // const sanitizedLyrics = sanitizeString(lyrics);
     const drugRefMatches = (
       drugName: string,
       lyrics: string
     ): RegExpMatchArray | null => {
-      const regex: RegExp = new RegExp(`\\b${drugName}s?\\b`, "ig");
+      const regex: RegExp = new RegExp(drugRegex(drugName), "igm");
 
       return lyrics.match(regex);
     };
@@ -121,7 +123,7 @@ const App = () => {
     let totalDrugReferences: number;
 
     drugs.forEach(drug => {
-      const drugTypesMentioned = drugRefMatches(drug.drugType, sanitizedLyrics);
+      const drugTypesMentioned = drugRefMatches(drug.drugType, lyrics);
 
       if (drugTypesMentioned) {
         drugReferences.push({
@@ -132,7 +134,7 @@ const App = () => {
       }
 
       drug.streetNames.forEach((streetName: string) => {
-        const streetNamesMentioned = drugRefMatches(streetName, sanitizedLyrics);
+        const streetNamesMentioned = drugRefMatches(streetName, lyrics);
 
         if (streetNamesMentioned) {
           if (drugInRefArray(streetName)) {
