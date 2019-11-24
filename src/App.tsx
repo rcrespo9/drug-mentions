@@ -98,7 +98,7 @@ const App = () => {
 
     highlightedLyrics = lyrics.replace(
       highlightRegex,
-      word => `<mark class="highlighted">${word.trim()}</mark>`
+      word => `<mark class="highlighted">${word}</mark>`
     );
 
     return highlightedLyrics;
