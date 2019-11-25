@@ -83,13 +83,13 @@ const App = () => {
   };
 
   const drugRegex = (drugName: string) => {
-    const commonCharacters = ".,/#!$%^&*;:{}=\\-_`~@";
+    const commonCharacters = ".,/#!$%^&*;:{}=\\-_`~@é";
     const lookBehindCharacterSet = `[${commonCharacters}]`;
     const lookAheadCharacterSet = `[${commonCharacters}'‘’“”\"]`;
 
     return `(?<!${lookBehindCharacterSet})\\b${escapeRegExp(
       drugName
-    )}s?(?!${lookAheadCharacterSet}\\b)\\b`;
+    )}s?(?!${lookAheadCharacterSet}\\b)\\b(?![.])`;
   };
 
   const highlightLyrics = (drugNames: string[], lyrics: string): string => {
