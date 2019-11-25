@@ -85,9 +85,11 @@ const App = () => {
   };
 
   const drugRegex = (drugName: string) => {
-    const characterSet = "[.,/#!$%^&*;:'{}=\-_`~()@]";
+    const characterSet = "[.,/#!$%^&*;:'{}=\\-_`~()@]";
 
-    return `(?<!${characterSet})\\b${escapeRegExp(drugName)}s?(?!${characterSet})\\b`;
+    return `(?<!${characterSet})\\b${escapeRegExp(
+      drugName
+    )}s?(?!${characterSet}\\b)\\b`;
   };
 
   const highlightLyrics = (drugNames: string[], lyrics: string): string => {
@@ -99,7 +101,7 @@ const App = () => {
       drug => drugRegex(drug)
     );
 
-    highlightRegex = new RegExp(`${(drugNamesRegexes.join("|"))}`, "ig");
+    highlightRegex = new RegExp(`${(drugNamesRegexes.join("|"))}`, "igm");
 
     highlightedLyrics = lyrics.replace(
       highlightRegex,
@@ -116,12 +118,8 @@ const App = () => {
       drugName: string,
       lyrics: string
     ): RegExpMatchArray | null => {
-      const regex: RegExp = new RegExp(drugRegex(drugName), "ig");
+      const regex: RegExp = new RegExp(drugRegex(drugName), "igm");
       const matches = lyrics.match(regex);
-
-      if (matches) {
-        console.log(matches)
-      }
 
       return matches;
     };
