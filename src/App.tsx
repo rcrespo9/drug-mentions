@@ -84,7 +84,7 @@ const App = () => {
   };
 
   const drugRegex = (drugName: string) => {
-    const characterSet = "[.,/#!$%^&*;:'{}=\\-_`~()@]";
+    const characterSet = "[.,/#!$%^&*;:'’‘\"”“{}=\\-_`~()@]";
 
     return `(?<!${characterSet})\\b${escapeRegExp(
       drugName
