@@ -95,25 +95,27 @@ const App = () => {
   const highlightLyrics = (drugNames: string[], lyrics: string): string => {
     let drugNamesRegexes: string[];
     let highlightRegex: RegExp;
-    let highlightedLyrics: string;
+    let highlightedLyrics: string = lyrics;
 
     drugNamesRegexes = Array.from(new Set(drugNames)).map(drug =>
       drugRegex(drug)
     );
 
     highlightRegex = new RegExp(`${drugNamesRegexes.join("|")}`, "igm");
-
-    highlightedLyrics = lyrics.replace(
-      highlightRegex,
-      word => `<mark class="highlighted">${word}</mark>`
-    );
+    
+    if (drugNames.length) {
+      highlightedLyrics = lyrics.replace(
+        highlightRegex,
+        word => `<mark class="highlighted">${word}</mark>`
+      );
+    }
 
     return highlightedLyrics;
   };
 
   const scanLyricsForDrugs = (drugs: any[], lyrics: string) => {
     const drugReferences: DrugReference[] = [];
-    const sanitizedLyrics = nlp(lyrics)
+    const sanitizedLyrics = nlp(lyrics.replace(/\[.*?\]/g, ""))
       .delete("#Contraction")
       .delete("#Pronoun")
       .delete("#Verb")
@@ -155,7 +157,6 @@ const App = () => {
         if (streetNamesMentioned) {
           if (drugInRefArray(streetName)) {
             let { drugTypes } = drugInRefArray(streetName)!;
-
             if (!drugTypes!.includes(drug.drugType))
               drugTypes!.push(drug.drugType);
           } else {
@@ -175,11 +176,6 @@ const App = () => {
       (acc, reference) => acc + reference.referenceCount,
       0
     );
-
-    // console.log({
-    //   totalReferences: totalDrugReferences,
-    //   references: drugReferences
-    // })
 
     setHighlightedLyrics(highlightLyrics(drugNames, lyrics.trim()));
     setDrugReferences({
