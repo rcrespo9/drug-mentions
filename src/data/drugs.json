@@ -672,6 +672,21 @@
       ]
     },
     {
+      "drugType": "Percocet",
+      "streetNames": [
+        "Ercs",
+        "Greenies",
+        "Kickers",
+        "M-30s",
+        "Percs",
+        "Rims",
+        "Tires",
+        "Wheels",
+        "512s",
+        "Cet"
+      ]
+    },
+    {
       "drugType": "Propoxyphene",
       "streetNames": [
         "Darvocet",

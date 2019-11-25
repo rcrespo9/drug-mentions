@@ -6,8 +6,6 @@ import { modularScale } from "polished";
 import GlobalStyles from "./theme/globalStyles";
 import variables from "./theme/variables";
 
-import sanitizeString from "./utils/sanitizeString";
-
 import drugsData from "./data/drugs.json";
 
 import SVGIconography from "./components/SVGIconography";
@@ -84,7 +82,7 @@ const App = () => {
   };
 
   const drugRegex = (drugName: string) => {
-    const characterSet = "[.,/#!$%^&*;:'’‘\"”“{}=\\-_`~()@]";
+    const characterSet = "[.,/#!$%^&*;:'’‘\"”“{}=\\-_`~@]";
 
     return `(?<!${characterSet})\\b${escapeRegExp(
       drugName
