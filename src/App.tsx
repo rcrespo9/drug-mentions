@@ -2,6 +2,7 @@ import React, { useState, useCallback } from "react";
 import { debounce, escapeRegExp } from "lodash";
 import styled, { ThemeProvider } from "styled-components";
 import { modularScale } from "polished";
+import nlp from "compromise";
 
 import GlobalStyles from "./theme/globalStyles";
 import variables from "./theme/variables";
@@ -82,11 +83,13 @@ const App = () => {
   };
 
   const drugRegex = (drugName: string) => {
-    const characterSet = "[.,/#!$%^&*;:'’‘\"”“{}=\\-_`~@]";
+    const commonCharacters = ".,/#!$%^&*;:{}=\\-_`~@";
+    const lookBehindCharacterSet = `[${commonCharacters}]`;
+    const lookAheadCharacterSet = `[${commonCharacters}'‘’“”\"]`;
 
-    return `(?<!${characterSet})\\b${escapeRegExp(
+    return `(?<!${lookBehindCharacterSet})\\b${escapeRegExp(
       drugName
-    )}s?(?!${characterSet}\\b)\\b`;
+    )}s?(?!${lookAheadCharacterSet}\\b)\\b`;
   };
 
   const highlightLyrics = (drugNames: string[], lyrics: string): string => {
@@ -94,11 +97,11 @@ const App = () => {
     let highlightRegex: RegExp;
     let highlightedLyrics: string;
 
-    drugNamesRegexes = Array.from(new Set(drugNames)).map(
-      drug => drugRegex(drug)
+    drugNamesRegexes = Array.from(new Set(drugNames)).map(drug =>
+      drugRegex(drug)
     );
 
-    highlightRegex = new RegExp(`${(drugNamesRegexes.join("|"))}`, "igm");
+    highlightRegex = new RegExp(`${drugNamesRegexes.join("|")}`, "igm");
 
     highlightedLyrics = lyrics.replace(
       highlightRegex,
@@ -110,7 +113,12 @@ const App = () => {
 
   const scanLyricsForDrugs = (drugs: any[], lyrics: string) => {
     const drugReferences: DrugReference[] = [];
-    // const sanitizedLyrics = sanitizeString(lyrics);
+    const sanitizedLyrics = nlp(lyrics)
+      .delete("#Contraction")
+      .delete("#Pronoun")
+      .delete("#Verb")
+      .delete("#Adjective")
+      .out("text");
     const drugRefMatches = (
       drugName: string,
       lyrics: string
@@ -128,7 +136,7 @@ const App = () => {
     let totalDrugReferences: number;
 
     drugs.forEach(drug => {
-      const drugTypesMentioned = drugRefMatches(drug.drugType, lyrics);
+      const drugTypesMentioned = drugRefMatches(drug.drugType, sanitizedLyrics);
 
       if (drugTypesMentioned) {
         drugReferences.push({
@@ -139,7 +147,10 @@ const App = () => {
       }
 
       drug.streetNames.forEach((streetName: string) => {
-        const streetNamesMentioned = drugRefMatches(streetName, lyrics);
+        const streetNamesMentioned = drugRefMatches(
+          streetName,
+          sanitizedLyrics
+        );
 
         if (streetNamesMentioned) {
           if (drugInRefArray(streetName)) {
