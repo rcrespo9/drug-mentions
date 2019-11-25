@@ -115,11 +115,12 @@ const App = () => {
 
   const scanLyricsForDrugs = (drugs: any[], lyrics: string) => {
     const drugReferences: DrugReference[] = [];
+    const replacedStr = " [replaced] "; // small hack until compromise library fixes bug that removes whitespace when words are deleted/replaced
     const sanitizedLyrics = nlp(lyrics)
-      .delete("#Contraction")
-      .delete("#Pronoun")
-      .delete("#Verb")
-      .delete("#Adjective")
+      .replace("#Contraction", replacedStr)
+      .replace("#Pronoun", replacedStr)
+      .replace("#Verb", replacedStr)
+      .replace("#Adjective", replacedStr)
       .out("text");
     const drugRefMatches = (
       drugName: string,
