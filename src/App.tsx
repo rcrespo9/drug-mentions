@@ -1,7 +1,8 @@
 import React, { useState, useCallback } from "react";
-import { debounce } from "lodash";
+import { debounce, escapeRegExp } from "lodash";
 import styled, { ThemeProvider } from "styled-components";
 import { modularScale } from "polished";
+import nlp from "compromise";
 
 import GlobalStyles from "./theme/globalStyles";
 import variables from "./theme/variables";
@@ -83,7 +84,11 @@ const App = () => {
     setResultsStatus(false);
   };
 
-  const drugRegex = (drugName: string) => `(^|\\s)(${drugName}s?)(?=\\s|$)`;
+  const drugRegex = (drugName: string) => {
+    const characterSet = "[.,/#!$%^&*;:'{}=\-_`~()@]";
+
+    return `(?<!${characterSet})\\b${escapeRegExp(drugName)}s?(?!${characterSet})\\b`;
+  };
 
   const highlightLyrics = (drugNames: string[], lyrics: string): string => {
     let drugNamesRegexes: string[];
@@ -94,7 +99,7 @@ const App = () => {
       drug => drugRegex(drug)
     );
 
-    highlightRegex = new RegExp(`${drugNamesRegexes.join("|")}`, "ig");
+    highlightRegex = new RegExp(`${(drugNamesRegexes.join("|"))}`, "ig");
 
     highlightedLyrics = lyrics.replace(
       highlightRegex,
@@ -112,8 +117,13 @@ const App = () => {
       lyrics: string
     ): RegExpMatchArray | null => {
       const regex: RegExp = new RegExp(drugRegex(drugName), "ig");
+      const matches = lyrics.match(regex);
 
-      return lyrics.match(regex);
+      if (matches) {
+        console.log(matches)
+      }
+
+      return matches;
     };
     const drugInRefArray = (drugName: string): DrugReference | undefined =>
       drugReferences.find(
