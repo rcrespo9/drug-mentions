@@ -2,7 +2,6 @@ import React, { useState, useCallback } from "react";
 import { debounce, escapeRegExp } from "lodash";
 import styled, { ThemeProvider } from "styled-components";
 import { modularScale } from "polished";
-import nlp from "compromise";
 
 import GlobalStyles from "./theme/globalStyles";
 import variables from "./theme/variables";
