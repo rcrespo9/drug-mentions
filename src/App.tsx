@@ -89,7 +89,7 @@ const App = () => {
 
     return `(?<!${lookBehindCharacterSet})\\b${escapeRegExp(
       drugName
-    )}s?(?!${lookAheadCharacterSet}\\b)\\b(?![.])`;
+    )}s?(?!${lookAheadCharacterSet}\\b)\\b(?![.*])`;
   };
 
   const highlightLyrics = (drugNames: string[], lyrics: string): string => {
@@ -115,7 +115,7 @@ const App = () => {
 
   const scanLyricsForDrugs = (drugs: any[], lyrics: string) => {
     const drugReferences: DrugReference[] = [];
-    const sanitizedLyrics = nlp(lyrics.replace(/\[.*?\]/g, ""))
+    const sanitizedLyrics = nlp(lyrics)
       .delete("#Contraction")
       .delete("#Pronoun")
       .delete("#Verb")
