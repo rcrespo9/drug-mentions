@@ -36,7 +36,7 @@ const SiteWrapper = styled.div`
 const MainContent = styled.main``;
 const SplitPane = styled.div`
   display: grid;
-  grid-template-columns: ${(5 / 12) * 100}% 1fr;
+  grid-template-columns: 1fr ${modularScale(13)};
   grid-gap: ${modularScale(3)};
 `;
 
@@ -120,9 +120,10 @@ const App = () => {
     const sanitizedLyrics = nlp(lyrics.replace(lyricsHeadersRegex, " "))
       .replace("#Contraction", replacedStr)
       .replace("#Pronoun", replacedStr)
-      .replace("#Verb", replacedStr)
+      // .replace("#Verb", replacedStr)
       .replace("#Adjective", replacedStr)
       .out("text");
+    console.log(sanitizedLyrics);
     const drugRefMatches = (
       drugName: string,
       lyrics: string

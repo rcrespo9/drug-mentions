@@ -24,7 +24,7 @@ const LoadingDrugMentions = () => {
           marginBottom={modularScale(4)}
         />
 
-        <DrugMentionsList>
+        <DrugMentionsList as="div">
           {[...Array(8)].map((el, idx) => (
             <Placeholder height={modularScale(3)} key={idx} />
           ))}
