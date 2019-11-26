@@ -123,7 +123,6 @@ const App = () => {
       .replace("#Verb", replacedStr)
       .replace("#Adjective", replacedStr)
       .out("text");
-      console.log(sanitizedLyrics);
     const drugRefMatches = (
       drugName: string,
       lyrics: string
