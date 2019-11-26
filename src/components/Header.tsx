@@ -1,6 +1,6 @@
 import React from "react";
-import styled from "styled-components";
-import { modularScale } from "polished";
+import styled, { keyframes } from "styled-components";
+import { modularScale, lighten } from "polished";
 
 type HeaderProps = {
   logo: any;
@@ -11,6 +11,15 @@ const StyledHeader = styled.header`
   margin-bottom: ${modularScale(5)};
   text-align: center;
 `;
+const hoverLogoAnim = (
+  firstColor: string,
+  secondColor: string,
+  thirdColor: string
+) => keyframes`
+  0% { color: ${firstColor}; }
+  50% { color: ${secondColor}; }
+  100% { color: ${thirdColor}; }
+`;
 const Logo = styled.h1`
   margin-bottom: ${modularScale(-7)};
   text-transform: uppercase;
@@ -19,6 +28,17 @@ const Logo = styled.h1`
 
   a {
     text-decoration: none;
+
+    &:hover,
+    &:focus {
+      animation: ${props =>
+          hoverLogoAnim(
+            lighten(.1, props.theme.starCommandBlue),
+            lighten(.2, props.theme.roseRed),
+            props.theme.deepSaffron
+          )}
+        2s ease-in-out infinite;
+    }
   }
 `;
 const Blurb = styled.p`
