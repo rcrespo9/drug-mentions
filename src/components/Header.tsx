@@ -17,7 +17,8 @@ const hoverLogoAnim = (
   thirdColor: string
 ) => keyframes`
   0% { color: ${firstColor}; }
-  50% { color: ${secondColor}; }
+  30% { color: ${secondColor}; }
+  60% { color: ${thirdColor}; }
   100% { color: ${thirdColor}; }
 `;
 const Logo = styled.h1`
@@ -37,7 +38,7 @@ const Logo = styled.h1`
             lighten(.2, props.theme.roseRed),
             props.theme.deepSaffron
           )}
-        2s ease-in-out infinite;
+        5s ease-in-out infinite;
     }
   }
 `;
