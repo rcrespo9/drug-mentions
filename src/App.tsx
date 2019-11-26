@@ -115,7 +115,7 @@ const App = () => {
 
   const scanLyricsForDrugs = (drugs: any[], lyrics: string) => {
     const drugReferences: DrugReference[] = [];
-    const replacedStr = " [replaced] "; // small hack until compromise library fixes bug that removes whitespace when words are deleted/replaced
+    const replacedStr = "\n[replaced]\n"; // small hack until compromise library fixes bug that removes whitespace when words are deleted/replaced
     const lyricsHeadersRegex = /(?=\[|\((Intro|Verse|Chorus|Bridge)).*(?<=\]|\))/gim;
     const sanitizedLyrics = nlp(lyrics.replace(lyricsHeadersRegex, " "))
       .replace("#Contraction", replacedStr)
@@ -123,6 +123,7 @@ const App = () => {
       .replace("#Verb", replacedStr)
       .replace("#Adjective", replacedStr)
       .out("text");
+      console.log(sanitizedLyrics);
     const drugRefMatches = (
       drugName: string,
       lyrics: string
