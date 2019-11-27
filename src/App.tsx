@@ -119,9 +119,9 @@ const App = () => {
     const lyricsHeadersRegex = /(?=\[|\((Intro|Verse|Chorus|Bridge)).*(?<=\]|\))/gim;
     const sanitizedLyrics = nlp(lyrics.replace(lyricsHeadersRegex, " "))
       .replace("#Contraction", replacedStr)
-      .replace("#Pronoun", replacedStr)
+      // .replace("#Pronoun", replacedStr)
       // .replace("#Verb", replacedStr)
-      .replace("#Adjective", replacedStr)
+      // .replace("#Adjective", replacedStr)
       .out("text");
     console.log(sanitizedLyrics);
     const drugRefMatches = (
