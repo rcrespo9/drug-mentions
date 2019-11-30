@@ -22,7 +22,7 @@ const hoverLogoAnim = (
   100% { color: ${thirdColor}; }
 `;
 const Logo = styled.h1`
-  margin-bottom: ${modularScale(-5)};
+  margin-bottom: ${modularScale(-6)};
   text-transform: uppercase;
   font-size: ${modularScale(5)};
   font-weight: ${props => props.theme.fontWeights.black};
