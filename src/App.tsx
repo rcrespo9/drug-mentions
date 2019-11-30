@@ -31,7 +31,7 @@ type SelectedSong = {
 const SiteWrapper = styled.div`
   max-width: ${modularScale(15)};
   margin: 0 auto;
-  padding: ${modularScale(4)} ${modularScale(0)} 0;
+  padding: ${modularScale(4)} ${modularScale(1)} 0;
 `;
 const MainContent = styled.main``;
 const SplitPane = styled.div`

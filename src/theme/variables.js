@@ -11,6 +11,9 @@ const variables = {
   fontWeights: {
     bold: 700,
     black: 900
+  },
+  breakpoints: {
+    
   }
 };
 
