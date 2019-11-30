@@ -26,7 +26,7 @@ const ListItem = styled.li<DrugInfoProps>`
 `;
 
 const ListItemText = styled.span`
-  max-width: ${modularScale(8)};
+  // max-width: ${modularScale(8)};
   overflow: hidden;
   text-overflow: ellipsis;
   padding-right: ${modularScale(-2)};
@@ -121,7 +121,7 @@ const DrugMentionsItem = ({
   };
 
   return (
-    <ListItem isDrugInfoOpen={isDrugInfoOpen}>
+    <ListItem isDrugInfoOpen={isDrugInfoOpen} title={drugName}>
       <ListItemContent>
         <SrOnlyText>{referenceCount}</SrOnlyText>{" "}
         <ListItemText>{drugName}</ListItemText>{" "}
