@@ -103,7 +103,7 @@ const App = () => {
     );
 
     highlightRegex = new RegExp(`${drugNamesRegexes.join("|")}`, "igm");
-    
+
     if (drugNames.length) {
       highlightedLyrics = lyrics.replace(
         highlightRegex,
@@ -254,7 +254,7 @@ const App = () => {
             )
           )}
         </MainContent>
-        <Footer attribution="Built using the Genius API by Rudy Crespo" />
+        <Footer />
       </SiteWrapper>
     </ThemeProvider>
   );

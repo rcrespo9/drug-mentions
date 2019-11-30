@@ -2,10 +2,6 @@ import React from "react";
 import styled from "styled-components";
 import { modularScale } from "polished";
 
-type FooterProps = {
-  attribution: any;
-};
-
 const StyledFooter = styled.footer`
   padding: ${modularScale(5)} 0 ${modularScale(2)};
   text-align: center;
@@ -14,10 +10,23 @@ const Attribution = styled.p`
   font-size: ${modularScale(1)};
 `;
 
-const Footer = ({ attribution }: FooterProps) => {
+const Link = styled.a.attrs(props => ({
+  target: "_blank",
+  rel: "nofollow noopener"
+}))`
+  text-decoration: underline;
+  transition: color 0.25s ease-in-out;
+
+  &:hover,
+  &:focus {
+    color: ${props => props.theme.deepSaffron};
+  }
+`;
+
+const Footer = () => {
   return (
     <StyledFooter>
-      <Attribution>{attribution}</Attribution>
+      <Attribution>Built using the <Link href="https://docs.genius.com">Genius API</Link> by <Link href="https://rudycrespo.com">Rudy Crespo</Link></Attribution>
     </StyledFooter>
   );
 };
