@@ -26,7 +26,7 @@ type ResultItem = {
 const SearchContainer = styled.div`
   position: relative;
   max-width: ${modularScale(14)};
-  margin: 0 auto ${modularScale(5)};
+  margin: 0 auto;
 `;
 const SearchInput = styled.input`
   display: block;

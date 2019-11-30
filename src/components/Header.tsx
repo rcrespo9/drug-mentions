@@ -8,7 +8,7 @@ type HeaderProps = {
 };
 
 const StyledHeader = styled.header`
-  margin-bottom: ${modularScale(5)};
+  margin-bottom: ${modularScale(4)};
   text-align: center;
 `;
 const hoverLogoAnim = (
@@ -22,7 +22,7 @@ const hoverLogoAnim = (
   100% { color: ${thirdColor}; }
 `;
 const Logo = styled.h1`
-  margin-bottom: ${modularScale(-7)};
+  margin-bottom: ${modularScale(-5)};
   text-transform: uppercase;
   font-size: ${modularScale(5)};
   font-weight: ${props => props.theme.fontWeights.black};

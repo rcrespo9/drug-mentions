@@ -38,6 +38,7 @@ const SplitPane = styled.div`
   display: grid;
   grid-template-columns: 1fr ${modularScale(13)};
   grid-gap: ${modularScale(3)};
+  margin-top: ${modularScale(5)};
 `;
 
 const App = () => {
@@ -253,7 +254,7 @@ const App = () => {
             )
           )}
         </MainContent>
-        {/* <Footer attribution="Built using the Genius API by Rudy Crespo" /> */}
+        <Footer attribution="Built using the Genius API by Rudy Crespo" />
       </SiteWrapper>
     </ThemeProvider>
   );
