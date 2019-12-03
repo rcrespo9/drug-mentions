@@ -55,7 +55,16 @@ const Logo = styled.h1`
   }
 `;
 const Blurb = styled.p`
-  font-size: ${modularScale(2)};
+  ${props =>
+  fluidRange(
+    {
+      prop: "font-size",
+      fromSize: "21px",
+      toSize: "28px"
+    },
+    props.theme.breakpoints.xs,
+    props.theme.breakpoints.lg
+  )}
 `;
 
 const Header = ({ logo, blurb }: HeaderProps) => {

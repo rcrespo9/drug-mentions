@@ -31,10 +31,10 @@ export default createGlobalStyle`
       fluidRange(
         {
           prop: "font-size",
-          fromSize: "12px",
+          fromSize: "10px",
           toSize: "18px"
         },
-        props.theme.breakpoints.sm,
+        props.theme.breakpoints.xs,
         props.theme.breakpoints.lg
       )} */}
   }

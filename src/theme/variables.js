@@ -14,7 +14,7 @@ const variables = {
   },
   breakpoints: {
     xs: "320px",
-    sm: "640px",
+    sm: "425px",
     lg: "1000px"
   }
 };
