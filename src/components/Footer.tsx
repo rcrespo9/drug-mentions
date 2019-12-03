@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { modularScale } from "polished";
 
 const StyledFooter = styled.footer`
-  padding: ${modularScale(5)} 0 ${modularScale(2)};
+  padding: ${modularScale(4)} 0 ${modularScale(2)};
   text-align: center;
 `;
 const Attribution = styled.p`

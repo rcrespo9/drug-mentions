@@ -8,7 +8,7 @@ type HeaderProps = {
 };
 
 const StyledHeader = styled.header`
-  margin-bottom: ${modularScale(4)};
+  margin-bottom: ${modularScale(3)};
   text-align: center;
 
   ${props =>
