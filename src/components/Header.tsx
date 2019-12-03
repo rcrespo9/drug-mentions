@@ -1,6 +1,6 @@
 import React from "react";
 import styled, { keyframes } from "styled-components";
-import { modularScale, lighten } from "polished";
+import { modularScale, lighten, fluidRange, stripUnit } from "polished";
 
 type HeaderProps = {
   logo: any;
@@ -22,10 +22,22 @@ const hoverLogoAnim = (
   100% { color: ${thirdColor}; }
 `;
 const Logo = styled.h1`
-  margin-bottom: ${modularScale(-6)};
+  margin-bottom: ${modularScale(-5)};
   text-transform: uppercase;
-  font-size: ${modularScale(5)};
+  // font-size: ${modularScale(5)};
   font-weight: ${props => props.theme.fontWeights.black};
+  line-height: ${stripUnit(modularScale(0))};
+
+  ${props =>
+    fluidRange(
+      {
+        prop: "font-size",
+        fromSize: "38px",
+        toSize: "67px"
+      },
+      props.theme.breakpoints.xs,
+      props.theme.breakpoints.lg
+    )}
 
   a {
     text-decoration: none;
@@ -33,11 +45,11 @@ const Logo = styled.h1`
     &:hover,
     &:focus {
       animation: ${props =>
-          hoverLogoAnim(
-            lighten(.1, props.theme.starCommandBlue),
-            lighten(.2, props.theme.roseRed),
-            props.theme.deepSaffron
-          )}
+        hoverLogoAnim(
+          lighten(0.1, props.theme.starCommandBlue),
+          lighten(0.2, props.theme.roseRed),
+          props.theme.deepSaffron
+        )}
         5s ease-in-out infinite;
     }
   }

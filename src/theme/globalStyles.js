@@ -27,16 +27,16 @@ export default createGlobalStyle`
     box-sizing: border-box;
     line-height: ${stripUnit(modularScale(1))};
 
-    ${props =>
+    ${'' /* ${props =>
       fluidRange(
         {
           prop: "font-size",
           fromSize: "12px",
-          toSize: "20px"
+          toSize: "18px"
         },
         props.theme.breakpoints.sm,
         props.theme.breakpoints.lg
-      )}
+      )} */}
   }
   
   body {
