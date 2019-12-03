@@ -10,6 +10,17 @@ type HeaderProps = {
 const StyledHeader = styled.header`
   margin-bottom: ${modularScale(4)};
   text-align: center;
+
+  ${props =>
+  fluidRange(
+    {
+      prop: "font-size",
+      fromSize: "9px",
+      toSize: "16px"
+    },
+    props.theme.breakpoints.xs,
+    props.theme.breakpoints.sm
+  )}
 `;
 const hoverLogoAnim = (
   firstColor: string,
@@ -28,17 +39,6 @@ const Logo = styled.h1`
   font-weight: ${props => props.theme.fontWeights.black};
   line-height: ${stripUnit(modularScale(0))};
 
-/*   ${props =>
-    fluidRange(
-      {
-        prop: "font-size",
-        fromSize: "38px",
-        toSize: "67px"
-      },
-      props.theme.breakpoints.xs,
-      props.theme.breakpoints.lg
-    )} */
-
   a {
     text-decoration: none;
 
@@ -56,16 +56,6 @@ const Logo = styled.h1`
 `;
 const Blurb = styled.p`
   font-size: ${modularScale(2)}
-/*   ${props =>
-  fluidRange(
-    {
-      prop: "font-size",
-      fromSize: "21px",
-      toSize: "28px"
-    },
-    props.theme.breakpoints.xs,
-    props.theme.breakpoints.lg
-  )} */
 `;
 
 const Header = ({ logo, blurb }: HeaderProps) => {
