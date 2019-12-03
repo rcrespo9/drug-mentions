@@ -26,7 +26,7 @@ const Link = styled.a.attrs(props => ({
 const Footer = () => {
   return (
     <StyledFooter>
-      <Attribution>Built using the <Link href="https://docs.genius.com">Genius API</Link> by <Link href="https://rudycrespo.com">Rudy Crespo</Link></Attribution>
+      <Attribution>Built using the <Link href="https://docs.genius.com">Genius API</Link> by <Link href="https://rudycrespo.com">Rudy Crespo</Link>.</Attribution>
     </StyledFooter>
   );
 };
