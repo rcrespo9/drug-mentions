@@ -36,9 +36,12 @@ const SiteWrapper = styled.div`
 const MainContent = styled.main``;
 const SplitPane = styled.div`
   display: grid;
-  grid-template-columns: ${8 / 12}fr 1fr;
   grid-gap: ${modularScale(3)};
   margin-top: ${modularScale(5)};
+
+  @media(min-width: ${props => props.theme.breakpoints.lg}) {
+    grid-template-columns: ${8 / 12}fr 1fr;
+  }
 `;
 
 const App = () => {

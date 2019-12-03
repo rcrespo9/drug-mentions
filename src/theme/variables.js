@@ -13,7 +13,9 @@ const variables = {
     black: 900
   },
   breakpoints: {
-    
+    xs: "320px",
+    sm: "640px",
+    lg: "1000px"
   }
 };
 

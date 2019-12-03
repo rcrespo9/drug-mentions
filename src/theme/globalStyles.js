@@ -1,10 +1,5 @@
 import { createGlobalStyle } from "styled-components";
-import {
-  stripUnit,
-  normalize,
-  modularScale,
-  fluidRange,
-} from "polished";
+import { stripUnit, normalize, modularScale, fluidRange } from "polished";
 import highlightStyles from "./highlightStyles";
 
 export default createGlobalStyle`
@@ -32,18 +27,16 @@ export default createGlobalStyle`
     box-sizing: border-box;
     line-height: ${stripUnit(modularScale(1))};
 
-    ${
-      "" /* ${props =>
+    ${props =>
       fluidRange(
         {
           prop: "font-size",
-          fromSize: "16px",
-          toSize: "24px"
+          fromSize: "12px",
+          toSize: "20px"
         },
         props.theme.breakpoints.sm,
         props.theme.breakpoints.lg
-      )} */
-    }
+      )}
   }
   
   body {
