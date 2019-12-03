@@ -24,11 +24,11 @@ const hoverLogoAnim = (
 const Logo = styled.h1`
   margin-bottom: ${modularScale(-5)};
   text-transform: uppercase;
-  // font-size: ${modularScale(5)};
+  font-size: ${modularScale(5)};
   font-weight: ${props => props.theme.fontWeights.black};
   line-height: ${stripUnit(modularScale(0))};
 
-  ${props =>
+/*   ${props =>
     fluidRange(
       {
         prop: "font-size",
@@ -37,7 +37,7 @@ const Logo = styled.h1`
       },
       props.theme.breakpoints.xs,
       props.theme.breakpoints.lg
-    )}
+    )} */
 
   a {
     text-decoration: none;
@@ -55,7 +55,8 @@ const Logo = styled.h1`
   }
 `;
 const Blurb = styled.p`
-  ${props =>
+  font-size: ${modularScale(2)}
+/*   ${props =>
   fluidRange(
     {
       prop: "font-size",
@@ -64,7 +65,7 @@ const Blurb = styled.p`
     },
     props.theme.breakpoints.xs,
     props.theme.breakpoints.lg
-  )}
+  )} */
 `;
 
 const Header = ({ logo, blurb }: HeaderProps) => {
