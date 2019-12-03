@@ -73,7 +73,9 @@ const ResultsList = styled.ul`
   position: absolute;
   left: 0;
   z-index: 3;
+  overflow-y: scroll;
   width: 100%;
+  height: ${modularScale(9)};
   margin: 0;
   padding: 0;
   border: ${props => props.theme.globalBorder};
