@@ -19,7 +19,7 @@ const DrugMentions = ({ totalReferences, references }: DrugReferences) => {
         boxShadowColor={themeContext.deepSaffron}
         hasPadding={true}
       >
-        <DrugMentionsList>
+        <DrugMentionsList drugMentionsCount={references.length}>
           {references.map((reference, idx) => (
             <DrugMentionsItem
               drugName={reference.drugName}
