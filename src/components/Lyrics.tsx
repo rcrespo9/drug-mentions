@@ -14,9 +14,13 @@ const LyricsSheet = styled.p`
   font-size: ${modularScale(1)};
   white-space: pre-line;
 
-  > .highlighted {
+  .highlighted {
     padding: 0 ${modularScale(-6)};
     ${highlightStyles};
+
+    abbr {
+      font-style: italic;
+    }
   }
 `;
 

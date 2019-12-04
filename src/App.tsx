@@ -101,6 +101,32 @@ const App = () => {
     let highlightRegex: RegExp;
     let highlightedLyrics: string = lyrics;
 
+    type PartOfSpeechType = {
+      abbr: string;
+      title: string;
+    }
+
+    const partOfSpeech = (word:string): PartOfSpeechType => {
+      class PartOfSpeechAbbr implements PartOfSpeechType {
+        abbr: string;
+        title: string;
+        constructor(abbr:string, title:string) {
+          this.abbr = abbr;
+          this.title = title;
+        }
+      }
+
+      if (nlp(word).match("#Adjective").found) {
+        return new PartOfSpeechAbbr('adj.', 'Adjective');
+      } else if (nlp(word).match("#Pronoun").found) {
+        return new PartOfSpeechAbbr("pron.", "Pronoun");
+      } else if (nlp(word).match("#Verb").found) {
+        return new PartOfSpeechAbbr("v.", "Verb");
+      } else {
+        return new PartOfSpeechAbbr('', '');
+      }
+    }
+
     drugNamesRegexes = Array.from(new Set(drugNames)).map(drug =>
       drugRegex(drug)
     );
@@ -110,7 +136,15 @@ const App = () => {
     if (drugNames.length) {
       highlightedLyrics = lyrics.replace(
         highlightRegex,
-        word => `<mark class="highlighted">${word}</mark>`
+        word => {
+          return `<mark class="highlighted">${word}${
+            partOfSpeech(word).abbr && partOfSpeech(word).title
+              ? ` (<abbr title="${partOfSpeech(word).title}">${
+                  partOfSpeech(word).abbr
+                }</abbr>)`
+              : ""
+          }</mark>`;
+        }
       );
     }
 
@@ -123,9 +157,6 @@ const App = () => {
     const lyricsHeadersRegex = /(?=\[|\((Intro|Verse|Chorus|Bridge)).*(?<=\]|\))/gim;
     const sanitizedLyrics = nlp(lyrics.replace(lyricsHeadersRegex, " "))
       .replace("#Contraction", replacedStr)
-      // .replace("#Pronoun", replacedStr)
-      // .replace("#Verb", replacedStr)
-      // .replace("#Adjective", replacedStr)
       .out("text");
     const drugRefMatches = (
       drugName: string,
