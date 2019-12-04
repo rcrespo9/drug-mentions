@@ -88,12 +88,12 @@ const App = () => {
 
   const drugRegex = (drugName: string) => {
     const commonCharacters = ".,/#!$%^&*;:{}=\\-_`~@é";
-    const lookBehindCharacterSet = `[${commonCharacters}]`;
-    const lookAheadCharacterSet = `[${commonCharacters}'‘’“”"]`;
+    const lookAheadCharacterSet = `[${commonCharacters}]`;
+    const lookBehindCharacterSet = `[${commonCharacters}'‘’“”"]`;
 
-    return `(?<!${lookBehindCharacterSet})\\b${escapeRegExp(
+    return `(?<!${lookAheadCharacterSet})\\b${escapeRegExp(
       drugName
-    )}s?(?!${lookAheadCharacterSet}\\b)\\b(?![.*])`;
+    )}s?(?!${lookBehindCharacterSet}\\b)\\b(?![.*])`;
   };
 
   const highlightLyrics = (drugNames: string[], lyrics: string): string => {
@@ -154,7 +154,7 @@ const App = () => {
   const scanLyricsForDrugs = (drugs: any[], lyrics: string) => {
     const drugReferences: DrugReference[] = [];
     const replacedStr = "\n[replaced]\n"; // small hack until compromise library fixes bug that removes whitespace when words are deleted/replaced
-    const lyricsHeadersRegex = /(?=\[|\((Intro|Verse|Chorus|Bridge)).*(?<=\]|\))/gim;
+    const lyricsHeadersRegex = /(?=\[|\((Intro|Verse|Chorus|Bridge)).*(?:\]|\))/gim;
     const sanitizedLyrics = nlp(lyrics.replace(lyricsHeadersRegex, " "))
       .replace("#Contraction", replacedStr)
       .out("text");
