@@ -45,7 +45,8 @@ const ListItemContent = styled.span.attrs<DrugInfoProps>(
     props.isStreetName && {
       id: `${props.drugName!.toLowerCase()}Button`,
       "aria-expanded": props.isDrugInfoOpen,
-      "aria-controls": `${props.drugName!.toLowerCase()}Info`
+      "aria-controls": `${props.drugName!.toLowerCase()}Info`,
+      "aria-label": `Learn more about ${props.drugName}`
     }
 )<DrugInfoProps>`
   ${sharedFlexStyles};
@@ -147,9 +148,7 @@ const DrugMentionsItem = ({
         <DrugInfoItems>
           <Badge>{referenceCount}</Badge>
           {isStreetName && (
-            <DrugInfoIcon isDrugInfoOpen={isDrugInfoOpen}>
-              <SrOnlyText>Learn more about {drugName}</SrOnlyText>
-            </DrugInfoIcon>
+            <DrugInfoIcon isDrugInfoOpen={isDrugInfoOpen} />
           )}
         </DrugInfoItems>
       </ListItemContent>
