@@ -1,3 +1,9 @@
+# Drug Mentions
+
+See also: [Drug Mentions API](https://github.com/rcrespo9/drug-mentions-api)
+
+----------
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts

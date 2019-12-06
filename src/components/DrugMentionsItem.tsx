@@ -25,7 +25,7 @@ const listItemPadding = css`
 `;
 
 const ListItem = styled.li<DrugInfoProps>`
-  // ${props => props.isDrugInfoOpen ? "grid-column-start: 1; grid-column-end: 3;" : ""}
+  // ${props => props.isDrugInfoOpen ? "grid-column: 1/-1;" : ""}
   list-style: none;
   font-size: ${modularScale(0)};
 `;
@@ -101,6 +101,7 @@ const DrugInfo = styled.span.attrs<DrugInfoProps>(props => ({
 
   ul {
     margin-top: ${modularScale(-5)};
+    padding-left: ${modularScale(2)};
   }
 
   strong {
