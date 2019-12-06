@@ -14,6 +14,12 @@ const sharedFlexStyles = css`
   align-items: center;
 `;
 
+const sharedWordBreakStyles = css`
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  hyphens: auto;
+`;
+
 const listItemPadding = css`
   padding: ${modularScale(-2)};
 `;
@@ -25,9 +31,7 @@ const ListItem = styled.li<DrugInfoProps>`
 `;
 
 const ListItemText = styled.span`
-  // max-width: ${modularScale(8)};
-  overflow: hidden;
-  text-overflow: ellipsis;
+  ${sharedWordBreakStyles};
   padding-right: ${modularScale(-2)};
 `;
 
@@ -90,6 +94,7 @@ const DrugInfo = styled.span.attrs<DrugInfoProps>(props => ({
   "aria-labelledby": `${props.drugName!.toLowerCase()}Button`
 }))<DrugInfoProps>`
   ${listItemPadding};
+  ${sharedWordBreakStyles};
   display: ${props => (props.isDrugInfoOpen ? "block" : "none")};
   border: ${props => props.theme.globalBorder};
   border-top: none;
