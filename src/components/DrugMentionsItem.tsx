@@ -105,8 +105,12 @@ const DrugInfo = styled.span.attrs<DrugInfoProps>(props => ({
   border-top: none;
 
   ul {
-    margin-top: ${modularScale(-5)};
-    padding-left: ${modularScale(2)};
+    margin-top: ${modularScale(-4)};
+    padding-left: ${modularScale(1)};
+
+    li:not(:last-of-type) {
+      margin-bottom: ${modularScale(-8)};
+    }
   }
 
   strong {
