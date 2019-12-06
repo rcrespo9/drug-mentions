@@ -82,21 +82,15 @@ const DrugInfoItems = styled.span`
 const DrugInfoIcon = styled.span.attrs(props => ({
   "aria-hidden": "true"
 }))<DrugInfoProps>`
-  margin-left: ${modularScale(-6)};
-  width: ${modularScale(1)};
-  height: ${modularScale(1)};
-
-  &:after {
-    content: "";
-    display: inline-block;
-    width: 0;
-    height: 0;
-    border-left: ${modularScale(-3)} solid transparent;
-    border-right: ${modularScale(-3)} solid transparent;
-    border-top: calc(${modularScale(-3)} * 1.25) solid
-      ${props => props.theme.white};
-    transform: ${props => (props.isDrugInfoOpen ? "rotate(180deg)" : "")};
-  }
+  margin-left: ${modularScale(-4)};
+  display: inline-block;
+  width: 0;
+  height: 0;
+  border-left: ${modularScale(-3)} solid transparent;
+  border-right: ${modularScale(-3)} solid transparent;
+  border-top: calc(${modularScale(-3)} * 1.25) solid
+    ${props => props.theme.white};
+  transform: ${props => (props.isDrugInfoOpen ? "rotate(180deg)" : "")};
 `;
 
 const DrugInfo = styled.span.attrs<DrugInfoProps>(props => ({
