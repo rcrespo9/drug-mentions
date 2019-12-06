@@ -25,18 +25,26 @@ type SelectedSong = {
   drugReferences: DrugReferences;
 };
 
+type LyricsContainerProps = {
+  isSongSelected: boolean;
+  isSongLoading: boolean;
+};
+
 const SiteWrapper = styled.div`
   max-width: ${modularScale(15)};
   margin: 0 auto;
   padding: ${modularScale(4)} ${modularScale(1)} 0;
 `;
 const MainContent = styled.main``;
+const LyricsContainer = styled.div<LyricsContainerProps>`
+  margin-top: ${props =>
+    props.isSongSelected || props.isSongLoading ? modularScale(5) : ""};
+`;
 const SplitPane = styled.div`
   display: grid;
   grid-gap: ${modularScale(3)};
-  margin-top: ${modularScale(5)};
 
-  @media(min-width: ${props => props.theme.breakpoints.lg}) {
+  @media (min-width: ${props => props.theme.breakpoints.lg}) {
     grid-template-columns: ${8 / 12}fr 1fr;
   }
 `;
@@ -119,26 +127,34 @@ const App = () => {
             isResultsOpen={isResultsOpen}
             isLoading={isSearchLoading}
           />
-          {isSongLoading ? (
-            <SplitPane>
-              <LoadingDrugMentions />
-              <LoadingLyrics />
-            </SplitPane>
-          ) : (
-            selectedSong && (
-              <SplitPane aria-busy={isSongLoading}>
-                <DrugMentions
-                  totalReferences={selectedSong.drugReferences.totalReferences}
-                  references={selectedSong.drugReferences.references}
-                />
-
-                <Lyrics
-                  songDetails={selectedSong.title}
-                  lyrics={selectedSong.lyrics}
-                />
+          <LyricsContainer
+            isSongSelected={!!selectedSong}
+            isSongLoading={isSongLoading}
+            aria-busy={isSongLoading}
+          >
+            {isSongLoading ? (
+              <SplitPane>
+                <LoadingDrugMentions />
+                <LoadingLyrics />
               </SplitPane>
-            )
-          )}
+            ) : (
+              selectedSong && (
+                <SplitPane>
+                  <DrugMentions
+                    totalReferences={
+                      selectedSong.drugReferences.totalReferences
+                    }
+                    references={selectedSong.drugReferences.references}
+                  />
+
+                  <Lyrics
+                    songDetails={selectedSong.title}
+                    lyrics={selectedSong.lyrics}
+                  />
+                </SplitPane>
+              )
+            )}
+          </LyricsContainer>
         </MainContent>
         <Footer />
       </SiteWrapper>
