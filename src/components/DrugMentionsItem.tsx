@@ -35,7 +35,6 @@ const resetBtnStyles = css`
 `;
 
 const ListItem = styled.li<DrugInfoProps>`
-  ${props => (props.isDrugInfoOpen ? "grid-column: span 2;" : "")}
   list-style: none;
   font-size: ${modularScale(0)};
 `;
