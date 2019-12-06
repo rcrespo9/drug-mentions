@@ -6,6 +6,7 @@ import DrugReference from "../types_interfaces/DrugReference";
 
 type DrugInfoProps = {
   drugName?: string;
+  isStreetName?: boolean;
   isDrugInfoOpen: boolean;
 };
 
@@ -24,22 +25,39 @@ const listItemPadding = css`
   padding: ${modularScale(-2)};
 `;
 
+const resetBtnStyles = css`
+  width: 100%;
+  appearance: none;
+  color: inherit;
+  font-size: inherit;
+  background-color: transparent;
+  cursor: pointer;
+`;
+
 const ListItem = styled.li<DrugInfoProps>`
-  // ${props => props.isDrugInfoOpen ? "grid-column: 1/-1;" : ""}
+  ${props => (props.isDrugInfoOpen ? "grid-column: span 2;" : "")}
   list-style: none;
   font-size: ${modularScale(0)};
+`;
+
+const ListItemContent = styled.span.attrs<DrugInfoProps>(
+  props =>
+    props.isStreetName && {
+      id: `${props.drugName!.toLowerCase()}Button`,
+      "aria-expanded": props.isDrugInfoOpen,
+      "aria-controls": `${props.drugName!.toLowerCase()}Info`
+    }
+)<DrugInfoProps>`
+  ${sharedFlexStyles};
+  ${listItemPadding};
+  ${props => (props.isStreetName ? resetBtnStyles : "")}
+  justify-content: space-between;
+  border: ${props => props.theme.globalBorder};
 `;
 
 const ListItemText = styled.span`
   ${sharedWordBreakStyles};
   padding-right: ${modularScale(-2)};
-`;
-
-const ListItemContent = styled.span`
-  ${sharedFlexStyles};
-  ${listItemPadding};
-  justify-content: space-between;
-  border: ${props => props.theme.globalBorder};
 `;
 
 const Badge = styled.span.attrs(props => ({
@@ -61,17 +79,10 @@ const DrugInfoItems = styled.span`
   ${sharedFlexStyles}
 `;
 
-const DrugInfoBtn = styled.button.attrs<DrugInfoProps>(props => ({
-  id: `${props.drugName!.toLowerCase()}Button`,
-  "aria-expanded": props.isDrugInfoOpen,
-  "aria-controls": `${props.drugName!.toLowerCase()}Info`
+const DrugInfoIcon = styled.span.attrs(props => ({
+  "aria-hidden": "true"
 }))<DrugInfoProps>`
-  appearance: none;
   margin-left: ${modularScale(-6)};
-  padding: 0;
-  border: none;
-  background-color: transparent;
-  cursor: pointer;
   width: ${modularScale(1)};
   height: ${modularScale(1)};
 
@@ -127,7 +138,13 @@ const DrugMentionsItem = ({
 
   return (
     <ListItem isDrugInfoOpen={isDrugInfoOpen} title={drugName}>
-      <ListItemContent>
+      <ListItemContent
+        isStreetName={isStreetName}
+        drugName={drugName}
+        isDrugInfoOpen={isDrugInfoOpen}
+        as={isStreetName ? "button" : "span"}
+        onClick={isStreetName ? toggleInfoStatus : undefined}
+      >
         <SrOnlyText>{referenceCount}</SrOnlyText>{" "}
         <ListItemText>{drugName}</ListItemText>{" "}
         <SrOnlyText>
@@ -136,13 +153,9 @@ const DrugMentionsItem = ({
         <DrugInfoItems>
           <Badge>{referenceCount}</Badge>
           {isStreetName && (
-            <DrugInfoBtn
-              drugName={drugName}
-              isDrugInfoOpen={isDrugInfoOpen}
-              onClick={toggleInfoStatus}
-            >
+            <DrugInfoIcon isDrugInfoOpen={isDrugInfoOpen}>
               <SrOnlyText>Learn more about {drugName}</SrOnlyText>
-            </DrugInfoBtn>
+            </DrugInfoIcon>
           )}
         </DrugInfoItems>
       </ListItemContent>
