@@ -55,7 +55,13 @@ const Logo = styled.h1`
   }
 `;
 const Blurb = styled.p`
+  max-width: ${modularScale(9)};
+  margin: 0 auto;
   font-size: ${modularScale(2)}
+
+  @media(min-width: ${props => props.theme.breakpoints.sm}) {
+    max-width: none;
+  }
 `;
 
 const Header = ({ logo, blurb }: HeaderProps) => {

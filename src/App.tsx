@@ -131,6 +131,7 @@ const App = () => {
             isSongSelected={!!selectedSong}
             isSongLoading={isSongLoading}
             aria-busy={isSongLoading}
+            aria-live="polite"
           >
             {isSongLoading ? (
               <SplitPane>

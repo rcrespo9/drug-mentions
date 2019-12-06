@@ -109,7 +109,7 @@ const Search = ({
   const themeContext = useContext(ThemeContext);
 
   return (
-    <SearchContainer aria-busy={isLoading}>
+    <SearchContainer aria-busy={isLoading} aria-live="polite">
       <Block boxShadowColor={themeContext.roseRed}>
         <SearchInput
           onChange={textChange}
