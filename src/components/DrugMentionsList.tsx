@@ -1,19 +1,30 @@
 import styled from "styled-components";
 import { modularScale } from "polished";
 
-type DrugMentionsList = {
+type DrugMentionsListProps = {
   drugMentionsCount?: number;
+  isLoading?: boolean;
 };
 
-const DrugMentionsList = styled.ul<DrugMentionsList>`
+const DrugMentionsList = styled.ul<DrugMentionsListProps>`
   display: grid;
   grid-template-columns: repeat(
     auto-fit,
     minmax(
       ${modularScale(7)},
       ${props => {
-        if (props.drugMentionsCount) {
-          return props.drugMentionsCount > 1 ? "auto" : modularScale(9);
+        const { drugMentionsCount, isLoading }: DrugMentionsListProps = props;
+
+        if (drugMentionsCount) {
+          if (drugMentionsCount > 1) {
+            return "auto";
+          } else {
+            return modularScale(9);
+          }
+        }
+
+        if (isLoading) {
+          return "auto";
         }
       }}
     )
