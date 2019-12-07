@@ -126,6 +126,7 @@ const App = () => {
             onResultClick={selectSong}
             isResultsOpen={isResultsOpen}
             isLoading={isSearchLoading}
+            selectedSongTitle={selectedSong ? selectedSong.title : null}
           />
           <LyricsContainer
             isSongSelected={!!selectedSong}

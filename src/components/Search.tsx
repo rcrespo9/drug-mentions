@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useState, useContext } from "react";
 import styled, { keyframes, ThemeContext } from "styled-components";
 import { modularScale, rgba } from "polished";
 
@@ -12,6 +12,7 @@ type SearchProps = {
   onResultClick(event: React.MouseEvent<HTMLLIElement>): void;
   isResultsOpen: boolean;
   isLoading: boolean;
+  selectedSongTitle: string | null;
 };
 
 type Results = {
@@ -28,10 +29,7 @@ const SearchContainer = styled.div`
   max-width: ${modularScale(14)};
   margin: 0 auto;
 `;
-const SearchInput = styled.input.attrs(props => ({
-  autocomplete: "off",
-  autocorrect: "off"
-}))`
+const SearchInput = styled.input`
   display: block;
   width: 100%;
   appearance: none;
@@ -109,9 +107,19 @@ const Search = ({
   results,
   onResultClick,
   isResultsOpen,
-  isLoading
+  isLoading,
+  selectedSongTitle
 }: SearchProps) => {
+  const [activeDescendant, setActiveDescendant] = useState<string | null>(null);
   const themeContext = useContext(ThemeContext);
+
+  const setActiveResultItem = (resultId: number, e: React.MouseEvent<HTMLLIElement>) => {
+    setActiveDescendant(resultId.toString());
+  };
+
+  const clearActiveResultItem = () => {
+    setActiveDescendant(null);
+  }
 
   return (
     <SearchContainer>
@@ -121,8 +129,16 @@ const Search = ({
           onFocus={onInputFocus}
           onBlur={onInputBlur}
           placeholder="Search for a song or an artist..."
-          aria-controls="results"
-          aria-label="Search"
+          aria-owns="results"
+          aria-autocomplete="list"
+          autoComplete="off"
+          autoCorrect="off"
+          aria-activedescendant={
+            activeDescendant ? `song-${activeDescendant}` : undefined
+          }
+          spellCheck={false}
+          autoCapitalize="none"
+          role="combobox"
         />
         <SVGIconContainer aria-hidden="true">
           {isLoading ? (
@@ -136,21 +152,27 @@ const Search = ({
           )}
         </SVGIconContainer>
       </Block>
-      <ResultsContainer
-        id="results"
-        aria-busy={isLoading}
-        aria-live={isResultsOpen ? "polite" : "off"}
-      >
+      <ResultsContainer role="presentation">
         {results && isResultsOpen && (
-          <ResultsList>
+          <ResultsList
+            aria-expanded={isResultsOpen}
+            role="listbox"
+            id="results"
+          >
             {results.map(resultItem => {
               const { result } = resultItem;
 
               return (
                 <ResultsListItem
+                  id={`song-${result.id}`}
                   data-id={result.id}
                   onMouseDown={onResultClick}
                   key={result.id}
+                  role="option"
+                  aria-selected={selectedSongTitle === result.full_title}
+                  onMouseEnter={e => setActiveResultItem(result.id, e)}
+                  onMouseLeave={clearActiveResultItem}
+                  tabIndex={-1}
                 >
                   {result.full_title}
                 </ResultsListItem>
