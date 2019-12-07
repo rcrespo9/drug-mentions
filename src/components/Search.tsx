@@ -28,7 +28,10 @@ const SearchContainer = styled.div`
   max-width: ${modularScale(14)};
   margin: 0 auto;
 `;
-const SearchInput = styled.input`
+const SearchInput = styled.input.attrs(props => ({
+  autocomplete: "off",
+  autocorrect: "off"
+}))`
   display: block;
   width: 100%;
   appearance: none;
@@ -40,7 +43,7 @@ const SearchInput = styled.input`
   font-size: ${modularScale(1)};
 
   ::placeholder {
-    color: ${props => rgba(props.theme.white, .4)};
+    color: ${props => rgba(props.theme.white, 0.4)};
   }
 `;
 const SVGIconContainer = styled.div`
@@ -69,12 +72,14 @@ const spinnerRotate = keyframes`
 const Spinner = styled(SVGIcon)`
   animation: ${spinnerRotate} 1s linear infinite;
 `;
-const ResultsList = styled.ul`
+const ResultsContainer = styled.div`
   position: absolute;
   left: 0;
   z-index: 3;
-  overflow-y: scroll;
   width: 100%;
+`;
+const ResultsList = styled.ul`
+  overflow-y: scroll;
   height: ${modularScale(9)};
   margin: 0;
   padding: 0;
@@ -109,13 +114,15 @@ const Search = ({
   const themeContext = useContext(ThemeContext);
 
   return (
-    <SearchContainer aria-busy={isLoading} aria-live="polite">
+    <SearchContainer>
       <Block boxShadowColor={themeContext.roseRed}>
         <SearchInput
           onChange={textChange}
           onFocus={onInputFocus}
           onBlur={onInputBlur}
           placeholder="Search for a song or an artist..."
+          aria-controls="results"
+          aria-label="Search"
         />
         <SVGIconContainer aria-hidden="true">
           {isLoading ? (
@@ -129,25 +136,31 @@ const Search = ({
           )}
         </SVGIconContainer>
       </Block>
-      {results && isResultsOpen && (
-        <ResultsList>
-          {results.map(resultItem => {
-            const { result } = resultItem;
+      <ResultsContainer
+        id="results"
+        aria-busy={isLoading}
+        aria-live={isResultsOpen ? "polite" : "off"}
+      >
+        {results && isResultsOpen && (
+          <ResultsList>
+            {results.map(resultItem => {
+              const { result } = resultItem;
 
-            return (
-              <ResultsListItem
-                data-id={result.id}
-                onMouseDown={onResultClick}
-                key={result.id}
-              >
-                {result.full_title}
-              </ResultsListItem>
-            );
-          })}
-        </ResultsList>
-      )}
+              return (
+                <ResultsListItem
+                  data-id={result.id}
+                  onMouseDown={onResultClick}
+                  key={result.id}
+                >
+                  {result.full_title}
+                </ResultsListItem>
+              );
+            })}
+          </ResultsList>
+        )}
+      </ResultsContainer>
     </SearchContainer>
   );
-}
+};
 
 export default Search;
