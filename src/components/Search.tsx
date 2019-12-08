@@ -116,6 +116,7 @@ const Search = ({
   const [activeDescendant, setActiveDescendant] = useState<number | null>(null);
   const resultsRef = useRef<Array<HTMLLIElement | null>>([]);
   const themeContext = useContext(ThemeContext);
+  const isSearchActive: boolean = isResultsOpen || activeDescendant !== null;
 
   useEffect(() => {
     if (results) {
@@ -164,8 +165,6 @@ const Search = ({
     }
   }
 
-  const stayOpen: boolean = isResultsOpen || activeDescendant !== null;
-
   return (
     <SearchContainer>
       <Block boxShadowColor={themeContext.roseRed}>
@@ -202,7 +201,7 @@ const Search = ({
         </SVGIconContainer>
       </Block>
       <ResultsContainer role="presentation">
-        {results && stayOpen && (
+        {results && isSearchActive && (
           <ResultsList
             aria-expanded={isResultsOpen}
             role="listbox"
