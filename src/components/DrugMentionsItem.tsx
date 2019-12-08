@@ -3,6 +3,7 @@ import styled, { css } from "styled-components";
 import { modularScale, hideVisually } from "polished";
 
 import DrugReference from "../types_interfaces/DrugReference";
+import wordBreakStyles from "../theme/wordBreakStyles";
 
 type DrugInfoProps = {
   drugName?: string;
@@ -13,12 +14,6 @@ type DrugInfoProps = {
 const sharedFlexStyles = css`
   display: flex;
   align-items: center;
-`;
-
-const sharedWordBreakStyles = css`
-  overflow-wrap: break-word;
-  word-wrap: break-word;
-  hyphens: auto;
 `;
 
 const listItemPadding = css`
@@ -56,7 +51,7 @@ const ListItemContent = styled.span.attrs<DrugInfoProps>(
 `;
 
 const ListItemText = styled.span`
-  ${sharedWordBreakStyles};
+  ${wordBreakStyles};
   padding-right: ${modularScale(-2)};
 `;
 
@@ -99,7 +94,7 @@ const DrugInfo = styled.span.attrs<DrugInfoProps>(props => ({
   "aria-labelledby": `${props.drugName!.toLowerCase()}Button`
 }))<DrugInfoProps>`
   ${listItemPadding};
-  ${sharedWordBreakStyles};
+  ${wordBreakStyles};
   display: ${props => (props.isDrugInfoOpen ? "block" : "none")};
   border: ${props => props.theme.globalBorder};
   border-top: none;

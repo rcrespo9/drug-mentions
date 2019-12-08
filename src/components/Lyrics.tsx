@@ -4,6 +4,7 @@ import { modularScale } from "polished";
 
 import Block from "./Block";
 import highlightStyles from "../theme/highlightStyles";
+import wordBreakStyles from "../theme/wordBreakStyles";
 
 type LyricsProps = {
   songDetails: string;
@@ -11,6 +12,7 @@ type LyricsProps = {
 };
 
 const LyricsSheet = styled.p`
+  ${wordBreakStyles};
   font-size: ${modularScale(1)};
   white-space: pre-line;
 

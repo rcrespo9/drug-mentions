@@ -32,7 +32,7 @@ export default createGlobalStyle`
         {
           prop: "font-size",
           fromSize: "12px",
-          toSize: "16px"
+          toSize: "18px"
         },
         props.theme.breakpoints.xs,
         props.theme.breakpoints.sm
