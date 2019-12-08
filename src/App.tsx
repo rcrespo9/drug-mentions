@@ -78,7 +78,9 @@ const App = () => {
   );
 
   const openSearchResults = () => {
-    setResultsStatus(true);
+    if (searchResults) {
+      setResultsStatus(true);
+    }
   };
 
   const closeSearchResults = () => {
@@ -100,10 +102,21 @@ const App = () => {
     }
   };
 
-  const selectSong = (e: React.MouseEvent<HTMLLIElement>) => {
-    const songId: string | undefined = e.currentTarget.dataset.id;
+  const selectSong = (
+    e: React.MouseEvent<HTMLLIElement> | React.KeyboardEvent<HTMLLIElement>
+  ) => {
+    e.persist();
 
-    fetchSong(songId);
+    const songId: string | undefined = e.currentTarget.dataset.id;
+    if (e.nativeEvent instanceof MouseEvent) {
+      fetchSong(songId);
+      closeSearchResults();
+    } else if (e.nativeEvent instanceof KeyboardEvent) {
+      if (e.nativeEvent.keyCode === 13) {
+        fetchSong(songId);
+        closeSearchResults();
+      }
+    }
   };
 
   return (
@@ -123,7 +136,7 @@ const App = () => {
             onInputFocus={openSearchResults}
             onInputBlur={closeSearchResults}
             results={searchResults}
-            onResultClick={selectSong}
+            onResultSelection={selectSong}
             isResultsOpen={isResultsOpen}
             isLoading={isSearchLoading}
             selectedSongTitle={selectedSong ? selectedSong.title : null}

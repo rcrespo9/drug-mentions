@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useRef, useEffect, useContext } from "react";
 import styled, { keyframes, ThemeContext } from "styled-components";
 import { modularScale, rgba } from "polished";
 
@@ -7,9 +7,9 @@ import Block from "./Block";
 type SearchProps = {
   textChange(event: React.ChangeEvent<HTMLInputElement>): void;
   onInputFocus(): void;
-  onInputBlur(): void;
+  onInputBlur?(): void;
   results: Results[] | null;
-  onResultClick(event: React.MouseEvent<HTMLLIElement>): void;
+  onResultSelection(event: React.MouseEvent<HTMLLIElement> | React.KeyboardEvent<HTMLLIElement>): void;
   isResultsOpen: boolean;
   isLoading: boolean;
   selectedSongTitle: string | null;
@@ -95,7 +95,8 @@ const ResultsListItem = styled.li`
     border-bottom: ${props => props.theme.globalBorder};
   }
 
-  &:hover {
+  &:hover,
+  &:focus {
     background-color: ${props => rgba(props.theme.white, 0.05)};
   }
 `;
@@ -105,21 +106,63 @@ const Search = ({
   onInputFocus,
   onInputBlur,
   results,
-  onResultClick,
+  onResultSelection,
   isResultsOpen,
   isLoading,
   selectedSongTitle
 }: SearchProps) => {
-  const [activeDescendant, setActiveDescendant] = useState<string | null>(null);
+  const [activeDescendant, setActiveDescendant] = useState<number | null>(null);
+  const resultsRef = useRef<Array<HTMLLIElement | null>>([]);
   const themeContext = useContext(ThemeContext);
 
-  const setActiveResultItem = (resultId: number, e: React.MouseEvent<HTMLLIElement>) => {
-    setActiveDescendant(resultId.toString());
+  useEffect(() => {
+    if (results) {
+      resultsRef.current = resultsRef.current.slice(0, results.length);
+    }
+
+    if (activeDescendant !== null) {
+      resultsRef.current[activeDescendant]!.focus(); 
+    }
+  }, [results, isResultsOpen, activeDescendant]);
+
+  const setActiveResultItem = (resultIdx: number, e: React.MouseEvent<HTMLLIElement>) => {
+    setActiveDescendant(resultIdx);
   };
 
   const clearActiveResultItem = () => {
     setActiveDescendant(null);
   }
+
+  const verticalArrowsEvt = (e: React.KeyboardEvent<HTMLInputElement | HTMLUListElement>) => {
+    if (isResultsOpen && resultsRef.current) {
+      const lastResultItem = resultsRef.current.length - 1;
+      if (e.keyCode === 38) {
+        if (activeDescendant !== null) {
+          if (activeDescendant !== 0) {
+            setActiveDescendant(activeDescendant - 1);
+          } else {
+            setActiveDescendant(lastResultItem);
+          }
+        } else {
+          setActiveDescendant(lastResultItem)
+        }
+      } else if (e.keyCode === 40) {
+        if (activeDescendant !== null) {
+          if (activeDescendant !== lastResultItem) {
+            setActiveDescendant(activeDescendant + 1);
+          } else {
+            setActiveDescendant(0);
+          }
+        } else {
+          setActiveDescendant(0);
+        }
+      } else if (e.keyCode === 13) {
+        setActiveDescendant(null);
+      }
+    }
+  }
+
+  const stayOpen: boolean = isResultsOpen || activeDescendant !== null;
 
   return (
     <SearchContainer>
@@ -128,13 +171,14 @@ const Search = ({
           onChange={textChange}
           onFocus={onInputFocus}
           onBlur={onInputBlur}
+          onKeyDown={verticalArrowsEvt}
           placeholder="Search for a song or an artist..."
           aria-owns="results"
           aria-autocomplete="list"
           autoComplete="off"
           autoCorrect="off"
           aria-activedescendant={
-            activeDescendant ? `song-${activeDescendant}` : undefined
+            activeDescendant !== null ? `song-${activeDescendant}` : undefined
           }
           spellCheck={false}
           autoCapitalize="none"
@@ -153,26 +197,33 @@ const Search = ({
         </SVGIconContainer>
       </Block>
       <ResultsContainer role="presentation">
-        {results && isResultsOpen && (
+        {results && stayOpen && (
           <ResultsList
             aria-expanded={isResultsOpen}
             role="listbox"
             id="results"
+            onKeyDown={verticalArrowsEvt}
           >
-            {results.map(resultItem => {
+            {results.map((resultItem, i) => {
               const { result } = resultItem;
 
               return (
                 <ResultsListItem
-                  id={`song-${result.id}`}
+                  id={`song-${i}`}
                   data-id={result.id}
-                  onMouseDown={onResultClick}
                   key={result.id}
+                  ref={el => (resultsRef.current[i] = el)}
                   role="option"
                   aria-selected={selectedSongTitle === result.full_title}
-                  onMouseEnter={e => setActiveResultItem(result.id, e)}
+                  onFocus={onInputFocus}
+                  onKeyPress={onResultSelection}
+                  onMouseDown={e => {
+                    onResultSelection(e);
+                    clearActiveResultItem();
+                  }}
+                  onMouseEnter={e => setActiveResultItem(i, e)}
                   onMouseLeave={clearActiveResultItem}
-                  tabIndex={-1}
+                  tabIndex={0}
                 >
                   {result.full_title}
                 </ResultsListItem>
