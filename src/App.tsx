@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import { debounce } from "lodash";
 import styled, { ThemeProvider } from "styled-components";
 import { modularScale } from "polished";
@@ -57,6 +57,29 @@ const App = () => {
   const [isSearchLoading, setSearchLoadingState] = useState<boolean>(false);
   const [isSongLoading, setSongLoadingState] = useState<boolean>(false);
 
+  const openSearchResults = () => {
+    if (searchResults) {
+      setResultsStatus(true);
+    }
+  };
+
+  const closeSearchResults = () => {
+    setResultsStatus(false);
+  };
+
+  useEffect(() => {
+    const escEvt = (e: KeyboardEvent): void => {
+      if (e.keyCode === 27) {
+        closeSearchResults();
+      }
+    }
+
+    document.addEventListener('keydown', escEvt);
+    return () => {
+      document.removeEventListener("keydown", escEvt);
+    };
+  }, []);
+
   const fetchSearchResults = async (inputVal: any) => {
     setSearchLoadingState(true);
     !!inputVal ? setResultsStatus(true) : setResultsStatus(false);
@@ -77,16 +100,6 @@ const App = () => {
     debounce(fetchSearchResults, 500),
     []
   );
-
-  const openSearchResults = () => {
-    if (searchResults) {
-      setResultsStatus(true);
-    }
-  };
-
-  const closeSearchResults = () => {
-    setResultsStatus(false);
-  };
 
   const fetchSong = async (songId: string | undefined) => {
     setSongLoadingState(true);

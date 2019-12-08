@@ -117,7 +117,9 @@ const Search = ({
   const resultsRef = useRef<Array<HTMLLIElement | null>>([]);
   const searchRef = useRef<HTMLInputElement>(null);
   const themeContext = useContext(ThemeContext);
-  const isSearchActive: boolean = isResultsOpen || activeDescendant !== null;
+  let isUserSelecting: boolean = isResultsOpen || activeDescendant !== null;
+
+  // console.log(document.activeElement)
 
   useEffect(() => {
     if (results) {
@@ -180,11 +182,18 @@ const Search = ({
     }
   };
 
+  const closeResults = (e: React.KeyboardEvent<HTMLUListElement>) => {
+    if (e.nativeEvent.keyCode === 27) {
+      setActiveDescendant(null);
+    }
+  };
+
   return (
     <SearchContainer>
       <Block boxShadowColor={themeContext.roseRed}>
         <SearchInput
           onChange={textChange}
+          onClick={onInputFocus}
           onFocus={onInputFocus}
           onBlur={onInputBlur}
           onKeyDown={(e) => {
@@ -217,12 +226,15 @@ const Search = ({
         </SVGIconContainer>
       </Block>
       <ResultsContainer role="presentation">
-        {results && isSearchActive && (
+        {results && isUserSelecting && (
           <ResultsList
             aria-expanded={isResultsOpen}
             role="listbox"
             id="results"
-            onKeyDown={verticalArrowsEvt}
+            onKeyDown={e => {
+              verticalArrowsEvt(e);
+              closeResults(e);
+            }}
           >
             {results.map((resultItem, i) => {
               const { result } = resultItem;
