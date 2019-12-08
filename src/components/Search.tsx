@@ -115,6 +115,7 @@ const Search = ({
 }: SearchProps) => {
   const [activeDescendant, setActiveDescendant] = useState<number | null>(null);
   const resultsRef = useRef<Array<HTMLLIElement | null>>([]);
+  const searchRef = useRef<HTMLInputElement>(null);
   const themeContext = useContext(ThemeContext);
   const isSearchActive: boolean = isResultsOpen || activeDescendant !== null;
 
@@ -165,6 +166,20 @@ const Search = ({
     }
   }
 
+  const setInputVal = (
+    songTitle: string,
+    e: React.MouseEvent<HTMLLIElement> | React.KeyboardEvent<HTMLLIElement>
+  ) => {
+    if (
+      e.nativeEvent instanceof MouseEvent ||
+      (e.nativeEvent instanceof KeyboardEvent && e.nativeEvent.keyCode === 13)
+    ) {
+      if (searchRef.current) {
+        searchRef.current.value = songTitle;
+      }
+    }
+  };
+
   return (
     <SearchContainer>
       <Block boxShadowColor={themeContext.roseRed}>
@@ -187,6 +202,7 @@ const Search = ({
           spellCheck={false}
           autoCapitalize="none"
           role="combobox"
+          ref={searchRef}
         />
         <SVGIconContainer aria-hidden="true">
           {isLoading ? (
@@ -220,9 +236,13 @@ const Search = ({
                   role="option"
                   aria-selected={selectedSongTitle === result.full_title}
                   onFocus={onInputFocus}
-                  onKeyPress={onResultSelection}
+                  onKeyDown={e => {
+                    setInputVal(result.full_title, e);
+                    onResultSelection(e);
+                  }}
                   onMouseDown={e => {
                     onResultSelection(e);
+                    setInputVal(result.full_title, e);
                     clearActiveResultItem();
                   }}
                   onMouseEnter={e => setActiveResultItem(i, e)}
