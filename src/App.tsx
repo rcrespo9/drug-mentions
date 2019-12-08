@@ -108,14 +108,12 @@ const App = () => {
     e.persist();
 
     const songId: string | undefined = e.currentTarget.dataset.id;
-    if (e.nativeEvent instanceof MouseEvent) {
+    if (
+      e.nativeEvent instanceof MouseEvent ||
+      (e.nativeEvent instanceof KeyboardEvent && e.nativeEvent.keyCode === 13)
+    ) {
       fetchSong(songId);
       closeSearchResults();
-    } else if (e.nativeEvent instanceof KeyboardEvent) {
-      if (e.nativeEvent.keyCode === 13) {
-        fetchSong(songId);
-        closeSearchResults();
-      }
     }
   };
 
