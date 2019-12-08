@@ -52,9 +52,10 @@ const SplitPane = styled.div`
 const App = () => {
   const [searchResults, setSearchResults] = useState<any[] | null>(null);
   const [selectedSong, setSelectedSong] = useState<SelectedSong | null>(null);
-  const [isResultsOpen, setResultsStatus] = useState(false);
-  const [isSearchLoading, setSearchLoadingState] = useState(false);
-  const [isSongLoading, setSongLoadingState] = useState(false);
+  const [isSongSelected, setIsSongSelected] = useState<boolean>(false);
+  const [isResultsOpen, setResultsStatus] = useState<boolean>(false);
+  const [isSearchLoading, setSearchLoadingState] = useState<boolean>(false);
+  const [isSongLoading, setSongLoadingState] = useState<boolean>(false);
 
   const fetchSearchResults = async (inputVal: any) => {
     setSearchLoadingState(true);
@@ -114,6 +115,13 @@ const App = () => {
     ) {
       fetchSong(songId);
       closeSearchResults();
+      setIsSongSelected(true);
+    }
+  };
+
+  const allowSearch = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.keyCode !== 13 && e.keyCode !== 38 && e.keyCode !== 40) {
+      setIsSongSelected(false);
     }
   };
 
@@ -128,9 +136,12 @@ const App = () => {
         />
         <MainContent>
           <Search
-            textChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              debouncedSearchResults(e.currentTarget.value)
-            }
+            textChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+              if (!isSongSelected) {
+                debouncedSearchResults(e.currentTarget.value);
+              }
+            }}
+            allowSearch={allowSearch}
             onInputFocus={openSearchResults}
             onInputBlur={closeSearchResults}
             results={searchResults}

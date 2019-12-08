@@ -13,6 +13,7 @@ type SearchProps = {
   isResultsOpen: boolean;
   isLoading: boolean;
   selectedSongTitle: string | null;
+  allowSearch(event: React.KeyboardEvent<HTMLInputElement>): void;
 };
 
 type Results = {
@@ -109,7 +110,8 @@ const Search = ({
   onResultSelection,
   isResultsOpen,
   isLoading,
-  selectedSongTitle
+  selectedSongTitle,
+  allowSearch
 }: SearchProps) => {
   const [activeDescendant, setActiveDescendant] = useState<number | null>(null);
   const resultsRef = useRef<Array<HTMLLIElement | null>>([]);
@@ -171,7 +173,10 @@ const Search = ({
           onChange={textChange}
           onFocus={onInputFocus}
           onBlur={onInputBlur}
-          onKeyDown={verticalArrowsEvt}
+          onKeyDown={(e) => {
+            verticalArrowsEvt(e);
+            allowSearch(e);
+          }}
           placeholder="Search for a song or an artist..."
           aria-owns="results"
           aria-autocomplete="list"
