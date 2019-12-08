@@ -155,8 +155,8 @@ const App = () => {
               }
             }}
             allowSearch={allowSearch}
-            onInputFocus={openSearchResults}
-            onInputBlur={closeSearchResults}
+            openResults={openSearchResults}
+            closeResults={closeSearchResults}
             results={searchResults}
             onResultSelection={selectSong}
             isResultsOpen={isResultsOpen}

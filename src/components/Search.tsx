@@ -6,8 +6,8 @@ import Block from "./Block";
 
 type SearchProps = {
   textChange(event: React.ChangeEvent<HTMLInputElement>): void;
-  onInputFocus(): void;
-  onInputBlur?(): void;
+  openResults(): void;
+  closeResults(): void;
   results: Results[] | null;
   onResultSelection(event: React.MouseEvent<HTMLLIElement> | React.KeyboardEvent<HTMLLIElement>): void;
   isResultsOpen: boolean;
@@ -104,8 +104,8 @@ const ResultsListItem = styled.li`
 
 const Search = ({
   textChange,
-  onInputFocus,
-  onInputBlur,
+  openResults,
+  closeResults,
   results,
   onResultSelection,
   isResultsOpen,
@@ -118,8 +118,6 @@ const Search = ({
   const searchRef = useRef<HTMLInputElement>(null);
   const themeContext = useContext(ThemeContext);
   let isUserSelecting: boolean = isResultsOpen || activeDescendant !== null;
-
-  // console.log(document.activeElement)
 
   useEffect(() => {
     if (results) {
@@ -142,6 +140,14 @@ const Search = ({
   const verticalArrowsEvt = (e: React.KeyboardEvent<HTMLInputElement | HTMLUListElement>) => {
     if (isResultsOpen && resultsRef.current) {
       const lastResultItem = resultsRef.current.length - 1;
+      // if (e.currentTarget.tagName === "INPUT") {
+      //   if (e.keyCode === 9) {
+      //     if (activeDescendant === null) {
+      //       openResults();
+      //       setActiveDescendant(0);
+      //     }
+      //   }
+      // }
       if (e.keyCode === 38) {
         if (activeDescendant !== null) {
           if (activeDescendant !== 0) {
@@ -182,7 +188,7 @@ const Search = ({
     }
   };
 
-  const closeResults = (e: React.KeyboardEvent<HTMLUListElement>) => {
+  const closeResultsEsc = (e: React.KeyboardEvent<HTMLUListElement>) => {
     if (e.nativeEvent.keyCode === 27) {
       setActiveDescendant(null);
     }
@@ -193,9 +199,19 @@ const Search = ({
       <Block boxShadowColor={themeContext.roseRed}>
         <SearchInput
           onChange={textChange}
-          onClick={onInputFocus}
-          onFocus={onInputFocus}
-          onBlur={onInputBlur}
+          onClick={openResults}
+          onFocus={openResults}
+          onBlur={(e) => {
+            if (results) {
+              if(resultsRef.current.includes(e.relatedTarget as HTMLLIElement)) {
+                openResults();
+              } else {
+                closeResults();
+              }
+            } else {
+              closeResults();
+            }
+          }}
           onKeyDown={(e) => {
             verticalArrowsEvt(e);
             allowSearch(e);
@@ -233,7 +249,7 @@ const Search = ({
             id="results"
             onKeyDown={e => {
               verticalArrowsEvt(e);
-              closeResults(e);
+              closeResultsEsc(e);
             }}
           >
             {results.map((resultItem, i) => {
@@ -247,7 +263,14 @@ const Search = ({
                   ref={el => (resultsRef.current[i] = el)}
                   role="option"
                   aria-selected={selectedSongTitle === result.full_title}
-                  onFocus={onInputFocus}
+                  onFocus={openResults}
+                  onBlur={(e) => {
+                    if(resultsRef.current.includes(e.relatedTarget as HTMLLIElement)) {
+                      openResults();
+                    } else {
+                      closeResults();
+                    }
+                  }}
                   onKeyDown={e => {
                     setInputVal(result.full_title, e);
                     onResultSelection(e);
