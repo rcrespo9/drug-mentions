@@ -219,15 +219,18 @@ const Search = ({
           placeholder="Search for a song or an artist..."
           aria-owns="results"
           aria-autocomplete="list"
+          aria-expanded={isUserSelecting}
           autoComplete="off"
           autoCorrect="off"
           aria-activedescendant={
             activeDescendant !== null ? `song-${activeDescendant}` : undefined
           }
+          aria-controls={isResultsOpen ? "results" : ""}
           spellCheck={false}
           autoCapitalize="none"
           role="combobox"
           ref={searchRef}
+          aria-haspop={results ? true : ''}
         />
         <SVGIconContainer aria-hidden="true">
           {isLoading ? (
@@ -244,13 +247,15 @@ const Search = ({
       <ResultsContainer role="presentation">
         {results && isUserSelecting && (
           <ResultsList
-            aria-expanded={isResultsOpen}
+            aria-expanded={isUserSelecting}
             role="listbox"
             id="results"
             onKeyDown={e => {
               verticalArrowsEvt(e);
               closeResultsEsc(e);
             }}
+            aria-label="Search Results"
+            aria-selected={activeDescendant !== null}
           >
             {results.map((resultItem, i) => {
               const { result } = resultItem;
