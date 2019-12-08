@@ -230,7 +230,7 @@ const Search = ({
           autoCapitalize="none"
           role="combobox"
           ref={searchRef}
-          aria-haspop={results ? true : ''}
+          aria-haspopup={!!results}
         />
         <SVGIconContainer aria-hidden="true">
           {isLoading ? (
@@ -255,7 +255,6 @@ const Search = ({
               closeResultsEsc(e);
             }}
             aria-label="Search Results"
-            aria-selected={activeDescendant !== null}
           >
             {results.map((resultItem, i) => {
               const { result } = resultItem;
