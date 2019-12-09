@@ -27,6 +27,7 @@ const resetBtnStyles = css`
   font-size: inherit;
   background-color: transparent;
   cursor: pointer;
+  text-align: initial;
 `;
 
 const ListItem = styled.li<DrugInfoProps>`
