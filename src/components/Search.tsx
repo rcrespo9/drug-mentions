@@ -138,16 +138,8 @@ const Search = ({
   }
 
   const verticalArrowsEvt = (e: React.KeyboardEvent<HTMLInputElement | HTMLUListElement>) => {
-    if (isResultsOpen && resultsRef.current) {
+    if (!isLoading && isResultsOpen && resultsRef.current) {
       const lastResultItem = resultsRef.current.length - 1;
-      // if (e.currentTarget.tagName === "INPUT") {
-      //   if (e.keyCode === 9) {
-      //     if (activeDescendant === null) {
-      //       openResults();
-      //       setActiveDescendant(0);
-      //     }
-      //   }
-      // }
       if (e.keyCode === 38) {
         if (activeDescendant !== null) {
           if (activeDescendant !== 0) {
